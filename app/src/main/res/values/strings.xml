@@ -4,5 +4,7 @@
     <string name="first_enter_page_button_start">시작하기</string>
     <string name="select_first_page">자캐의 성별을 선택해주세요.</string>
     <string name="select_second_page">자캐의 그림체를 선택해주세요.</string>
+    <string name="select_third_page">자캐의 그림 크기를 선택해주세요.</string>
+    <string name="select_final_page">수고하셨습니다!</string>
 
 </resources>

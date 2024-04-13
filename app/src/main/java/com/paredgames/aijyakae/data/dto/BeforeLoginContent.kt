@@ -6,8 +6,8 @@ import com.paredgames.aijyakae.data.util.BeforeLoginSex
 
 data class BeforeLoginContent(
     var sex: BeforeLoginSex,
-    val drawStyle: BeforeLoginDrawStyle,
-    val drawSize: BeforeLoginDrawSize
+    var drawStyle: BeforeLoginDrawStyle,
+    var drawSize: BeforeLoginDrawSize
 ){
     fun getAllNotNone(): Boolean {
         return sex!=BeforeLoginSex.None&&
