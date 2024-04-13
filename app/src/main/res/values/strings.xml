@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Aijyakae</string>
+    <string name="first_enter_page">아이자캐에 오신 것을 \n환영합니다!</string>
+    <string name="first_enter_page_button_start">시작하기</string>
+</resources>
