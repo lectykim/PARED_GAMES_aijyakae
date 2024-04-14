@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.paredgames.aijyakae.R
+import com.paredgames.aijyakae.data.util.BeforeLoginDrawSize
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawStyle
 import com.paredgames.aijyakae.data.util.BeforeLoginSex
 import com.paredgames.aijyakae.data.util.FontData
@@ -60,30 +61,25 @@ class BeforeLoginComposable {
 
     @Composable
     fun StartScreenBeforeLogin(
-        modifier: Modifier = Modifier,
-        beforeLoginViewModel: BeforeLoginViewModel = viewModel(),
+        beforeLoginViewModel: BeforeLoginViewModel= viewModel()
     ) {
         var goNext by rememberSaveable {
             mutableIntStateOf(0)
         }
 
         when (goNext) {
-            0 -> FirstPage(updateState = { goNext = it })
-            1 -> SecondPage(updateState = { goNext = it })
-            2 -> ThirdPage (updateState = {goNext=it})
-            3 -> FourthPage (updateState = {goNext = it})
-            else -> FinalPage (updateState = {goNext=it})
+            0 -> FirstPage(updateState = { goNext = it }, beforeLoginViewModel = beforeLoginViewModel)
+            1 -> SecondPage(updateState = { goNext = it }, beforeLoginViewModel = beforeLoginViewModel)
+            2 -> ThirdPage (updateState = {goNext=it}, beforeLoginViewModel = beforeLoginViewModel)
+            3 -> FourthPage (updateState = {goNext = it}, beforeLoginViewModel = beforeLoginViewModel)
+            else -> FinalPage (updateState = {goNext=it}, beforeLoginViewModel = beforeLoginViewModel)
         }
-
-
-
-
     }
 
     @Composable
     fun FirstPage(
         modifier: Modifier = Modifier,
-        beforeLoginViewModel: BeforeLoginViewModel = viewModel(),
+        beforeLoginViewModel: BeforeLoginViewModel,
         updateState: (Int) -> Unit
     ) {
         Column(
@@ -137,7 +133,7 @@ class BeforeLoginComposable {
     @Composable
     fun SecondPage(
         modifier: Modifier = Modifier,
-        beforeLoginViewModel: BeforeLoginViewModel = viewModel(),
+        beforeLoginViewModel: BeforeLoginViewModel,
         updateState: (Int) -> Unit
     ) {
         Column(
@@ -244,7 +240,7 @@ class BeforeLoginComposable {
     @Composable
     fun ThirdPage(
         modifier: Modifier = Modifier,
-        beforeLoginViewModel: BeforeLoginViewModel = viewModel(),
+        beforeLoginViewModel: BeforeLoginViewModel,
         updateState: (Int) -> Unit
     ) {
         Column(
@@ -389,7 +385,7 @@ class BeforeLoginComposable {
     @Composable
     fun FourthPage(
         modifier: Modifier= Modifier,
-        beforeLoginViewModel: BeforeLoginViewModel= viewModel(),
+        beforeLoginViewModel: BeforeLoginViewModel,
         updateState: (Int) -> Unit
     ) {
         Column(
@@ -414,7 +410,7 @@ class BeforeLoginComposable {
             ) {
                 Button(onClick = {
                     updateState(4)
-                    beforeLoginViewModel.beforeLoginContent.value.sex = BeforeLoginSex.Man
+                    beforeLoginViewModel.beforeLoginContent.value.drawSize = BeforeLoginDrawSize.LD
                 }, modifier = modifier.size(width = 150.dp, height = 100.dp), content = {
                     Image(
                         painter = painterResource(id = R.drawable.man_character),
@@ -439,7 +435,7 @@ class BeforeLoginComposable {
                 Spacer(modifier = Modifier.width(10.dp))
                 Button(onClick = {
                     updateState(4)
-                    beforeLoginViewModel.beforeLoginContent.value.sex = BeforeLoginSex.Women
+                    beforeLoginViewModel.beforeLoginContent.value.drawSize = BeforeLoginDrawSize.SD
                 }, modifier = modifier.size(width = 150.dp, height = 100.dp), content = {
                     Image(
                         painter = painterResource(id = R.drawable.women_character),
@@ -464,8 +460,8 @@ class BeforeLoginComposable {
                 Button(
                     onClick = {
                         updateState(4)
-                        beforeLoginViewModel.beforeLoginContent.value.sex =
-                            BeforeLoginSex.Asexual
+                        beforeLoginViewModel.beforeLoginContent.value.drawSize =
+                            BeforeLoginDrawSize.FACE
                     },
                     modifier = modifier.size(width = 150.dp, height = 100.dp), content = {
                         Image(
@@ -498,7 +494,7 @@ class BeforeLoginComposable {
     @Composable
     fun FinalPage(
         modifier: Modifier= Modifier,
-        beforeLoginViewModel: BeforeLoginViewModel= viewModel(),
+        beforeLoginViewModel: BeforeLoginViewModel,
         updateState: (Int) -> Unit
     ) {
         Column(

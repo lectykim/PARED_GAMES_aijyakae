@@ -6,5 +6,7 @@
     <string name="select_second_page">자캐의 그림체를 선택해주세요.</string>
     <string name="select_third_page">자캐의 그림 크기를 선택해주세요.</string>
     <string name="select_final_page">수고하셨습니다!</string>
+    <string name="final_result_page">축하합니다!\n 당신이 만든 첫 자캐입니다! </string>
+    <string name="make_other_art">다른 자캐 생성하러 가기</string>
 
 </resources>
