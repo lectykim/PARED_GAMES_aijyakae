@@ -36,11 +36,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawSize
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawStyle
 import com.paredgames.aijyakae.data.util.BeforeLoginSex
 import com.paredgames.aijyakae.data.util.FontData
+import com.paredgames.aijyakae.data.util.ScreenInfo
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
 
@@ -56,13 +58,14 @@ import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
     @Composable
     fun PreviewStartScreenBeforeLogin() {
         AijyakaeTheme {
-            StartScreenBeforeLogin(beforeLoginViewModel = viewModel())
+            //StartScreenBeforeLogin()
         }
     }
 
     @Composable
     fun StartScreenBeforeLogin(
-        beforeLoginViewModel: BeforeLoginViewModel
+        beforeLoginViewModel: BeforeLoginViewModel= viewModel(),
+        navController: NavController
     ) {
         var goNext by rememberSaveable {
             mutableIntStateOf(0)
@@ -73,7 +76,7 @@ import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
             1 -> SecondPage(updateState = { goNext = it }, beforeLoginViewModel = beforeLoginViewModel)
             2 -> ThirdPage (updateState = {goNext=it}, beforeLoginViewModel = beforeLoginViewModel)
             3 -> FourthPage (updateState = {goNext = it}, beforeLoginViewModel = beforeLoginViewModel)
-            else -> FinalPage (updateState = {goNext=it}, beforeLoginViewModel = beforeLoginViewModel)
+            else -> FinalPage (updateState = {goNext=it}, beforeLoginViewModel = beforeLoginViewModel, navController = navController)
         }
     }
 
@@ -502,7 +505,8 @@ import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
     fun FinalPage(
         modifier: Modifier= Modifier,
         beforeLoginViewModel: BeforeLoginViewModel,
-        updateState: (Int) -> Unit
+        updateState: (Int) -> Unit,
+        navController: NavController
     ) {
         Column(
             modifier = modifier
@@ -531,7 +535,7 @@ import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
         ) {
             Button(
                 onClick = {
-
+                            navController.navigate(ScreenInfo.BeforeLoginResult.name)
                           },
                 modifier = Modifier
                     .size(width = 480.dp, height = 80.dp),

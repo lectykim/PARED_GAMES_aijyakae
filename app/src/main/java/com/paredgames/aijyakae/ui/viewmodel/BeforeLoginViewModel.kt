@@ -9,6 +9,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.paredgames.aijyakae.data.dto.BeforeLoginContent
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawSize
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawStyle
@@ -17,7 +21,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class BeforeLoginViewModel(context: Context): ViewModel() {
+class BeforeLoginViewModel(): ViewModel() {
 
 
     private val _beforeLoginContent = MutableStateFlow(
@@ -37,6 +41,17 @@ class BeforeLoginViewModel(context: Context): ViewModel() {
             //TODO: stable diffusion api 호출
         } else{
             //TODO : 처음으로
+        }
+    }
+
+    companion object{
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                BeforeLoginViewModel(
+
+                )
+
+            }
         }
     }
 
