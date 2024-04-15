@@ -1,5 +1,7 @@
 package com.paredgames.aijyakae.ui.viewmodel
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -15,7 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class BeforeLoginViewModel(): ViewModel() {
+class BeforeLoginViewModel(context: Context): ViewModel() {
 
 
     private val _beforeLoginContent = MutableStateFlow(
@@ -36,6 +38,10 @@ class BeforeLoginViewModel(): ViewModel() {
         } else{
             //TODO : 처음으로
         }
+    }
+
+    fun saveBeforeLoginPref(){
+
     }
 
 }

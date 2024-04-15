@@ -1,5 +1,6 @@
 package com.paredgames.aijyakae.ui.composables.beforelogin
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -61,7 +62,7 @@ import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
 
     @Composable
     fun StartScreenBeforeLogin(
-        beforeLoginViewModel: BeforeLoginViewModel= viewModel()
+        beforeLoginViewModel: BeforeLoginViewModel
     ) {
         var goNext by rememberSaveable {
             mutableIntStateOf(0)
