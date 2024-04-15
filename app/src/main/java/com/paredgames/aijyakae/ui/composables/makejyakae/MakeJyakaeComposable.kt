@@ -1,6 +1,6 @@
-package com.paredgames.aijyakae.ui.composables.beforelogin
+package com.paredgames.aijyakae.ui.composables.makejyakae
 
-import androidx.compose.foundation.Image
+import android.widget.EditText
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,17 +9,19 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,55 +32,74 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.util.FontData
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
-import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
+import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
 
-class BeforeLoginResultComposable {
+class MakeJyakaeComposable {
+
     @Preview(
         widthDp = 600,
         heightDp = 900,
         showBackground = true,
-        backgroundColor = 0xFFFFF2e6
+        backgroundColor = 0xFFFFF2E6
     )
     @Composable
-    fun PreviewStartScreenResultPage(){
+    fun PreviewStartScreenMakeJyakae(){
         AijyakaeTheme {
-            StartScreenResultPage()
+            StartScreenMakeJyakae()
         }
     }
 
     @Composable
-    fun StartScreenResultPage(
-        beforeLoginViewModel: BeforeLoginViewModel= viewModel()
+    fun StartScreenMakeJyakae(
+        makeJyakaeViewModel: MakeJyakaeViewModel= viewModel()
     ) {
-        FinalResultImage(beforeLoginViewModel = beforeLoginViewModel)
+
+
+        PromptTextArea(makeJyakaeViewModel = makeJyakaeViewModel)
     }
 
     @Composable
-    fun FinalResultImage(
-        modifier: Modifier=Modifier,
-        beforeLoginViewModel: BeforeLoginViewModel
-    ) {
-        Column (
-            modifier= modifier
+    fun PromptTextArea(
+        modifier:Modifier=Modifier,
+        makeJyakaeViewModel: MakeJyakaeViewModel
+    ){
+        var prompt by rememberSaveable {
+            mutableStateOf("")
+        }
+        Column(
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(32.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             Text(
-                text = stringResource(R.string.final_result_page),
+                text = "이제 나만의 자캐를 만들어 보세요!",
                 fontFamily = FontData.maruboriFontFamily,
                 fontWeight = FontWeight.Normal,
-                fontSize = 40.sp,
+                fontSize = 50.sp,
                 maxLines = 2,
                 textAlign = TextAlign.Center,
-                lineHeight = 40.sp
+                lineHeight = 50.sp
             )
-            Image(
-                painter = painterResource(id = R.drawable.man_character),
-                contentDescription = "결과",
-                modifier = modifier
-                    .padding(40.dp, 150.dp, 40.dp, 0.dp)
+
+            TextField(
+                value = prompt,
+                onValueChange ={value->prompt = value},
+                modifier= modifier
+                    .size(width = 300.dp, height = 300.dp)
+                , maxLines = 5
+            )
+
+            Spacer(modifier = modifier.padding(40.dp))
+            Text(
+                text = "자캐의 특징을 키워드 칸에 적어주세요!",
+                fontFamily = FontData.maruboriFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 20.sp,
+                maxLines = 2,
+                textAlign = TextAlign.Center,
+                lineHeight = 20.sp
             )
         }
         Column(
@@ -90,36 +111,7 @@ class BeforeLoginResultComposable {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-                onClick = { /*TODO: 구글로그인이랑 광고구현*/ },
-                modifier = Modifier
-                    .size(width = 480.dp, height = 80.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(id = R.color.warm_button_orange),
-                    contentColor = Color.White,
-                    disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                    disabledContentColor = Color.White
-                )
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_download),
-                    contentDescription = "다운로드",
-                    modifier=modifier
-                        .size(width = 50.dp, height = 50.dp)
-                )
-                Text(
-                    text = "저장하기",
-                    fontFamily = FontData.maruboriFontFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 40.sp,
-                    letterSpacing = 2.sp
-                )
-            }
-            Spacer(modifier = Modifier
-                .padding(20.dp)
-            )
-            Button(
-                onClick = { /*TODO: 구글로그인이랑 광고구현*/ },
+                onClick = {  },
                 modifier = Modifier
                     .size(width = 480.dp, height = 80.dp),
                 contentPadding = PaddingValues(0.dp),
@@ -131,7 +123,7 @@ class BeforeLoginResultComposable {
                 )
             ) {
                 Text(
-                    text = stringResource(id = R.string.make_other_art),
+                    text = "이미지 생성하기",
                     fontFamily = FontData.maruboriFontFamily,
                     fontWeight = FontWeight.Normal,
                     fontSize = 40.sp,
@@ -139,6 +131,6 @@ class BeforeLoginResultComposable {
                 )
             }
         }
-
     }
+
 }
