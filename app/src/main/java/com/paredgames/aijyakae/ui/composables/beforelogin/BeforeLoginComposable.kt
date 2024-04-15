@@ -56,7 +56,7 @@ import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
     @Composable
     fun PreviewStartScreenBeforeLogin() {
         AijyakaeTheme {
-            StartScreenBeforeLogin()
+            StartScreenBeforeLogin(beforeLoginViewModel = viewModel())
         }
     }
 
@@ -530,7 +530,9 @@ import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-                onClick = { /* TODO */ },
+                onClick = {
+
+                          },
                 modifier = Modifier
                     .size(width = 480.dp, height = 80.dp),
                 contentPadding = PaddingValues(0.dp),

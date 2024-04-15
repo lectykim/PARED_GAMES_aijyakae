@@ -40,8 +40,4 @@ class BeforeLoginViewModel(context: Context): ViewModel() {
         }
     }
 
-    fun saveBeforeLoginPref(){
-
-    }
-
 }
