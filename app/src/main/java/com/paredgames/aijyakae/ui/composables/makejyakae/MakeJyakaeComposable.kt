@@ -34,7 +34,7 @@ import com.paredgames.aijyakae.data.util.FontData
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
 
-class MakeJyakaeComposable {
+
 
     @Preview(
         widthDp = 600,
@@ -132,5 +132,3 @@ class MakeJyakaeComposable {
             }
         }
     }
-
-}

@@ -32,7 +32,7 @@ import com.paredgames.aijyakae.data.util.FontData
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
 
-class BeforeLoginResultComposable {
+
     @Preview(
         widthDp = 600,
         heightDp = 900,
@@ -75,7 +75,7 @@ class BeforeLoginResultComposable {
                 lineHeight = 40.sp
             )
             Image(
-                painter = painterResource(id = R.drawable.man_character),
+                painter = painterResource(id = R.drawable.man_image),
                 contentDescription = "결과",
                 modifier = modifier
                     .padding(40.dp, 150.dp, 40.dp, 0.dp)
@@ -141,4 +141,3 @@ class BeforeLoginResultComposable {
         }
 
     }
-}

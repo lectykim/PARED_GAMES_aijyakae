@@ -43,7 +43,7 @@ import com.paredgames.aijyakae.data.util.FontData
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
 
-class BeforeLoginComposable {
+
 
 
     @Preview(
@@ -93,10 +93,10 @@ class BeforeLoginComposable {
                 text = stringResource(R.string.first_enter_page),
                 fontFamily = FontData.maruboriFontFamily,
                 fontWeight = FontWeight.Normal,
-                fontSize = 50.sp,
-                maxLines = 2,
+                fontSize = 30.sp,
+                maxLines = Int.MAX_VALUE,
                 textAlign = TextAlign.Center,
-                lineHeight = 50.sp
+                lineHeight = 30.sp
             )
         }
         Column(
@@ -110,7 +110,7 @@ class BeforeLoginComposable {
             Button(
                 onClick = { updateState(1) },
                 modifier = Modifier
-                    .size(width = 480.dp, height = 120.dp),
+                    .size(width = 480.dp, height = 80.dp),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorResource(id = R.color.warm_button_orange),
@@ -147,24 +147,24 @@ class BeforeLoginComposable {
                 text = stringResource(R.string.select_first_page),
                 fontFamily = FontData.maruboriFontFamily,
                 fontWeight = FontWeight.Normal,
-                fontSize = 50.sp,
+                fontSize = 30.sp,
                 maxLines = 2,
                 textAlign = TextAlign.Center,
-                lineHeight = 50.sp
+                lineHeight = 30.sp
             )
             Row(
                 modifier = modifier
-                    .padding(40.dp, 400.dp, 40.dp, 0.dp)
+                    .padding(40.dp, 200.dp, 40.dp, 0.dp)
             ) {
                 Button(onClick = {
                     updateState(2)
                     beforeLoginViewModel.beforeLoginContent.value.sex = BeforeLoginSex.Man
-                }, modifier = modifier.size(width = 150.dp, height = 100.dp), content = {
+                }, modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
                     Image(
-                        painter = painterResource(id = R.drawable.man_character),
+                        painter = painterResource(id = R.drawable.man_image),
                         contentDescription = "남자",
                         modifier = modifier
-                            .size(width = 70.dp, height = 70.dp)
+                            .size(width = 60.dp, height = 60.dp)
                             .clip(CircleShape)
                             .border(2.dp, Color.Gray, CircleShape),
 
@@ -185,12 +185,12 @@ class BeforeLoginComposable {
                 Button(onClick = {
                     updateState(2)
                     beforeLoginViewModel.beforeLoginContent.value.sex = BeforeLoginSex.Women
-                }, modifier = modifier.size(width = 150.dp, height = 100.dp), content = {
+                }, modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
                     Image(
-                        painter = painterResource(id = R.drawable.women_character),
+                        painter = painterResource(id = R.drawable.girl_image),
                         contentDescription = "여성",
                         modifier = modifier
-                            .size(width = 70.dp, height = 70.dp)
+                            .size(width = 60.dp, height = 60.dp)
                             .clip(CircleShape)
                             .border(2.dp, Color.Gray, CircleShape)
                     )
@@ -205,35 +205,33 @@ class BeforeLoginComposable {
                         disabledContentColor = Color.White
                     )
                 )
-                Spacer(modifier = Modifier.width(10.dp))
-                Button(
-                    onClick = {
-                        updateState(2)
-                        beforeLoginViewModel.beforeLoginContent.value.sex = BeforeLoginSex.Asexual
-                    },
-                    modifier = modifier.size(width = 150.dp, height = 100.dp), content = {
-                        Image(
-                            painter = painterResource(id = R.drawable.asexual),
-                            contentDescription = "무성",
-                            modifier = modifier
-                                .size(width = 70.dp, height = 70.dp)
-                                .clip(CircleShape)
-                                .border(2.dp, Color.Gray, CircleShape)
-                        )
-                        Spacer(modifier = Modifier.width(5.dp))
-                        Text(text = "무성")
-                    },
-                    contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(id = R.color.warm_button_orange),
-                        contentColor = Color.White,
-                        disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                        disabledContentColor = Color.White
-                    )
-                )
-
-
             }
+            Spacer(modifier = Modifier.width(10.dp))
+            Button(
+                onClick = {
+                    updateState(2)
+                    beforeLoginViewModel.beforeLoginContent.value.sex = BeforeLoginSex.Asexual
+                },
+                modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
+                    Image(
+                        painter = painterResource(id = R.drawable.none_image),
+                        contentDescription = "무성",
+                        modifier = modifier
+                            .size(width = 60.dp, height = 60.dp)
+                            .clip(CircleShape)
+                            .border(2.dp, Color.Gray, CircleShape)
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(text = "무성")
+                },
+                contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(id = R.color.warm_button_orange),
+                    contentColor = Color.White,
+                    disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
+                    disabledContentColor = Color.White
+                )
+            )
         }
     }
 
@@ -254,26 +252,26 @@ class BeforeLoginComposable {
                 text = stringResource(R.string.select_second_page),
                 fontFamily = FontData.maruboriFontFamily,
                 fontWeight = FontWeight.Normal,
-                fontSize = 50.sp,
+                fontSize = 30.sp,
                 maxLines = 2,
                 textAlign = TextAlign.Center,
-                lineHeight = 50.sp
+                lineHeight = 30.sp
             )
             Row(
                 modifier = modifier
-                    .padding(40.dp, 400.dp, 40.dp, 0.dp)
+                    .padding(40.dp, 200.dp, 40.dp, 0.dp)
 
             ) {
                 Button(onClick = {
                     updateState(3)
                     beforeLoginViewModel.beforeLoginContent.value.drawStyle =
                         BeforeLoginDrawStyle.ThreeDimension
-                }, modifier = modifier.size(width = 150.dp, height = 100.dp), content = {
+                }, modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
                     Image(
-                        painter = painterResource(id = R.drawable.women_character),
+                        painter = painterResource(id = R.drawable.threed_image),
                         contentDescription = "3D",
                         modifier = modifier
-                            .size(width = 70.dp, height = 70.dp)
+                            .size(width = 60.dp, height = 60.dp)
                             .clip(CircleShape)
                             .border(2.dp, Color.Gray, CircleShape)
                     )
@@ -295,12 +293,12 @@ class BeforeLoginComposable {
                         beforeLoginViewModel.beforeLoginContent.value.drawStyle =
                             BeforeLoginDrawStyle.TwoDimension
                     },
-                    modifier = modifier.size(width = 150.dp, height = 100.dp), content = {
+                    modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
                         Image(
-                            painter = painterResource(id = R.drawable.asexual),
+                            painter = painterResource(id = R.drawable.twod_image),
                             contentDescription = "2D",
                             modifier = modifier
-                                .size(width = 70.dp, height = 70.dp)
+                                .size(width = 60.dp, height = 60.dp)
                                 .clip(CircleShape)
                                 .border(2.dp, Color.Gray, CircleShape)
                         )
@@ -328,12 +326,12 @@ class BeforeLoginComposable {
                     updateState(3)
                     beforeLoginViewModel.beforeLoginContent.value.drawStyle =
                         BeforeLoginDrawStyle.Anime
-                }, modifier = modifier.size(width = 150.dp, height = 100.dp), content = {
+                }, modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
                     Image(
-                        painter = painterResource(id = R.drawable.women_character),
+                        painter = painterResource(id = R.drawable.animation_image),
                         contentDescription = "animation",
                         modifier = modifier
-                            .size(width = 70.dp, height = 70.dp)
+                            .size(width = 60.dp, height = 60.dp)
                             .clip(CircleShape)
                             .border(2.dp, Color.Gray, CircleShape)
                     )
@@ -355,12 +353,12 @@ class BeforeLoginComposable {
                         beforeLoginViewModel.beforeLoginContent.value.drawStyle =
                             BeforeLoginDrawStyle.Real
                     },
-                    modifier = modifier.size(width = 150.dp, height = 100.dp), content = {
+                    modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
                         Image(
-                            painter = painterResource(id = R.drawable.asexual),
+                            painter = painterResource(id = R.drawable.reality_image),
                             contentDescription = "실사",
                             modifier = modifier
-                                .size(width = 70.dp, height = 70.dp)
+                                .size(width = 60.dp, height = 60.dp)
                                 .clip(CircleShape)
                                 .border(2.dp, Color.Gray, CircleShape)
                         )
@@ -399,29 +397,29 @@ class BeforeLoginComposable {
                 text = stringResource(R.string.select_third_page),
                 fontFamily = FontData.maruboriFontFamily,
                 fontWeight = FontWeight.Normal,
-                fontSize = 50.sp,
+                fontSize = 30.sp,
                 maxLines = 2,
                 textAlign = TextAlign.Center,
-                lineHeight = 50.sp
+                lineHeight = 30.sp
             )
             Row(
                 modifier = modifier
-                    .padding(40.dp, 400.dp, 40.dp, 0.dp)
+                    .padding(40.dp, 200.dp, 40.dp, 0.dp)
             ) {
                 Button(onClick = {
                     updateState(4)
                     beforeLoginViewModel.beforeLoginContent.value.drawSize = BeforeLoginDrawSize.LD
-                }, modifier = modifier.size(width = 150.dp, height = 100.dp), content = {
+                }, modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
                     Image(
-                        painter = painterResource(id = R.drawable.man_character),
-                        contentDescription = "LD",
+                        painter = painterResource(id = R.drawable.full_body_image),
+                        contentDescription = "전신",
                         modifier = modifier
-                            .size(width = 70.dp, height = 70.dp)
+                            .size(width = 60.dp, height = 60.dp)
                             .clip(CircleShape)
                             .border(2.dp, Color.Gray, CircleShape)
                     )
                     Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "LD")
+                    Text(text = "전신")
                 },
                     contentPadding = PaddingValues(0.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -431,22 +429,23 @@ class BeforeLoginComposable {
                         disabledContentColor = Color.White
                     )
 
+
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Button(onClick = {
                     updateState(4)
                     beforeLoginViewModel.beforeLoginContent.value.drawSize = BeforeLoginDrawSize.SD
-                }, modifier = modifier.size(width = 150.dp, height = 100.dp), content = {
+                }, modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
                     Image(
-                        painter = painterResource(id = R.drawable.women_character),
-                        contentDescription = "SD",
+                        painter = painterResource(id = R.drawable.half_body_image),
+                        contentDescription = "반신",
                         modifier = modifier
-                            .size(width = 70.dp, height = 70.dp)
+                            .size(width = 60.dp, height = 60.dp)
                             .clip(CircleShape)
                             .border(2.dp, Color.Gray, CircleShape)
                     )
                     Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "SD")
+                    Text(text = "반신")
                 },
                     contentPadding = PaddingValues(0.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -456,19 +455,28 @@ class BeforeLoginComposable {
                         disabledContentColor = Color.White
                     )
                 )
-                Spacer(modifier = Modifier.width(10.dp))
+
+
+            }
+
+            Row(
+                modifier = modifier
+                    .padding(40.dp, 20.dp, 40.dp, 0.dp)
+            ) {
+
+
                 Button(
                     onClick = {
                         updateState(4)
                         beforeLoginViewModel.beforeLoginContent.value.drawSize =
                             BeforeLoginDrawSize.FACE
                     },
-                    modifier = modifier.size(width = 150.dp, height = 100.dp), content = {
+                    modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
                         Image(
-                            painter = painterResource(id = R.drawable.asexual),
+                            painter = painterResource(id = R.drawable.only_face_image),
                             contentDescription = "FACE",
                             modifier = modifier
-                                .size(width = 70.dp, height = 70.dp)
+                                .size(width = 60.dp, height = 60.dp)
                                 .clip(CircleShape)
                                 .border(2.dp, Color.Gray, CircleShape)
                         )
@@ -483,11 +491,9 @@ class BeforeLoginComposable {
                         disabledContentColor = Color.White
                     )
                 )
-
-
             }
-        }
 
+        }
     }
 
 
@@ -508,10 +514,10 @@ class BeforeLoginComposable {
                 text = stringResource(R.string.select_final_page),
                 fontFamily = FontData.maruboriFontFamily,
                 fontWeight = FontWeight.Normal,
-                fontSize = 50.sp,
+                fontSize = 30.sp,
                 maxLines = 2,
                 textAlign = TextAlign.Center,
-                lineHeight = 50.sp
+                lineHeight = 30.sp
             )
         }
         Column(
@@ -525,7 +531,7 @@ class BeforeLoginComposable {
             Button(
                 onClick = { /* TODO */ },
                 modifier = Modifier
-                    .size(width = 480.dp, height = 120.dp),
+                    .size(width = 480.dp, height = 80.dp),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorResource(id = R.color.warm_button_orange),
@@ -544,4 +550,3 @@ class BeforeLoginComposable {
             }
         }
     }
-}

@@ -6,7 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.paredgames.aijyakae.ui.composables.beforelogin.BeforeLoginComposable
+import com.paredgames.aijyakae.ui.composables.beforelogin.StartScreenBeforeLogin
+
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 
 class MainActivity : ComponentActivity() {
@@ -16,7 +17,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         setContent {
             AijyakaeTheme {
-
+                StartScreenBeforeLogin()
             }
         }
     }
