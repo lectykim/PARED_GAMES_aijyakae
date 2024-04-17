@@ -6,6 +6,10 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
+val properties = File(rootDir,"local.properties").inputStream().use {
+    Properties().apply { load(it) }
+}
+val stableDiffusionApiKey = properties.getValue("STABLE_DIFFUSION_API_KEY") as String
 
 android {
     namespace = "com.paredgames.aijyakae"
@@ -18,13 +22,13 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-
+        buildConfigField("String","STABLE_DIFFUSION_API_KEY", "\"$stableDiffusionApiKey\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
-        //buildConfigField("String","STABLE_DIFFUSION_API_KEY", gradleLocalProperties(rootDir).getProperty("STABLE_DIFFUSION_API_KEY"))
+
     }
 
     buildTypes {
@@ -42,6 +46,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig=true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -74,7 +79,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.datastore:datastore-core-android:1.1.0-rc01")
     implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation("com.squareup.retrofit2:retrofit2:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
 }

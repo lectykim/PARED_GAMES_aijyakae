@@ -1,5 +1,6 @@
 package com.paredgames.aijyakae.ui.viewmodel
 
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.compose.runtime.State
@@ -10,10 +11,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.paredgames.aijyakae.data.api.ApiService
 import com.paredgames.aijyakae.data.dto.BeforeLoginContent
+import com.paredgames.aijyakae.data.repository.BeforeLoginRepository
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawSize
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawStyle
 import com.paredgames.aijyakae.data.util.BeforeLoginSex
@@ -21,7 +25,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class BeforeLoginViewModel(): ViewModel() {
+class BeforeLoginViewModel(
+    private val beforeLoginRepository: BeforeLoginRepository
+): ViewModel() {
 
 
     private val _beforeLoginContent = MutableStateFlow(
@@ -44,15 +50,6 @@ class BeforeLoginViewModel(): ViewModel() {
         }
     }
 
-    companion object{
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                BeforeLoginViewModel(
 
-                )
-
-            }
-        }
-    }
 
 }

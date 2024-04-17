@@ -1,0 +1,26 @@
+package com.paredgames.aijyakae.data.dto
+
+import com.google.gson.annotations.SerializedName
+
+class TextTwoImageResponseDTO {
+
+    @SerializedName("status")
+    lateinit var status:String
+
+
+    @SerializedName("generationTime")
+    lateinit var generationTime:String
+
+    @SerializedName("id")
+    lateinit var id:String
+
+    @SerializedName("output")
+    lateinit var output:String
+
+    @SerializedName("proxy_links")
+    lateinit var proxyLink:String
+
+    @SerializedName("nsfw_content_detected")
+    lateinit var nsfwContentDetected:String
+
+}
