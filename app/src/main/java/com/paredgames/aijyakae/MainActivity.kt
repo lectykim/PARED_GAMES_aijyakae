@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.paredgames.aijyakae.data.api.ApiService
+import com.paredgames.aijyakae.data.config.ApiConfig
 import com.paredgames.aijyakae.data.dto.MakeJyakaeContent
 import com.paredgames.aijyakae.data.repository.BeforeLoginRepository
 import com.paredgames.aijyakae.data.util.ScreenInfo
@@ -26,6 +27,8 @@ import com.paredgames.aijyakae.ui.nav.AijyakaeNavHost
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModelFactory
+import retrofit2.Retrofit
+import retrofit2.create
 import java.util.prefs.Preferences
 
 class MainActivity : ComponentActivity() {
@@ -34,11 +37,15 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var beforeLoginViewModel:BeforeLoginViewModel;
     private lateinit var beforeLoginViewModelFactory: BeforeLoginViewModelFactory
+    private lateinit var apiService: ApiService
+    private lateinit var retrofit: Retrofit
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        beforeLoginViewModelFactory  = BeforeLoginViewModelFactory(BeforeLoginRepository())
+        retrofit=ApiConfig.getInstance()
+        apiService=retrofit.create(ApiService::class.java)
+        beforeLoginViewModelFactory  = BeforeLoginViewModelFactory(BeforeLoginRepository(apiService))
         beforeLoginViewModel = ViewModelProvider(this,beforeLoginViewModelFactory)[BeforeLoginViewModel::class.java]
+
         val sharedPref = getSharedPreferences("isFirst",0)
         installSplashScreen()
         val isFirst = sharedPref.getBoolean("isFirst",true)

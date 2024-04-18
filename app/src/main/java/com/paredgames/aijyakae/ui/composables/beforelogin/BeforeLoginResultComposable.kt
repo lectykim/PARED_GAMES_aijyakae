@@ -42,13 +42,13 @@ import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
     @Composable
     fun PreviewStartScreenResultPage(){
         AijyakaeTheme {
-            StartScreenResultPage()
+            //StartScreenResultPage()
         }
     }
 
     @Composable
     fun StartScreenResultPage(
-        beforeLoginViewModel: BeforeLoginViewModel= viewModel()
+        beforeLoginViewModel: BeforeLoginViewModel
     ) {
         FinalResultImage(beforeLoginViewModel = beforeLoginViewModel)
     }

@@ -536,6 +536,7 @@ import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
             Button(
                 onClick = {
                             navController.navigate(ScreenInfo.BeforeLoginResult.name)
+                            beforeLoginViewModel.getStableDiffusion()
                           },
                 modifier = Modifier
                     .size(width = 480.dp, height = 80.dp),

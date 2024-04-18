@@ -30,7 +30,7 @@ import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
                 StartScreenBeforeLogin(beforeLoginViewModel,navController)
             }
             composable(ScreenInfo.BeforeLoginResult.name){
-                StartScreenResultPage()
+                StartScreenResultPage(beforeLoginViewModel)
             }
             composable(ScreenInfo.MakeJyakae.name){
 

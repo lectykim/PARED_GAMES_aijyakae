@@ -9,7 +9,7 @@ class TextTwoImageRequestDTO {
     @SerializedName("prompt")
     lateinit var prompt:String
     @SerializedName("negetive_prompt")
-    lateinit var negetivePrompt:String
+    lateinit var negativePrompt:String
     @SerializedName("width")
     val width:Int=512
     @SerializedName("height")

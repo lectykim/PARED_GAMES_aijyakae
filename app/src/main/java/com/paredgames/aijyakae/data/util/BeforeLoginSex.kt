@@ -1,5 +1,10 @@
 package com.paredgames.aijyakae.data.util
 
-enum class BeforeLoginSex {
-    Man,Women,Asexual,None
+enum class BeforeLoginSex(
+    val stringValue:String
+) {
+    Man("man"),
+    Women("women"),
+    Asexual("Asexual"),
+    None(" ")
 }
