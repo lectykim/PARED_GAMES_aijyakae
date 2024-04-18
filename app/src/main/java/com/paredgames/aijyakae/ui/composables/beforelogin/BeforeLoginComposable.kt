@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -45,11 +46,10 @@ import com.paredgames.aijyakae.data.util.FontData
 import com.paredgames.aijyakae.data.util.ScreenInfo
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
+import kotlinx.coroutines.CoroutineScope
 
 
-
-
-    @Preview(
+@Preview(
         widthDp = 600,
         heightDp = 900,
         showBackground = true,
@@ -506,7 +506,8 @@ import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
         modifier: Modifier= Modifier,
         beforeLoginViewModel: BeforeLoginViewModel,
         updateState: (Int) -> Unit,
-        navController: NavController
+        navController: NavController,
+        coroutineScope:CoroutineScope= rememberCoroutineScope()
     ) {
         Column(
             modifier = modifier
@@ -534,9 +535,11 @@ import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-                onClick = {
-                            navController.navigate(ScreenInfo.BeforeLoginResult.name)
+                onClick =  {
+
                             beforeLoginViewModel.getStableDiffusion()
+                            navController.navigate(ScreenInfo.BeforeLoginResult.name)
+
                           },
                 modifier = Modifier
                     .size(width = 480.dp, height = 80.dp),
