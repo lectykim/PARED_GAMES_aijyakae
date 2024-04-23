@@ -1,6 +1,7 @@
 package com.paredgames.aijyakae.ui.composables.beforelogin
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -16,11 +17,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -39,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.paredgames.aijyakae.R
+import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawSize
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawStyle
 import com.paredgames.aijyakae.data.util.BeforeLoginSex
@@ -47,6 +52,7 @@ import com.paredgames.aijyakae.data.util.ScreenInfo
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 
 
 @Preview(
@@ -506,9 +512,13 @@ import kotlinx.coroutines.CoroutineScope
         modifier: Modifier= Modifier,
         beforeLoginViewModel: BeforeLoginViewModel,
         updateState: (Int) -> Unit,
-        navController: NavController,
-        coroutineScope:CoroutineScope= rememberCoroutineScope()
+        navController: NavController
     ) {
+
+        var loading by rememberSaveable {
+            mutableStateOf(false)
+        }
+
         Column(
             modifier = modifier
                 .fillMaxWidth()
@@ -525,6 +535,15 @@ import kotlinx.coroutines.CoroutineScope
                 textAlign = TextAlign.Center,
                 lineHeight = 30.sp
             )
+            if(loading){
+                CircularProgressIndicator(
+                    modifier=modifier
+                        .width(64.dp),
+                    color= colorResource(id = R.color.warm_button_orange),
+                    trackColor = MaterialTheme.colorScheme.surfaceVariant
+                        
+                )
+            }
         }
         Column(
             modifier = modifier
@@ -534,30 +553,39 @@ import kotlinx.coroutines.CoroutineScope
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(
-                onClick =  {
+            if(!loading){
+                Button(
+                    onClick =  {
+                        loading=true
+                        val dto=beforeLoginViewModel.getStableDiffusion()
+                        if(dto!=null){
+                            Log.d("api status check",dto.status)
+                            Log.d("api link check",dto.proxyLink[0])
+                        }else{
+                            Log.e("not returned","")
+                        }
+                        navController.navigate(ScreenInfo.BeforeLoginResult.name)
 
-                            beforeLoginViewModel.getStableDiffusion()
-                            navController.navigate(ScreenInfo.BeforeLoginResult.name)
-
-                          },
-                modifier = Modifier
-                    .size(width = 480.dp, height = 80.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(id = R.color.warm_button_orange),
-                    contentColor = Color.White,
-                    disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                    disabledContentColor = Color.White
-                )
-            ) {
-                Text(
-                    text = "결과 보러 가기!",
-                    fontFamily = FontData.maruboriFontFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 40.sp,
-                    letterSpacing = 2.sp
-                )
+                    },
+                    modifier = Modifier
+                        .size(width = 480.dp, height = 80.dp),
+                    contentPadding = PaddingValues(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(id = R.color.warm_button_orange),
+                        contentColor = Color.White,
+                        disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
+                        disabledContentColor = Color.White
+                    )
+                ) {
+                    Text(
+                        text = "결과 보러 가기!",
+                        fontFamily = FontData.maruboriFontFamily,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 40.sp,
+                        letterSpacing = 2.sp
+                    )
+                }
             }
+
         }
     }

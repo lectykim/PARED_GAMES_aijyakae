@@ -15,10 +15,10 @@ class TextTwoImageResponseDTO {
     lateinit var id:String
 
     @SerializedName("output")
-    lateinit var output:String
+    lateinit var output:Array<String>
 
     @SerializedName("proxy_links")
-    lateinit var proxyLink:String
+    lateinit var proxyLink:Array<String>
 
     @SerializedName("nsfw_content_detected")
     lateinit var nsfwContentDetected:String

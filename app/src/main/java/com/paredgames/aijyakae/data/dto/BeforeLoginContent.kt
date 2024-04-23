@@ -23,7 +23,7 @@ data class BeforeLoginContent(
             .append(" , ")
             .append(drawStyle.stringValue)
             .append(" , ")
-            .append(drawStyle.stringValue)
+            .append(drawSize.stringValue)
             .toString()
     }
     fun toDto():TextTwoImageRequestDTO{

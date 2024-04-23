@@ -10,10 +10,19 @@ import retrofit2.Response
 class BeforeLoginRepository(
     private val apiService: ApiService
 ){
-    suspend fun getTextTwoImg(beforeLoginContent: MutableStateFlow<BeforeLoginContent>){
-        val textTwoImageRequestDTO = beforeLoginContent.toDto()
+    suspend fun getTextTwoImg(beforeLoginContent: MutableStateFlow<BeforeLoginContent>):TextTwoImageResponseDTO?{
+        val textTwoImageRequestDTO = beforeLoginContent.value.toDto()
         val response: Response<TextTwoImageResponseDTO> =apiService.textTwoImg(textTwoImageRequestDTO)
 
-        Log.d("http call response",response.toString())
+        if(response.isSuccessful){
+            val responseData = response.body();
+            Log.d("API Response",responseData.toString())
+            return responseData
+        }else{
+            val errorMessage = response.errorBody()?.string()
+            Log.e("API Error",errorMessage?:"Unknown error")
+            return null
+        }
+
     }
 }

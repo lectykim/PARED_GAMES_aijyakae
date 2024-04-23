@@ -4,14 +4,18 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.paredgames.aijyakae.data.dto.BeforeLoginContent
+import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import com.paredgames.aijyakae.data.repository.BeforeLoginRepository
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawSize
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawStyle
 import com.paredgames.aijyakae.data.util.BeforeLoginSex
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class BeforeLoginViewModel(
     private val beforeLoginRepository: BeforeLoginRepository
@@ -30,14 +34,25 @@ class BeforeLoginViewModel(
 
     val beforeLoginContent: StateFlow<BeforeLoginContent> = _beforeLoginContent.asStateFlow()
 
-    fun getStableDiffusion(){
+    fun getStableDiffusion():TextTwoImageResponseDTO?{
         if(beforeLoginContent.value.getAllNotNone()){
-            viewModelScope.launch {
-                    beforeLoginRepository.getTextTwoImg(_beforeLoginContent)
+            val dto=runBlocking {
+                val dto:TextTwoImageResponseDTO? =withContext(Dispatchers.Default){
+                     beforeLoginRepository.getTextTwoImg(_beforeLoginContent)
+
+                }
+                return@runBlocking dto
+
+
             }
+            return dto
+
+
         } else{
             Log.d("Select Failure","Select Failure")
+            return null
         }
+
     }
 
 
