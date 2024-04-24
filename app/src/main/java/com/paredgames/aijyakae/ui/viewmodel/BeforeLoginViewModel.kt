@@ -10,6 +10,7 @@ import com.paredgames.aijyakae.data.util.BeforeLoginDrawSize
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawStyle
 import com.paredgames.aijyakae.data.util.BeforeLoginSex
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,26 +32,38 @@ class BeforeLoginViewModel(
     )
 
 
+    private val _loading = MutableStateFlow(false)
+    private val _response = MutableStateFlow(TextTwoImageResponseDTO())
 
     val beforeLoginContent: StateFlow<BeforeLoginContent> = _beforeLoginContent.asStateFlow()
+    val loading:StateFlow<Boolean> = _loading.asStateFlow()
+    val response:StateFlow<TextTwoImageResponseDTO> = _response.asStateFlow()
 
-    fun getStableDiffusion():TextTwoImageResponseDTO?{
+    fun getStableDiffusion(){
         if(beforeLoginContent.value.getAllNotNone()){
-            val dto=runBlocking {
-                val dto:TextTwoImageResponseDTO? =withContext(Dispatchers.Default){
+            _loading.value=true
+
+            viewModelScope.launch {
+                val dto =withContext(Dispatchers.Default){
                      beforeLoginRepository.getTextTwoImg(_beforeLoginContent)
-
                 }
-                return@runBlocking dto
-
+                if(dto!=null){
+                    Log.d("api status check",dto.status)
+                    Log.d("api link check",dto.proxyLink[0])
+                    _response.value=dto
+                    _loading.value=false
+                }else{
+                    Log.e("not returned","")
+                }
 
             }
-            return dto
+
+
 
 
         } else{
             Log.d("Select Failure","Select Failure")
-            return null
+
         }
 
     }

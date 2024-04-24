@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -76,7 +77,6 @@ import kotlinx.coroutines.delay
         var goNext by rememberSaveable {
             mutableIntStateOf(0)
         }
-
         when (goNext) {
             0 -> FirstPage(updateState = { goNext = it }, beforeLoginViewModel = beforeLoginViewModel)
             1 -> SecondPage(updateState = { goNext = it }, beforeLoginViewModel = beforeLoginViewModel)
@@ -513,11 +513,10 @@ import kotlinx.coroutines.delay
         beforeLoginViewModel: BeforeLoginViewModel,
         updateState: (Int) -> Unit,
         navController: NavController
+
     ) {
 
-        var loading by rememberSaveable {
-            mutableStateOf(false)
-        }
+        val loading by beforeLoginViewModel.loading.collectAsState()
 
         Column(
             modifier = modifier
@@ -556,16 +555,7 @@ import kotlinx.coroutines.delay
             if(!loading){
                 Button(
                     onClick =  {
-                        loading=true
-                        val dto=beforeLoginViewModel.getStableDiffusion()
-                        if(dto!=null){
-                            Log.d("api status check",dto.status)
-                            Log.d("api link check",dto.proxyLink[0])
-                        }else{
-                            Log.e("not returned","")
-                        }
-                        navController.navigate(ScreenInfo.BeforeLoginResult.name)
-
+                        beforeLoginViewModel.getStableDiffusion()
                     },
                     modifier = Modifier
                         .size(width = 480.dp, height = 80.dp),
