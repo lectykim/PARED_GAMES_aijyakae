@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
+
 class BeforeLoginViewModel(
     private val beforeLoginRepository: BeforeLoginRepository
 ): ViewModel() {
@@ -34,10 +35,12 @@ class BeforeLoginViewModel(
 
     private val _loading = MutableStateFlow(false)
     private val _response = MutableStateFlow(TextTwoImageResponseDTO())
+    private val _isFinal = MutableStateFlow(false)
 
     val beforeLoginContent: StateFlow<BeforeLoginContent> = _beforeLoginContent.asStateFlow()
     val loading:StateFlow<Boolean> = _loading.asStateFlow()
     val response:StateFlow<TextTwoImageResponseDTO> = _response.asStateFlow()
+    val isFinal:StateFlow<Boolean> = _isFinal.asStateFlow()
 
     fun getStableDiffusion(){
         if(beforeLoginContent.value.getAllNotNone()){
@@ -52,6 +55,7 @@ class BeforeLoginViewModel(
                     Log.d("api link check",dto.proxyLink[0])
                     _response.value=dto
                     _loading.value=false
+                    _isFinal.value=true
                 }else{
                     Log.e("not returned","")
                 }

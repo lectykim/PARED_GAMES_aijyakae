@@ -1,9 +1,6 @@
 package com.paredgames.aijyakae.ui.composables.beforelogin
 
-import android.content.Context
-import android.util.Log
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,6 +15,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +31,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -43,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.bumptech.glide.Glide
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawSize
@@ -50,24 +52,13 @@ import com.paredgames.aijyakae.data.util.BeforeLoginDrawStyle
 import com.paredgames.aijyakae.data.util.BeforeLoginSex
 import com.paredgames.aijyakae.data.util.FontData
 import com.paredgames.aijyakae.data.util.ScreenInfo
+import com.paredgames.aijyakae.ui.composables.beforelogin.button.NextButton
+import com.paredgames.aijyakae.ui.composables.beforelogin.button.NextImageButton
+import com.paredgames.aijyakae.ui.composables.beforelogin.title.TitleText
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-
-
-@Preview(
-        widthDp = 600,
-        heightDp = 900,
-        showBackground = true,
-        backgroundColor = 0xFFFFF2e6
-    )
-    @Composable
-    fun PreviewStartScreenBeforeLogin() {
-        AijyakaeTheme {
-            //StartScreenBeforeLogin()
-        }
-    }
+import com.skydoves.landscapist.CircularReveal
+import com.skydoves.landscapist.glide.GlideImage
 
     @Composable
     fun StartScreenBeforeLogin(
@@ -77,13 +68,22 @@ import kotlinx.coroutines.delay
         var goNext by rememberSaveable {
             mutableIntStateOf(0)
         }
-        when (goNext) {
-            0 -> FirstPage(updateState = { goNext = it }, beforeLoginViewModel = beforeLoginViewModel)
-            1 -> SecondPage(updateState = { goNext = it }, beforeLoginViewModel = beforeLoginViewModel)
-            2 -> ThirdPage (updateState = {goNext=it}, beforeLoginViewModel = beforeLoginViewModel)
-            3 -> FourthPage (updateState = {goNext = it}, beforeLoginViewModel = beforeLoginViewModel)
-            else -> FinalPage (updateState = {goNext=it}, beforeLoginViewModel = beforeLoginViewModel, navController = navController)
+
+        val isFinal by beforeLoginViewModel.isFinal.collectAsState()
+
+        if(isFinal){
+            FinalResultImage(beforeLoginViewModel = beforeLoginViewModel)
+        }else{
+            when (goNext) {
+                0 -> FirstPage(updateState = { goNext = it }, beforeLoginViewModel = beforeLoginViewModel)
+                1 -> SecondPage(updateState = { goNext = it }, beforeLoginViewModel = beforeLoginViewModel)
+                2 -> ThirdPage (updateState = {goNext=it}, beforeLoginViewModel = beforeLoginViewModel)
+                3 -> FourthPage (updateState = {goNext = it}, beforeLoginViewModel = beforeLoginViewModel)
+                else -> FinalPage (updateState = {goNext=it}, beforeLoginViewModel = beforeLoginViewModel, navController = navController)
+            }
         }
+
+
     }
 
     @Composable
@@ -95,48 +95,13 @@ import kotlinx.coroutines.delay
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(32.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = stringResource(R.string.first_enter_page),
-                fontFamily = FontData.maruboriFontFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 30.sp,
-                maxLines = Int.MAX_VALUE,
-                textAlign = TextAlign.Center,
-                lineHeight = 30.sp
-            )
-        }
-        Column(
-            modifier = modifier
-                .fillMaxWidth()
                 .fillMaxHeight()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Bottom,
+                .padding(32.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(
-                onClick = { updateState(1) },
-                modifier = Modifier
-                    .size(width = 480.dp, height = 80.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(id = R.color.warm_button_orange),
-                    contentColor = Color.White,
-                    disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                    disabledContentColor = Color.White
-                )
-            ) {
-                Text(
-                    text = stringResource(id = R.string.first_enter_page_button_start),
-                    fontFamily = FontData.maruboriFontFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 40.sp,
-                    letterSpacing = 2.sp
-                )
-            }
+            TitleText(titleText = R.string.first_enter_page)
+            NextButton(onClick = { updateState(1) }, buttonText =R.string.first_enter_page_button_start )
         }
     }
 
@@ -153,95 +118,29 @@ import kotlinx.coroutines.delay
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(R.string.select_first_page),
-                fontFamily = FontData.maruboriFontFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 30.sp,
-                maxLines = 2,
-                textAlign = TextAlign.Center,
-                lineHeight = 30.sp
-            )
+            TitleText(titleText = R.string.select_first_page)
             Row(
                 modifier = modifier
                     .padding(40.dp, 200.dp, 40.dp, 0.dp)
             ) {
-                Button(onClick = {
+                NextImageButton(onClick = {
                     updateState(2)
-                    beforeLoginViewModel.beforeLoginContent.value.sex = BeforeLoginSex.Man
-                }, modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
-                    Image(
-                        painter = painterResource(id = R.drawable.man_image),
-                        contentDescription = "남자",
-                        modifier = modifier
-                            .size(width = 60.dp, height = 60.dp)
-                            .clip(CircleShape)
-                            .border(2.dp, Color.Gray, CircleShape),
-
-                        )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "남성")
-                },
-                    contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(id = R.color.warm_button_orange),
-                        contentColor = Color.White,
-                        disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                        disabledContentColor = Color.White
-                    )
-
-                )
+                    beforeLoginViewModel.beforeLoginContent.value.sex=BeforeLoginSex.Man}
+                    , buttonText = R.string.sex_man,
+                    buttonImage = R.drawable.man_image)
                 Spacer(modifier = Modifier.width(10.dp))
-                Button(onClick = {
-                    updateState(2)
-                    beforeLoginViewModel.beforeLoginContent.value.sex = BeforeLoginSex.Women
-                }, modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
-                    Image(
-                        painter = painterResource(id = R.drawable.girl_image),
-                        contentDescription = "여성",
-                        modifier = modifier
-                            .size(width = 60.dp, height = 60.dp)
-                            .clip(CircleShape)
-                            .border(2.dp, Color.Gray, CircleShape)
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "여성")
-                },
-                    contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(id = R.color.warm_button_orange),
-                        contentColor = Color.White,
-                        disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                        disabledContentColor = Color.White
-                    )
-                )
+                NextImageButton(onClick = {updateState(2)
+                    beforeLoginViewModel.beforeLoginContent.value.sex = BeforeLoginSex.Women},
+                    buttonText = R.string.sex_women,
+                    buttonImage = R.drawable.girl_image)
+
             }
             Spacer(modifier = Modifier.width(10.dp))
-            Button(
-                onClick = {
-                    updateState(2)
-                    beforeLoginViewModel.beforeLoginContent.value.sex = BeforeLoginSex.Asexual
-                },
-                modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
-                    Image(
-                        painter = painterResource(id = R.drawable.none_image),
-                        contentDescription = "무성",
-                        modifier = modifier
-                            .size(width = 60.dp, height = 60.dp)
-                            .clip(CircleShape)
-                            .border(2.dp, Color.Gray, CircleShape)
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "무성")
-                },
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(id = R.color.warm_button_orange),
-                    contentColor = Color.White,
-                    disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                    disabledContentColor = Color.White
-                )
-            )
+           NextImageButton(onClick = {
+               updateState(2)
+               beforeLoginViewModel.beforeLoginContent.value.sex=BeforeLoginSex.Asexual
+           }, buttonText = R.string.sex_none,
+               buttonImage = R.drawable.none_image)
         }
     }
 
@@ -258,73 +157,24 @@ import kotlinx.coroutines.delay
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(R.string.select_second_page),
-                fontFamily = FontData.maruboriFontFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 30.sp,
-                maxLines = 2,
-                textAlign = TextAlign.Center,
-                lineHeight = 30.sp
-            )
+            TitleText(titleText = R.string.select_second_page)
             Row(
                 modifier = modifier
                     .padding(40.dp, 200.dp, 40.dp, 0.dp)
 
             ) {
-                Button(onClick = {
+                NextImageButton(onClick = {
                     updateState(3)
                     beforeLoginViewModel.beforeLoginContent.value.drawStyle =
                         BeforeLoginDrawStyle.ThreeDimension
-                }, modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
-                    Image(
-                        painter = painterResource(id = R.drawable.threed_image),
-                        contentDescription = "3D",
-                        modifier = modifier
-                            .size(width = 60.dp, height = 60.dp)
-                            .clip(CircleShape)
-                            .border(2.dp, Color.Gray, CircleShape)
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "3D")
-                },
-                    contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(id = R.color.warm_button_orange),
-                        contentColor = Color.White,
-                        disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                        disabledContentColor = Color.White
-                    )
-                )
+                }, buttonText = R.string.dimension_threed,
+                    buttonImage = R.drawable.threed_image)
                 Spacer(modifier = Modifier.width(10.dp))
-                Button(
-                    onClick = {
-                        updateState(3)
-                        beforeLoginViewModel.beforeLoginContent.value.drawStyle =
-                            BeforeLoginDrawStyle.TwoDimension
-                    },
-                    modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
-                        Image(
-                            painter = painterResource(id = R.drawable.twod_image),
-                            contentDescription = "2D",
-                            modifier = modifier
-                                .size(width = 60.dp, height = 60.dp)
-                                .clip(CircleShape)
-                                .border(2.dp, Color.Gray, CircleShape)
-                        )
-                        Spacer(modifier = Modifier.width(5.dp))
-                        Text(text = "2D")
-                    },
-                    contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(id = R.color.warm_button_orange),
-                        contentColor = Color.White,
-                        disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                        disabledContentColor = Color.White
-                    )
-                )
-
-
+                NextImageButton(onClick = { updateState(3)
+                    beforeLoginViewModel.beforeLoginContent.value.drawStyle =
+                        BeforeLoginDrawStyle.TwoDimension },
+                    buttonText = R.string.dimension_twod,
+                    buttonImage = R.drawable.twod_image)
             }
 
             Row(
@@ -332,59 +182,17 @@ import kotlinx.coroutines.delay
                     .padding(40.dp, 20.dp, 40.dp, 0.dp)
 
             ) {
-                Button(onClick = {
-                    updateState(3)
+                NextImageButton(onClick = {updateState(3)
                     beforeLoginViewModel.beforeLoginContent.value.drawStyle =
-                        BeforeLoginDrawStyle.Anime
-                }, modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
-                    Image(
-                        painter = painterResource(id = R.drawable.animation_image),
-                        contentDescription = "animation",
-                        modifier = modifier
-                            .size(width = 60.dp, height = 60.dp)
-                            .clip(CircleShape)
-                            .border(2.dp, Color.Gray, CircleShape)
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "애니메이션")
-                },
-                    contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(id = R.color.warm_button_orange),
-                        contentColor = Color.White,
-                        disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                        disabledContentColor = Color.White
-                    )
-                )
+                        BeforeLoginDrawStyle.Anime},
+                    buttonText = R.string.dimension_animation,
+                    buttonImage = R.drawable.animation_image)
                 Spacer(modifier = Modifier.width(10.dp))
-                Button(
-                    onClick = {
-                        updateState(3)
-                        beforeLoginViewModel.beforeLoginContent.value.drawStyle =
-                            BeforeLoginDrawStyle.Real
-                    },
-                    modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
-                        Image(
-                            painter = painterResource(id = R.drawable.reality_image),
-                            contentDescription = "실사",
-                            modifier = modifier
-                                .size(width = 60.dp, height = 60.dp)
-                                .clip(CircleShape)
-                                .border(2.dp, Color.Gray, CircleShape)
-                        )
-                        Spacer(modifier = Modifier.width(5.dp))
-                        Text(text = "실사")
-                    },
-                    contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(id = R.color.warm_button_orange),
-                        contentColor = Color.White,
-                        disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                        disabledContentColor = Color.White
-                    )
-                )
-
-
+                NextImageButton(onClick = { updateState(3)
+                    beforeLoginViewModel.beforeLoginContent.value.drawStyle =
+                        BeforeLoginDrawStyle.Real},
+                    buttonText = R.string.dimension_real,
+                    buttonImage = R.drawable.reality_image)
             }
         }
 
@@ -403,68 +211,20 @@ import kotlinx.coroutines.delay
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(R.string.select_third_page),
-                fontFamily = FontData.maruboriFontFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 30.sp,
-                maxLines = 2,
-                textAlign = TextAlign.Center,
-                lineHeight = 30.sp
-            )
+            TitleText(titleText = R.string.select_third_page)
             Row(
                 modifier = modifier
                     .padding(40.dp, 200.dp, 40.dp, 0.dp)
             ) {
-                Button(onClick = {
-                    updateState(4)
-                    beforeLoginViewModel.beforeLoginContent.value.drawSize = BeforeLoginDrawSize.LD
-                }, modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
-                    Image(
-                        painter = painterResource(id = R.drawable.full_body_image),
-                        contentDescription = "전신",
-                        modifier = modifier
-                            .size(width = 60.dp, height = 60.dp)
-                            .clip(CircleShape)
-                            .border(2.dp, Color.Gray, CircleShape)
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "전신")
-                },
-                    contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(id = R.color.warm_button_orange),
-                        contentColor = Color.White,
-                        disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                        disabledContentColor = Color.White
-                    )
-
-
-                )
+                NextImageButton(onClick = { updateState(4)
+                    beforeLoginViewModel.beforeLoginContent.value.drawSize = BeforeLoginDrawSize.LD},
+                    buttonText = R.string.draw_size_ld,
+                    buttonImage = R.drawable.full_body_image)
                 Spacer(modifier = Modifier.width(10.dp))
-                Button(onClick = {
-                    updateState(4)
-                    beforeLoginViewModel.beforeLoginContent.value.drawSize = BeforeLoginDrawSize.SD
-                }, modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
-                    Image(
-                        painter = painterResource(id = R.drawable.half_body_image),
-                        contentDescription = "반신",
-                        modifier = modifier
-                            .size(width = 60.dp, height = 60.dp)
-                            .clip(CircleShape)
-                            .border(2.dp, Color.Gray, CircleShape)
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "반신")
-                },
-                    contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(id = R.color.warm_button_orange),
-                        contentColor = Color.White,
-                        disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                        disabledContentColor = Color.White
-                    )
-                )
+                NextImageButton(onClick = { updateState(4)
+                    beforeLoginViewModel.beforeLoginContent.value.drawSize = BeforeLoginDrawSize.SD},
+                    buttonText = R.string.draw_size_half,
+                    buttonImage = R.drawable.half_body_image)
 
 
             }
@@ -474,33 +234,12 @@ import kotlinx.coroutines.delay
                     .padding(40.dp, 20.dp, 40.dp, 0.dp)
             ) {
 
+                NextImageButton(onClick = { updateState(4)
+                    beforeLoginViewModel.beforeLoginContent.value.drawSize =
+                        BeforeLoginDrawSize.FACE },
+                    buttonText = R.string.draw_size_face,
+                    buttonImage = R.drawable.only_face_image)
 
-                Button(
-                    onClick = {
-                        updateState(4)
-                        beforeLoginViewModel.beforeLoginContent.value.drawSize =
-                            BeforeLoginDrawSize.FACE
-                    },
-                    modifier = modifier.size(width = 130.dp, height = 80.dp), content = {
-                        Image(
-                            painter = painterResource(id = R.drawable.only_face_image),
-                            contentDescription = "FACE",
-                            modifier = modifier
-                                .size(width = 60.dp, height = 60.dp)
-                                .clip(CircleShape)
-                                .border(2.dp, Color.Gray, CircleShape)
-                        )
-                        Spacer(modifier = Modifier.width(5.dp))
-                        Text(text = "두상")
-                    },
-                    contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(id = R.color.warm_button_orange),
-                        contentColor = Color.White,
-                        disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                        disabledContentColor = Color.White
-                    )
-                )
             }
 
         }
@@ -521,19 +260,13 @@ import kotlinx.coroutines.delay
         Column(
             modifier = modifier
                 .fillMaxWidth()
+                .fillMaxHeight()
                 .padding(32.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(R.string.select_final_page),
-                fontFamily = FontData.maruboriFontFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 30.sp,
-                maxLines = 2,
-                textAlign = TextAlign.Center,
-                lineHeight = 30.sp
-            )
+            TitleText(titleText = R.string.select_final_page)
+
             if(loading){
                 CircularProgressIndicator(
                     modifier=modifier
@@ -553,29 +286,94 @@ import kotlinx.coroutines.delay
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if(!loading){
-                Button(
-                    onClick =  {
-                        beforeLoginViewModel.getStableDiffusion()
-                    },
-                    modifier = Modifier
-                        .size(width = 480.dp, height = 80.dp),
-                    contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(id = R.color.warm_button_orange),
-                        contentColor = Color.White,
-                        disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                        disabledContentColor = Color.White
-                    )
-                ) {
-                    Text(
-                        text = "결과 보러 가기!",
-                        fontFamily = FontData.maruboriFontFamily,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 40.sp,
-                        letterSpacing = 2.sp
-                    )
-                }
+                NextButton(onClick = { beforeLoginViewModel.getStableDiffusion() },
+                    buttonText = R.string.go_result_page)
             }
 
         }
     }
+
+
+@Composable
+fun FinalResultImage(
+    modifier: Modifier=Modifier,
+    beforeLoginViewModel: BeforeLoginViewModel
+) {
+
+    val response by beforeLoginViewModel.response.collectAsState()
+
+    Column (
+        modifier= modifier
+            .fillMaxWidth()
+            .padding(32.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        TitleText(titleText = R.string.final_result_page)
+        GlideImage(
+            imageModel =  response.output[0] ,
+            contentScale = ContentScale.Fit,
+            circularReveal = CircularReveal(duration = 250),
+            placeHolder = ImageBitmap.imageResource(R.drawable.placeholder)
+        )
+    }
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(
+            onClick = { /*TODO: 구글로그인이랑 광고구현*/ },
+            modifier = Modifier
+                .size(width = 480.dp, height = 80.dp),
+            contentPadding = PaddingValues(0.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(id = R.color.warm_button_orange),
+                contentColor = Color.White,
+                disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
+                disabledContentColor = Color.White
+            )
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.icon_download),
+                contentDescription = "다운로드",
+                modifier=modifier
+                    .size(width = 50.dp, height = 50.dp)
+            )
+            Text(
+                text = "저장하기",
+                fontFamily = FontData.maruboriFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 40.sp,
+                letterSpacing = 2.sp
+            )
+        }
+        Spacer(modifier = Modifier
+            .padding(20.dp)
+        )
+        Button(
+            onClick = { /*TODO: 구글로그인이랑 광고구현*/ },
+            modifier = Modifier
+                .size(width = 480.dp, height = 80.dp),
+            contentPadding = PaddingValues(0.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(id = R.color.warm_button_orange),
+                contentColor = Color.White,
+                disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
+                disabledContentColor = Color.White
+            )
+        ) {
+            Text(
+                text = stringResource(id = R.string.make_other_art),
+                fontFamily = FontData.maruboriFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 40.sp,
+                letterSpacing = 2.sp
+            )
+        }
+    }
+
+}

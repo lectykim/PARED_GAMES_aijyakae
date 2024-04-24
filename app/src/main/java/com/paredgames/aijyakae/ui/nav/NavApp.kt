@@ -10,7 +10,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.paredgames.aijyakae.data.util.ScreenInfo
 import com.paredgames.aijyakae.ui.composables.beforelogin.StartScreenBeforeLogin
-import com.paredgames.aijyakae.ui.composables.beforelogin.StartScreenResultPage
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
 
 @Composable
@@ -30,7 +29,7 @@ import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
                 StartScreenBeforeLogin(beforeLoginViewModel,navController)
             }
             composable(ScreenInfo.BeforeLoginResult.name){
-                StartScreenResultPage(beforeLoginViewModel)
+                //StartScreenResultPage(beforeLoginViewModel)
             }
             composable(ScreenInfo.MakeJyakae.name){
 

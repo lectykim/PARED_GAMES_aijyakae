@@ -7,6 +7,16 @@
     <string name="select_third_page">자캐의 그림 크기를 선택해주세요.</string>
     <string name="select_final_page">수고하셨습니다!</string>
     <string name="final_result_page">축하합니다!\n 당신이 만든 첫 자캐입니다! </string>
+    <string name="go_result_page">결과 보러 가기!</string>
     <string name="make_other_art">다른 자캐 생성하러 가기</string>
-
+    <string name="sex_man">남자</string>
+    <string name="sex_women">여자</string>
+    <string name="sex_none">무성</string>
+    <string name="dimension_threed">3D</string>
+    <string name="dimension_twod">2D</string>
+    <string name="dimension_animation">애니메이션</string>
+    <string name="dimension_real">실사</string>
+    <string name="draw_size_ld">전신</string>
+    <string name="draw_size_half">반신</string>
+    <string name="draw_size_face">두상</string>
 </resources>
