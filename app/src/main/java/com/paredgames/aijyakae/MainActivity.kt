@@ -20,6 +20,7 @@ import com.paredgames.aijyakae.data.api.ApiService
 import com.paredgames.aijyakae.data.config.ApiConfig
 import com.paredgames.aijyakae.data.dto.MakeJyakaeContent
 import com.paredgames.aijyakae.data.repository.BeforeLoginRepository
+import com.paredgames.aijyakae.data.repository.MakeJyakaeRepository
 import com.paredgames.aijyakae.data.util.ScreenInfo
 import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
 
@@ -30,6 +31,8 @@ import com.paredgames.aijyakae.ui.nav.AijyakaeNavHost
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModelFactory
+import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
+import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModelFactory
 import retrofit2.Retrofit
 import retrofit2.create
 import java.util.prefs.Preferences
@@ -40,6 +43,8 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var beforeLoginViewModel:BeforeLoginViewModel;
     private lateinit var beforeLoginViewModelFactory: BeforeLoginViewModelFactory
+    private lateinit var makeJyakaeViewModel: MakeJyakaeViewModel;
+    private lateinit var makeJyakaeViewModelFactory: MakeJyakaeViewModelFactory
     private lateinit var apiService: ApiService
     private lateinit var retrofit: Retrofit
 
@@ -49,7 +54,8 @@ class MainActivity : ComponentActivity() {
         apiService=retrofit.create(ApiService::class.java)
         beforeLoginViewModelFactory  = BeforeLoginViewModelFactory(BeforeLoginRepository(apiService,this))
         beforeLoginViewModel = ViewModelProvider(this,beforeLoginViewModelFactory)[BeforeLoginViewModel::class.java]
-
+        makeJyakaeViewModelFactory = MakeJyakaeViewModelFactory(MakeJyakaeRepository(apiService,this))
+        makeJyakaeViewModel = ViewModelProvider(this,makeJyakaeViewModelFactory)[MakeJyakaeViewModel::class.java]
 
 
         installSplashScreen()
@@ -60,13 +66,15 @@ class MainActivity : ComponentActivity() {
                 if(isFirst == "false"){
                     AijyakaeNavHost(
                         startDestination = ScreenInfo.BeforeLogin,
-                        beforeLoginViewModel = beforeLoginViewModel
+                        beforeLoginViewModel = beforeLoginViewModel,
+                        makeJyakaeViewModel = makeJyakaeViewModel
                     )
                 }
                 else{
                     AijyakaeNavHost(
                         startDestination = ScreenInfo.MakeJyakae,
-                        beforeLoginViewModel = beforeLoginViewModel
+                        beforeLoginViewModel = beforeLoginViewModel,
+                        makeJyakaeViewModel = makeJyakaeViewModel
                     )
                 }
 

@@ -11,6 +11,7 @@ import com.paredgames.aijyakae.data.util.BeforeLoginDrawStyle
 import com.paredgames.aijyakae.data.util.BeforeLoginSex
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -50,9 +51,9 @@ class BeforeLoginViewModel(
                 val dto =withContext(Dispatchers.Default){
                      beforeLoginRepository.getTextTwoImg(_beforeLoginContent)
                 }
+                //5초 지연
+                delay(5000)
                 if(dto!=null){
-                    Log.d("api status check",dto.status)
-                    Log.d("api link check",dto.proxyLink[0])
                     _response.value=dto
                     _loading.value=false
                     _isFinal.value=true

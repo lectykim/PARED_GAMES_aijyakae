@@ -10,14 +10,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.paredgames.aijyakae.data.util.ScreenInfo
 import com.paredgames.aijyakae.ui.composables.beforelogin.StartScreenBeforeLogin
+import com.paredgames.aijyakae.ui.composables.makejyakae.StartScreenMakeJyakae
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
+import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
 
 @Composable
     fun AijyakaeNavHost(
         modifier: Modifier=Modifier,
         navController: NavHostController = rememberNavController(),
         startDestination:ScreenInfo=ScreenInfo.BeforeLogin,
-        beforeLoginViewModel:BeforeLoginViewModel
+        beforeLoginViewModel:BeforeLoginViewModel,
+        makeJyakaeViewModel: MakeJyakaeViewModel
     ) {
 
         NavHost(
@@ -28,14 +31,8 @@ import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
             composable(ScreenInfo.BeforeLogin.name){
                 StartScreenBeforeLogin(beforeLoginViewModel,navController)
             }
-            composable(ScreenInfo.BeforeLoginResult.name){
-                //StartScreenResultPage(beforeLoginViewModel)
-            }
             composable(ScreenInfo.MakeJyakae.name){
-
-            }
-            composable(ScreenInfo.MakeJyakaeResult.name){
-
+                StartScreenMakeJyakae(makeJyakaeViewModel)
             }
         }
     }
