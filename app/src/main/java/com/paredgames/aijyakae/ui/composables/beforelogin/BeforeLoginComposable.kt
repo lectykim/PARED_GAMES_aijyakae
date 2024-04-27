@@ -1,6 +1,7 @@
 package com.paredgames.aijyakae.ui.composables.beforelogin
 
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,6 +26,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -34,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
@@ -53,6 +56,7 @@ import com.paredgames.aijyakae.data.util.BeforeLoginDrawStyle
 import com.paredgames.aijyakae.data.util.BeforeLoginSex
 import com.paredgames.aijyakae.data.util.FontData
 import com.paredgames.aijyakae.data.util.ScreenInfo
+import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
 import com.paredgames.aijyakae.ui.composables.beforelogin.button.NextButton
 import com.paredgames.aijyakae.ui.composables.beforelogin.button.NextImageButton
 import com.paredgames.aijyakae.ui.composables.beforelogin.title.TitleText
@@ -286,7 +290,8 @@ import com.skydoves.landscapist.glide.GlideImage
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if(!loading){
-                NextButton(onClick = { beforeLoginViewModel.getStableDiffusion() },
+                NextButton(onClick = { beforeLoginViewModel.getStableDiffusion();
+                                     beforeLoginViewModel.setPreferenceData(SharedPreferenceDataKeys.IS_LOGIN_KEY,"true")},
                     buttonText = R.string.go_result_page)
             }
 

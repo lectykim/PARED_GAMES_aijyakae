@@ -83,5 +83,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("com.github.skydoves:landscapist-glide:2.3.3")
+    runtimeOnly("androidx.datastore:datastore-preferences:1.1.0")
+
 
 }

@@ -13,5 +13,10 @@ data class MakeJyakaeContent(
     var width:Int,
     var height:Int
 ){
-
+    fun toDto():TextTwoImageRequestDTO{
+        val textTwoImageRequestDTO=TextTwoImageRequestDTO()
+        textTwoImageRequestDTO.prompt=prompt
+        textTwoImageRequestDTO.negativePrompt=negativePrompt
+        return textTwoImageRequestDTO
+    }
 }

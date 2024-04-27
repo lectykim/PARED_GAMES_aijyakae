@@ -27,7 +27,7 @@ data class BeforeLoginContent(
             .toString()
     }
     fun toDto():TextTwoImageRequestDTO{
-        var textTwoImageRequestDTO:TextTwoImageRequestDTO = TextTwoImageRequestDTO()
+        val textTwoImageRequestDTO:TextTwoImageRequestDTO = TextTwoImageRequestDTO()
         textTwoImageRequestDTO.prompt=getPrompt()
         return textTwoImageRequestDTO
     }

@@ -2,11 +2,13 @@ package com.paredgames.aijyakae
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.ui.platform.LocalContext
 
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.datastore.core.DataStore
@@ -19,6 +21,7 @@ import com.paredgames.aijyakae.data.config.ApiConfig
 import com.paredgames.aijyakae.data.dto.MakeJyakaeContent
 import com.paredgames.aijyakae.data.repository.BeforeLoginRepository
 import com.paredgames.aijyakae.data.util.ScreenInfo
+import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
 
 import com.paredgames.aijyakae.ui.composables.beforelogin.StartScreenBeforeLogin
 import com.paredgames.aijyakae.ui.composables.makejyakae.StartScreenMakeJyakae
@@ -39,20 +42,22 @@ class MainActivity : ComponentActivity() {
     private lateinit var beforeLoginViewModelFactory: BeforeLoginViewModelFactory
     private lateinit var apiService: ApiService
     private lateinit var retrofit: Retrofit
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retrofit=ApiConfig.getInstance()
         apiService=retrofit.create(ApiService::class.java)
-        beforeLoginViewModelFactory  = BeforeLoginViewModelFactory(BeforeLoginRepository(apiService))
+        beforeLoginViewModelFactory  = BeforeLoginViewModelFactory(BeforeLoginRepository(apiService,this))
         beforeLoginViewModel = ViewModelProvider(this,beforeLoginViewModelFactory)[BeforeLoginViewModel::class.java]
 
-        val sharedPref = getSharedPreferences("isFirst",0)
+
+
         installSplashScreen()
-        val isFirst = sharedPref.getBoolean("isFirst",true)
+        val isFirst= beforeLoginViewModel.getPreferenceData(SharedPreferenceDataKeys.IS_LOGIN_KEY,"false")
 
         setContent {
             AijyakaeTheme {
-                if(isFirst){
+                if(isFirst == "false"){
                     AijyakaeNavHost(
                         startDestination = ScreenInfo.BeforeLogin,
                         beforeLoginViewModel = beforeLoginViewModel

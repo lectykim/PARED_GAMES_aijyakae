@@ -72,6 +72,14 @@ class BeforeLoginViewModel(
 
     }
 
+    fun getPreferenceData(key:String,defaultValue:String):String{
+        return beforeLoginRepository.getData(key,defaultValue)
+    }
+
+    fun setPreferenceData(key:String,value:String){
+        beforeLoginRepository.saveData(key,value)
+    }
+
 
 
 }
