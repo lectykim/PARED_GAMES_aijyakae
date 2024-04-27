@@ -1,16 +1,23 @@
 package com.paredgames.aijyakae.ui.composables.preview
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -18,24 +25,28 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawSize
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawStyle
 import com.paredgames.aijyakae.data.util.BeforeLoginSex
+import com.paredgames.aijyakae.data.util.FontData
 import com.paredgames.aijyakae.ui.composables.beforelogin.button.NextButton
 import com.paredgames.aijyakae.ui.composables.beforelogin.button.NextImageButton
 import com.paredgames.aijyakae.ui.composables.beforelogin.title.TitleText
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
-import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.glide.GlideImage
 
 @Preview
@@ -245,4 +256,90 @@ fun FinalPage(
         }
 
     }
+}
+
+@Preview
+@Composable
+fun FinalResultImage(
+    modifier: Modifier=Modifier
+) {
+
+    Column (
+        modifier= modifier
+            .fillMaxWidth()
+            .padding(32.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        TitleText(titleText = R.string.final_result_page)
+        /*GlideImage(
+            imageModel =  "" ,
+            contentScale = ContentScale.Fit,
+            circularReveal = CircularReveal(duration = 250),
+            placeHolder = ImageBitmap.imageResource(R.drawable.placeholder),
+            modifier = modifier.width(250.dp).height(250.dp)
+        )*/
+        Image(painter = painterResource(id = R.drawable.reality_image),
+            contentDescription = "결과"
+        ,modifier=modifier.width(250.dp).height(250.dp))
+    }
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(
+            onClick = { /*TODO: 구글로그인이랑 광고구현*/ },
+            modifier = Modifier
+                .size(width = 480.dp, height = 80.dp),
+            contentPadding = PaddingValues(0.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(id = R.color.warm_button_orange),
+                contentColor = Color.White,
+                disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
+                disabledContentColor = Color.White
+            )
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.icon_download),
+                contentDescription = "다운로드",
+                modifier=modifier
+                    .size(width = 50.dp, height = 50.dp)
+            )
+            Text(
+                text = "저장하기",
+                fontFamily = FontData.maruboriFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 40.sp,
+                letterSpacing = 2.sp
+            )
+        }
+        Spacer(modifier = Modifier
+            .padding(20.dp)
+        )
+        Button(
+            onClick = { /*TODO: 구글로그인이랑 광고구현*/ },
+            modifier = Modifier
+                .size(width = 480.dp, height = 80.dp),
+            contentPadding = PaddingValues(0.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(id = R.color.warm_button_orange),
+                contentColor = Color.White,
+                disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
+                disabledContentColor = Color.White
+            )
+        ) {
+            Text(
+                text = stringResource(id = R.string.make_other_art),
+                fontFamily = FontData.maruboriFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 40.sp,
+                letterSpacing = 2.sp
+            )
+        }
+    }
+
 }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -57,7 +58,6 @@ import com.paredgames.aijyakae.ui.composables.beforelogin.button.NextImageButton
 import com.paredgames.aijyakae.ui.composables.beforelogin.title.TitleText
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
-import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.glide.GlideImage
 
     @Composable
@@ -310,11 +310,18 @@ fun FinalResultImage(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         TitleText(titleText = R.string.final_result_page)
-        GlideImage(
+        /*GlideImage(
             imageModel =  response.output[0] ,
             contentScale = ContentScale.Fit,
             circularReveal = CircularReveal(duration = 250),
-            placeHolder = ImageBitmap.imageResource(R.drawable.placeholder)
+            placeHolder = ImageBitmap.imageResource(R.drawable.placeholder),
+            modifier = modifier.width(250.dp).height(250.dp)
+        )*/
+        GlideImage(imageModel = { response.output[0] },
+            modifier = modifier
+                .width(250.dp)
+                .height(250.dp),
+            previewPlaceholder = painterResource(id = R.drawable.placeholder)
         )
     }
     Column(
@@ -347,7 +354,7 @@ fun FinalResultImage(
                 text = "저장하기",
                 fontFamily = FontData.maruboriFontFamily,
                 fontWeight = FontWeight.Normal,
-                fontSize = 40.sp,
+                fontSize = 30.sp,
                 letterSpacing = 2.sp
             )
         }
@@ -370,7 +377,7 @@ fun FinalResultImage(
                 text = stringResource(id = R.string.make_other_art),
                 fontFamily = FontData.maruboriFontFamily,
                 fontWeight = FontWeight.Normal,
-                fontSize = 40.sp,
+                fontSize = 30.sp,
                 letterSpacing = 2.sp
             )
         }
