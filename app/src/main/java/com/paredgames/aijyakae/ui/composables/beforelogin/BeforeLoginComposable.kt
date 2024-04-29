@@ -76,7 +76,7 @@ import com.skydoves.landscapist.glide.GlideImage
         val isFinal by beforeLoginViewModel.isFinal.collectAsState()
 
         if(isFinal){
-            FinalResultImage(beforeLoginViewModel = beforeLoginViewModel)
+            FinalResultImage(beforeLoginViewModel = beforeLoginViewModel, navController = navController)
         }else{
             when (goNext) {
                 0 -> FirstPage(updateState = { goNext = it }, beforeLoginViewModel = beforeLoginViewModel)
@@ -302,7 +302,8 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun FinalResultImage(
     modifier: Modifier=Modifier,
-    beforeLoginViewModel: BeforeLoginViewModel
+    beforeLoginViewModel: BeforeLoginViewModel,
+    navController: NavController
 ) {
 
     val response by beforeLoginViewModel.response.collectAsState()
@@ -338,7 +339,7 @@ fun FinalResultImage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            onClick = { /*TODO: 구글로그인이랑 광고구현*/ },
+            onClick = { /*TODO: 다운로드 기능 구현*/ },
             modifier = Modifier
                 .size(width = 480.dp, height = 80.dp),
             contentPadding = PaddingValues(0.dp),
@@ -367,7 +368,7 @@ fun FinalResultImage(
             .padding(20.dp)
         )
         Button(
-            onClick = { /*TODO: 구글로그인이랑 광고구현*/ },
+            onClick = { navController.navigate(ScreenInfo.MakeJyakae.name) },
             modifier = Modifier
                 .size(width = 480.dp, height = 80.dp),
             contentPadding = PaddingValues(0.dp),

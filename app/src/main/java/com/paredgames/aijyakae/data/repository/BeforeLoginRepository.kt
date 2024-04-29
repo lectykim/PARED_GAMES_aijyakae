@@ -1,9 +1,13 @@
 package com.paredgames.aijyakae.data.repository
 
+import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.util.Log
 import androidx.annotation.StyleRes
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.paredgames.aijyakae.data.api.ApiService
 import com.paredgames.aijyakae.data.dto.BeforeLoginContent
 import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
@@ -13,13 +17,12 @@ import retrofit2.Response
 
 class BeforeLoginRepository(
     private val apiService: ApiService,
-    context:Context
+    private val context:Context
 ){
 
-    private var sharedPreferences: SharedPreferences
-    init{
-        sharedPreferences=context.getSharedPreferences(SharedPreferenceDataKeys.SHARED_KEY,Context.MODE_PRIVATE)
-    }
+    private var sharedPreferences: SharedPreferences =
+        context.getSharedPreferences(SharedPreferenceDataKeys.SHARED_KEY,Context.MODE_PRIVATE)
+
     suspend fun getTextTwoImg(beforeLoginContent: MutableStateFlow<BeforeLoginContent>):TextTwoImageResponseDTO?{
         val textTwoImageRequestDTO = beforeLoginContent.value.toDto()
         val response: Response<TextTwoImageResponseDTO> =apiService.textTwoImg(textTwoImageRequestDTO)
