@@ -1,6 +1,7 @@
 package com.paredgames.aijyakae.ui.composables.makejyakae.textfield
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
@@ -10,7 +11,9 @@ import androidx.compose.material3.TextFieldDefaults.indicatorLine
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,5 +34,6 @@ fun CustomTextField(
                 color = colorResource(id = R.color.white),
                 shape = TextFieldDefaults.shape)
             .size(width = 480.dp, height = 300.dp)
+            .border(width = 2.dp,color=Color.Black, shape = RectangleShape)
     )
 }

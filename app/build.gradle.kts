@@ -84,6 +84,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("com.github.skydoves:landscapist-glide:2.3.3")
     runtimeOnly("androidx.datastore:datastore-preferences:1.1.0")
+    implementation("com.google.android.gms:play-services-ads:23.0.0")
 
 
 }

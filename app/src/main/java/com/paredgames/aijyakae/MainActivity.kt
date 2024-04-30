@@ -23,6 +23,8 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
 import com.paredgames.aijyakae.data.api.ApiService
 import com.paredgames.aijyakae.data.config.ApiConfig
 import com.paredgames.aijyakae.data.dto.MakeJyakaeContent
@@ -44,6 +46,12 @@ import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModelFactory
 import retrofit2.Retrofit
 import retrofit2.create
 import java.util.prefs.Preferences
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.OnUserEarnedRewardListener
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback
 
 class MainActivity : ComponentActivity() {
 
@@ -54,7 +62,8 @@ class MainActivity : ComponentActivity() {
     private lateinit var makeJyakaeViewModelFactory: MakeJyakaeViewModelFactory
     private lateinit var apiService: ApiService
     private lateinit var retrofit: Retrofit
-
+    private var rewardedAd: RewardedAd? = null
+    private final var TAG = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retrofit=ApiConfig.getInstance()
@@ -70,6 +79,30 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         val isFirst= beforeLoginViewModel.getPreferenceData(SharedPreferenceDataKeys.IS_LOGIN_KEY,"false")
 
+        val adRequest = AdRequest.Builder().build()
+        RewardedAd.load(this,"ca-app-pub-1036203527902832/3427992892",adRequest,object:RewardedAdLoadCallback(){
+
+            override fun onAdLoaded(ad: RewardedAd) {
+                Log.d(TAG, "Ad was loaded.")
+                rewardedAd = ad
+            }
+
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                adError.toString().let { Log.d(TAG, it) }
+                rewardedAd = null
+            }
+        })
+
+        rewardedAd?.let { ad ->
+            ad.show(this, OnUserEarnedRewardListener { rewardItem ->
+                // Handle the reward.
+                val rewardAmount = rewardItem.amount
+                val rewardType = rewardItem.type
+                Log.d(TAG, "User earned the reward.")
+            })
+        } ?: run {
+            Log.d(TAG, "The rewarded ad wasn't ready yet.")
+        }
 
         setContent {
             AijyakaeTheme {
@@ -77,7 +110,8 @@ class MainActivity : ComponentActivity() {
                     AijyakaeNavHost(
                         startDestination = ScreenInfo.BeforeLogin,
                         beforeLoginViewModel = beforeLoginViewModel,
-                        makeJyakaeViewModel = makeJyakaeViewModel
+                        makeJyakaeViewModel = makeJyakaeViewModel,
+
                     )
                 }
                 else{
@@ -90,5 +124,9 @@ class MainActivity : ComponentActivity() {
 
             }
         }
+
+
+
     }
+
 }
