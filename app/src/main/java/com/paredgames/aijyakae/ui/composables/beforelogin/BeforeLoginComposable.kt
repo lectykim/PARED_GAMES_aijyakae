@@ -339,7 +339,7 @@ fun FinalResultImage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            onClick = { /*TODO: 다운로드 기능 구현*/ },
+            onClick = { beforeLoginViewModel.downloadImage(response.output[0],response.id) },
             modifier = Modifier
                 .size(width = 480.dp, height = 80.dp),
             contentPadding = PaddingValues(0.dp),

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.util.Log
 import androidx.annotation.StyleRes
 import androidx.core.app.ActivityCompat
@@ -17,7 +18,8 @@ import retrofit2.Response
 
 class BeforeLoginRepository(
     private val apiService: ApiService,
-    private val context:Context
+    private val context:Context,
+    private val imageDownloadManager: ImageDownloadManager
 ){
 
     private var sharedPreferences: SharedPreferences =
@@ -49,5 +51,7 @@ class BeforeLoginRepository(
         return sharedPreferences.getString(key,defaultValue)?:defaultValue
     }
 
-
+    fun downloadImage(uri:String,title:String){
+        imageDownloadManager.downloadImage(Uri.parse(uri),title)
+    }
 }

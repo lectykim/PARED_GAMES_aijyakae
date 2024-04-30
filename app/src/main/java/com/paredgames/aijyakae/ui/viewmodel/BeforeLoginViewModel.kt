@@ -1,5 +1,6 @@
 package com.paredgames.aijyakae.ui.viewmodel
 
+import android.os.Environment
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,6 +39,8 @@ class BeforeLoginViewModel(
     private val _response = MutableStateFlow(TextTwoImageResponseDTO())
     private val _isFinal = MutableStateFlow(false)
 
+
+
     val beforeLoginContent: StateFlow<BeforeLoginContent> = _beforeLoginContent.asStateFlow()
     val loading:StateFlow<Boolean> = _loading.asStateFlow()
     val response:StateFlow<TextTwoImageResponseDTO> = _response.asStateFlow()
@@ -51,7 +54,6 @@ class BeforeLoginViewModel(
                 val dto =withContext(Dispatchers.Default){
                      beforeLoginRepository.getTextTwoImg(_beforeLoginContent)
                 }
-                //5초 지연
                 delay(5000)
                 if(dto!=null){
                     _response.value=dto
@@ -79,6 +81,10 @@ class BeforeLoginViewModel(
 
     fun setPreferenceData(key:String,value:String){
         beforeLoginRepository.saveData(key,value)
+    }
+
+    fun downloadImage(uri:String,title:String){
+        beforeLoginRepository.downloadImage(uri,title)
     }
 
 
