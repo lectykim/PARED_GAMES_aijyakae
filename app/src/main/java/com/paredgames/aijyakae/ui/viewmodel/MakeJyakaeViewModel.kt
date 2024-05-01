@@ -61,4 +61,16 @@ class MakeJyakaeViewModel(
         }
     }
 
+    fun getPreferenceData(key:String,defaultValue:String):String{
+        return makeJyakaeRepository.getData(key,defaultValue)
+    }
+
+    fun setPreferenceData(key:String,value:String){
+        makeJyakaeRepository.saveData(key,value)
+    }
+
+
+    /*fun downloadImage(uri:String,title:String){
+        beforeLoginRepository.downloadImage(uri,title)
+    }*/
 }

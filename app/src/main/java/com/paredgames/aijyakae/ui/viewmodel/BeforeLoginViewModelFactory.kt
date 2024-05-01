@@ -2,7 +2,6 @@ package com.paredgames.aijyakae.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.paredgames.aijyakae.data.api.ApiService
 import com.paredgames.aijyakae.data.repository.BeforeLoginRepository
 
 class BeforeLoginViewModelFactory(

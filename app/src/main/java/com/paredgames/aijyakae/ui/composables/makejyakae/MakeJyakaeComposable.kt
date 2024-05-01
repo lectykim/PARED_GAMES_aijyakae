@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.util.FontData
+import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
 import com.paredgames.aijyakae.ui.composables.makejyakae.textfield.CustomTextField
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
@@ -63,7 +64,7 @@ import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
         val loading by makeJyakaeViewModel.loading.collectAsState()
 
         var promptString by rememberSaveable {
-            mutableStateOf("")
+            mutableStateOf(makeJyakaeViewModel.getPreferenceData(SharedPreferenceDataKeys.LAST_MODIFIED_STR_KEY,""))
         }
 
         if(isFinal){

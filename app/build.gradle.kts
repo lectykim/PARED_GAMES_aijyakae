@@ -10,7 +10,7 @@ val properties = File(rootDir,"local.properties").inputStream().use {
     Properties().apply { load(it) }
 }
 val stableDiffusionApiKey = properties.getValue("STABLE_DIFFUSION_API_KEY") as String
-
+val adUnitId = properties.getValue("AD_UNIT_ID") as String
 android {
     namespace = "com.paredgames.aijyakae"
     compileSdk = 34
@@ -23,6 +23,7 @@ android {
         versionName = "1.0"
 
         buildConfigField("String","STABLE_DIFFUSION_API_KEY", "\"$stableDiffusionApiKey\"")
+        buildConfigField("String","AD_UNIT_ID", "\"$adUnitId\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

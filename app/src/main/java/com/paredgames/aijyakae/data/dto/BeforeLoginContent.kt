@@ -16,7 +16,7 @@ data class BeforeLoginContent(
             drawStyle!=BeforeLoginDrawStyle.None;
     }
 
-    private fun getPrompt():String{
+    fun getPrompt():String{
 
         return StringBuilder()
             .append(sex.stringValue)

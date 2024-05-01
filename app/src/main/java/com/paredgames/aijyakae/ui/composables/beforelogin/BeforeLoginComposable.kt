@@ -290,8 +290,9 @@ import com.skydoves.landscapist.glide.GlideImage
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if(!loading){
-                NextButton(onClick = { beforeLoginViewModel.getStableDiffusion();
-                                     beforeLoginViewModel.setPreferenceData(SharedPreferenceDataKeys.IS_LOGIN_KEY,"true")},
+                NextButton(onClick = { beforeLoginViewModel.getStableDiffusion()
+                                     beforeLoginViewModel.setPreferenceData(SharedPreferenceDataKeys.IS_LOGIN_KEY,"true")
+                                     beforeLoginViewModel.setPreferenceData(SharedPreferenceDataKeys.LAST_MODIFIED_STR_KEY,beforeLoginViewModel.beforeLoginContent.value.getPrompt())},
                     buttonText = R.string.go_result_page)
             }
 

@@ -1,15 +1,11 @@
 package com.paredgames.aijyakae.data.repository
 
-import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.util.Log
-import androidx.annotation.StyleRes
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.paredgames.aijyakae.data.api.ApiService
+import com.paredgames.aijyakae.data.api.DeepLApiService
+import com.paredgames.aijyakae.data.api.ModelsLabApiService
 import com.paredgames.aijyakae.data.dto.BeforeLoginContent
 import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
@@ -17,17 +13,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.Response
 
 class BeforeLoginRepository(
-    private val apiService: ApiService,
+    private val modelsLabApiService: ModelsLabApiService,
+    private val deepLApiService: DeepLApiService,
     private val context:Context,
     private val imageDownloadManager: ImageDownloadManager
 ){
 
     private var sharedPreferences: SharedPreferences =
-        context.getSharedPreferences(SharedPreferenceDataKeys.SHARED_KEY,Context.MODE_PRIVATE)
+        context.getSharedPreferences(SharedPreferenceDataKeys.SHARED_KEY_BEFORE_LOGIN,Context.MODE_PRIVATE)
 
     suspend fun getTextTwoImg(beforeLoginContent: MutableStateFlow<BeforeLoginContent>):TextTwoImageResponseDTO?{
         val textTwoImageRequestDTO = beforeLoginContent.value.toDto()
-        val response: Response<TextTwoImageResponseDTO> =apiService.textTwoImg(textTwoImageRequestDTO)
+        val response: Response<TextTwoImageResponseDTO> =modelsLabApiService.textTwoImg(textTwoImageRequestDTO)
 
         if(response.isSuccessful){
             val responseData = response.body();

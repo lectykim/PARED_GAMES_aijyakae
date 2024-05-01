@@ -6,7 +6,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface ApiService {
+interface ModelsLabApiService {
 
 
     @POST("/api/v3/text2img")

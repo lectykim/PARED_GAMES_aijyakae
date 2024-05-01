@@ -5,7 +5,7 @@ enum class BeforeLoginDrawStyle(
 ) {
     ThreeDimension("3D"),
     TwoDimension("2D"),
-    Anime("Japan 2D Animation"),
-    Real("Reality"),
+    Anime("일본 2D 애니메이션"),
+    Real("실제"),
     None(" ")
 }

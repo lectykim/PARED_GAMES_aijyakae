@@ -8,7 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.android.gms.ads.rewarded.RewardedAd
 import com.paredgames.aijyakae.data.util.ScreenInfo
 import com.paredgames.aijyakae.ui.composables.beforelogin.StartScreenBeforeLogin
 import com.paredgames.aijyakae.ui.composables.makejyakae.StartScreenMakeJyakae

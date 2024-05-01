@@ -3,7 +3,8 @@ package com.paredgames.aijyakae.data.repository
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import com.paredgames.aijyakae.data.api.ApiService
+import com.paredgames.aijyakae.data.api.DeepLApiService
+import com.paredgames.aijyakae.data.api.ModelsLabApiService
 import com.paredgames.aijyakae.data.dto.MakeJyakaeContent
 import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
@@ -11,18 +12,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.Response
 
 class MakeJyakaeRepository (
-    private val apiService: ApiService,
+    private val modelsLabApiService: ModelsLabApiService,
+    private val deepLApiService: DeepLApiService,
     context:Context
 ) {
     private var sharedPreferences: SharedPreferences
 
     init{
-        sharedPreferences=context.getSharedPreferences(SharedPreferenceDataKeys.SHARED_KEY,Context.MODE_PRIVATE)
+        sharedPreferences=context.getSharedPreferences(SharedPreferenceDataKeys.SHARED_KEY_BEFORE_LOGIN,Context.MODE_PRIVATE)
     }
 
     suspend fun getTextTwoImg(makeJyakaeContent: MutableStateFlow<MakeJyakaeContent>):TextTwoImageResponseDTO?{
         val textTwoImageResponseDTO=makeJyakaeContent.value.toDto()
-        val response:Response<TextTwoImageResponseDTO> = apiService.textTwoImg(textTwoImageResponseDTO)
+        val response:Response<TextTwoImageResponseDTO> = modelsLabApiService.textTwoImg(textTwoImageResponseDTO)
 
         if(response.isSuccessful){
             val responseData = response.body();
