@@ -19,4 +19,6 @@
     <string name="draw_size_ld">전신</string>
     <string name="draw_size_half">반신</string>
     <string name="draw_size_face">두상</string>
+    <string name="makejyakae_final_result_page">당신이 만든 자캐입니다!</string>
+    <string name="re_make">다시 만들기</string>
 </resources>

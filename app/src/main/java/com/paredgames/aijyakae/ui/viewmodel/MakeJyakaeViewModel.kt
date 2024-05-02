@@ -70,7 +70,11 @@ class MakeJyakaeViewModel(
     }
 
 
-    /*fun downloadImage(uri:String,title:String){
-        beforeLoginRepository.downloadImage(uri,title)
-    }*/
+    fun downloadImage(uri:String,title:String){
+        makeJyakaeRepository.downloadImage(uri,title)
+    }
+
+    fun setInitialState(){
+        _isFinal.value=false
+    }
 }

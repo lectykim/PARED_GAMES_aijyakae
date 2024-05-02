@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -26,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -35,17 +38,16 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.util.FontData
+import com.paredgames.aijyakae.data.util.ScreenInfo
 import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
+import com.paredgames.aijyakae.ui.composables.beforelogin.title.TitleText
 import com.paredgames.aijyakae.ui.composables.makejyakae.textfield.CustomTextField
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
+import com.skydoves.landscapist.glide.GlideImage
 
 
-
-
-
-
-    @Composable
+@Composable
     fun StartScreenMakeJyakae(
         makeJyakaeViewModel: MakeJyakaeViewModel
     ) {
@@ -68,7 +70,7 @@ import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
         }
 
         if(isFinal){
-
+            FinalResultImage(modifier = modifier, makeJyakaeViewModel = makeJyakaeViewModel)
         }else{
             Column(
                 modifier = modifier
@@ -124,7 +126,11 @@ import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
             ) {
                 if(!loading){
                     Button(
-                        onClick = { /* TODO: 광고 넣기 */ },
+                        onClick = {
+                                    /* TODO: 광고 넣기 */
+                                    makeJyakaeContent.prompt=promptString
+                                    makeJyakaeViewModel.getStableDiffusion()
+                                  },
                         modifier = Modifier
                             .size(width = 480.dp, height = 80.dp),
                         contentPadding = PaddingValues(0.dp),
@@ -150,3 +156,84 @@ import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
 
 
     }
+
+@Composable
+fun FinalResultImage(
+    modifier: Modifier,
+    makeJyakaeViewModel: MakeJyakaeViewModel
+) {
+    val response by makeJyakaeViewModel.response.collectAsState()
+    Column (
+        modifier= modifier
+            .fillMaxWidth()
+            .padding(32.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        TitleText(titleText = R.string.makejyakae_final_result_page)
+        GlideImage(imageModel = { response.output[0] },
+            modifier= modifier
+                .width(250.dp)
+                .height(250.dp),
+            previewPlaceholder = painterResource(id = R.drawable.placeholder)
+        )
+    }
+    Column (
+        modifier= modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Button(onClick = { makeJyakaeViewModel.downloadImage(response.output[0],response.id)},
+            modifier=Modifier
+                .size(width = 480.dp, height = 80.dp),
+            contentPadding = PaddingValues(0.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(id = R.color.warm_button_orange),
+                contentColor = Color.White,
+                disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
+                disabledContentColor = Color.White
+            )
+        ){
+            Icon(
+                painter = painterResource(id = R.drawable.icon_download),
+                contentDescription = "다운로드",
+                modifier=modifier
+                    .size(width = 50.dp, height = 50.dp)
+            )
+            Text(
+                text = "저장하기",
+                fontFamily = FontData.maruboriFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 30.sp,
+                letterSpacing = 2.sp
+            )
+        }
+        Spacer(modifier = Modifier
+            .padding(20.dp)
+        )
+        Button(
+            onClick = { makeJyakaeViewModel.setInitialState()
+                      makeJyakaeViewModel.setPreferenceData(SharedPreferenceDataKeys.LAST_MODIFIED_STR_KEY,makeJyakaeViewModel.makeJyakaeContent.value.prompt)},
+            modifier = Modifier
+                .size(width = 480.dp, height = 80.dp),
+            contentPadding = PaddingValues(0.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(id = R.color.warm_button_orange),
+                contentColor = Color.White,
+                disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
+                disabledContentColor = Color.White
+            )
+        ) {
+            Text(
+                text = stringResource(id = R.string.re_make),
+                fontFamily = FontData.maruboriFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 30.sp,
+                letterSpacing = 2.sp
+            )
+        }
+    }
+}

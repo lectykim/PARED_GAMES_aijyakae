@@ -2,6 +2,7 @@ package com.paredgames.aijyakae.data.repository
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
 import android.util.Log
 import com.paredgames.aijyakae.BuildConfig
 import com.paredgames.aijyakae.data.api.DeepLApiService
@@ -17,7 +18,8 @@ import retrofit2.Response
 class MakeJyakaeRepository (
     private val modelsLabApiService: ModelsLabApiService,
     private val deepLApiService: DeepLApiService,
-    context:Context
+    context:Context,
+    private val imageDownloadManager: ImageDownloadManager
 ) {
     private var sharedPreferences: SharedPreferences
 
@@ -30,6 +32,7 @@ class MakeJyakaeRepository (
         val promptResponse=translatePrompt(textTwoImageRequestDTO.prompt)
         val prompt=promptResponse?.translations?.text
         if (prompt != null) {
+            Log.d("DeepL Api Response",prompt)
             textTwoImageRequestDTO.prompt=prompt
         }
         val response: Response<TextTwoImageResponseDTO> =modelsLabApiService.textTwoImg(BuildConfig.DEEPL_AUTH_KEY,textTwoImageRequestDTO)
@@ -69,6 +72,10 @@ class MakeJyakaeRepository (
 
     fun getData(key:String,defaultValue:String):String{
         return sharedPreferences.getString(key,defaultValue)?:defaultValue
+    }
+
+    fun downloadImage(uri:String,title:String){
+        imageDownloadManager.downloadImage(Uri.parse(uri),title)
     }
 
 }
