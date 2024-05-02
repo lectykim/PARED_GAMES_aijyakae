@@ -11,6 +11,7 @@ val properties = File(rootDir,"local.properties").inputStream().use {
 }
 val stableDiffusionApiKey = properties.getValue("STABLE_DIFFUSION_API_KEY") as String
 val adUnitId = properties.getValue("AD_UNIT_ID") as String
+val deepLAuthKey = properties.getValue("DEEPL_AUTH_KEY") as String
 android {
     namespace = "com.paredgames.aijyakae"
     compileSdk = 34
@@ -24,6 +25,7 @@ android {
 
         buildConfigField("String","STABLE_DIFFUSION_API_KEY", "\"$stableDiffusionApiKey\"")
         buildConfigField("String","AD_UNIT_ID", "\"$adUnitId\"")
+        buildConfigField("String","DEEPL_AUTH_KEY","\"$deepLAuthKey\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
