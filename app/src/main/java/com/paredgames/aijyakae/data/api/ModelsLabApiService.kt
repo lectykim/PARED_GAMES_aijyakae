@@ -12,7 +12,6 @@ interface ModelsLabApiService {
 
     @POST("/api/v3/text2img")
     suspend fun textTwoImg(
-        @Header("Authorization") deepLAuthKey:String,
         @Body textTwoImageRequestDTO: TextTwoImageRequestDTO
     ):Response<TextTwoImageResponseDTO>
 

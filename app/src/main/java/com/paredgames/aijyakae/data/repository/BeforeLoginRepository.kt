@@ -28,12 +28,12 @@ class BeforeLoginRepository(
     suspend fun getTextTwoImg(beforeLoginContent: MutableStateFlow<BeforeLoginContent>):TextTwoImageResponseDTO?{
         val textTwoImageRequestDTO = beforeLoginContent.value.toDto()
         val promptResponse=translatePrompt(textTwoImageRequestDTO.prompt)
-        val prompt=promptResponse?.translations?.text
+        val prompt= promptResponse?.translations?.get(0)
         if (prompt != null) {
-            Log.d("DeepL Api Response",prompt)
-            textTwoImageRequestDTO.prompt=prompt
+            Log.d("DeepL Api Response", prompt.text)
+            textTwoImageRequestDTO.prompt=prompt.text
         }
-        val response: Response<TextTwoImageResponseDTO> =modelsLabApiService.textTwoImg(BuildConfig.DEEPL_AUTH_KEY,textTwoImageRequestDTO)
+        val response: Response<TextTwoImageResponseDTO> =modelsLabApiService.textTwoImg(textTwoImageRequestDTO)
 
         if(response.isSuccessful){
             val responseData = response.body();
@@ -49,8 +49,8 @@ class BeforeLoginRepository(
 
     private suspend fun translatePrompt(prompt:String):TranslateResponseDTO?{
         val translateRequestDTO = TranslateRequestDTO()
-        translateRequestDTO.text=prompt
-        val response:Response<TranslateResponseDTO> = deepLApiService.translate(translateRequestDTO)
+        translateRequestDTO.text= arrayOf(prompt)
+        val response:Response<TranslateResponseDTO> = deepLApiService.translate("DeepL-Auth-Key "+BuildConfig.DEEPL_AUTH_KEY,"application/json",translateRequestDTO)
 
         if(response.isSuccessful){
             val responseData = response.body();

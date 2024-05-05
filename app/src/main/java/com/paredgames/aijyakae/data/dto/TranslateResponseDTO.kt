@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 class TranslateResponseDTO {
     @SerializedName("translations")
-    lateinit var translations: TranslationsDTO
+    lateinit var translations: List<TranslationsDTO>
 }
 

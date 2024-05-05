@@ -4,11 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 class TranslateRequestDTO {
     @SerializedName("text")
-    lateinit var text:String
+    lateinit var text:Array<String>
 
     @SerializedName("target_lang")
     val targetLang="EN-US"
-
-    @SerializedName("source_lang")
-    val sourceLang="KO"
 }
