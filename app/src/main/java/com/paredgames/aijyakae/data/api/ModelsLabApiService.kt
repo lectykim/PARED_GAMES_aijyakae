@@ -10,7 +10,7 @@ import retrofit2.http.POST
 interface ModelsLabApiService {
 
 
-    @POST("/api/v3/text2img")
+    @POST("/api/v6/images/text2img")
     suspend fun textTwoImg(
         @Body textTwoImageRequestDTO: TextTwoImageRequestDTO
     ):Response<TextTwoImageResponseDTO>

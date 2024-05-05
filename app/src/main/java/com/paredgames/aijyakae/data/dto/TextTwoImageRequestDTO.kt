@@ -8,6 +8,10 @@ class TextTwoImageRequestDTO {
     val key:String = BuildConfig.STABLE_DIFFUSION_API_KEY
     @SerializedName("prompt")
     lateinit var prompt:String
+
+    @SerializedName("model_id")
+    val modelId:String="anything-v3"
+
     @SerializedName("negetive_prompt")
     lateinit var negativePrompt:String
     @SerializedName("width")
@@ -22,6 +26,8 @@ class TextTwoImageRequestDTO {
     val safetyChecker:String = "no"
     @SerializedName("enhance_prompt")
     val enhancePrompt:String="yes"
+    @SerializedName("enhance_style")
+    val enhanceStyle:String="anime"
     @SerializedName("temp")
     val temp:String ="yes"
     @SerializedName("seed")
