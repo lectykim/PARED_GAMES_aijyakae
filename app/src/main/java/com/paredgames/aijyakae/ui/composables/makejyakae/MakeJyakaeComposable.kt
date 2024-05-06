@@ -1,5 +1,6 @@
 package com.paredgames.aijyakae.ui.composables.makejyakae
 
+
 import android.widget.EditText
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.paredgames.aijyakae.BuildConfig
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.util.FontData
 import com.paredgames.aijyakae.data.util.ScreenInfo
@@ -127,7 +131,8 @@ import com.skydoves.landscapist.glide.GlideImage
                 if(!loading){
                     Button(
                         onClick = {
-                                    /* TODO: 광고 넣기 */
+
+                                    makeJyakaeViewModel.addAd()
                                     makeJyakaeContent.prompt=promptString
                                     makeJyakaeViewModel.getStableDiffusion()
                                   },

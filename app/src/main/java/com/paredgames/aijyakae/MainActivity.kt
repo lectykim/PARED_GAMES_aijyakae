@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
         ))
         beforeLoginViewModel = ViewModelProvider(this,beforeLoginViewModelFactory)[BeforeLoginViewModel::class.java]
         makeJyakaeViewModelFactory = MakeJyakaeViewModelFactory(MakeJyakaeRepository(modelsLabApiService,deepLApiService,this,
-            ImageDownloadManager(this)))
+            ImageDownloadManager(this),this))
         makeJyakaeViewModel = ViewModelProvider(this,makeJyakaeViewModelFactory)[MakeJyakaeViewModel::class.java]
 
 

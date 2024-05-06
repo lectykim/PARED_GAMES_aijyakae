@@ -77,4 +77,8 @@ class MakeJyakaeViewModel(
     fun setInitialState(){
         _isFinal.value=false
     }
+
+    fun addAd(){
+        makeJyakaeRepository.addAd()
+    }
 }
