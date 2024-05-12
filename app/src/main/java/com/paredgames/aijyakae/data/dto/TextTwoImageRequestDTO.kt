@@ -10,7 +10,7 @@ class TextTwoImageRequestDTO {
     lateinit var prompt:String
 
     @SerializedName("model_id")
-    val modelId:String="anything-v3"
+    val modelId:String="anything-v5"
 
     @SerializedName("negetive_prompt")
     lateinit var negativePrompt:String
@@ -23,7 +23,7 @@ class TextTwoImageRequestDTO {
     @SerializedName("num_inference_steps")
     val inferenceSteps:Int=20
     @SerializedName("safety_checker")
-    val safetyChecker:String = "no"
+    val safetyChecker:String = "yes"
     @SerializedName("enhance_prompt")
     val enhancePrompt:String="yes"
     @SerializedName("enhance_style")

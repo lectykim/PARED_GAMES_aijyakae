@@ -36,8 +36,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.paredgames.aijyakae.BuildConfig
 import com.paredgames.aijyakae.R
@@ -73,6 +76,8 @@ import com.skydoves.landscapist.glide.GlideImage
             mutableStateOf(makeJyakaeViewModel.getPreferenceData(SharedPreferenceDataKeys.LAST_MODIFIED_STR_KEY,""))
         }
 
+
+
         if(isFinal){
             FinalResultImage(modifier = modifier, makeJyakaeViewModel = makeJyakaeViewModel)
         }else{
@@ -83,6 +88,7 @@ import com.skydoves.landscapist.glide.GlideImage
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
                 Text(
                     text = "이제 나만의 자캐를 만들어 보세요!",
                     fontFamily = FontData.maruboriFontFamily,
@@ -92,7 +98,7 @@ import com.skydoves.landscapist.glide.GlideImage
                     textAlign = TextAlign.Center,
                     lineHeight = 30.sp
                 )
-
+                BannerAds()
                 if(!loading){
                     CustomTextField(
                         onValueChange = {promptString=it},
@@ -175,7 +181,9 @@ fun FinalResultImage(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
+
         TitleText(titleText = R.string.makejyakae_final_result_page)
+        BannerAds()
         GlideImage(imageModel = { response.output[0] },
             modifier= modifier
                 .width(250.dp)
@@ -241,4 +249,16 @@ fun FinalResultImage(
             )
         }
     }
+}
+
+@Composable
+fun BannerAds(){
+
+    AndroidView(modifier = Modifier.fillMaxWidth(), factory = {context->AdView(context).apply {
+        setAdSize(AdSize.BANNER)
+        adUnitId=BuildConfig.AD_UNIT_ID_BANNER
+        loadAd(AdRequest.Builder().build())
+            }
+        }
+    )
 }
