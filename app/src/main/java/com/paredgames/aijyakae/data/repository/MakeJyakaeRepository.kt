@@ -43,8 +43,6 @@ class MakeJyakaeRepository (
             if (prompt != null) {
                 Log.d("DeepL Api Response",prompt.text)
                 textTwoImageRequestDTO.prompt=prompt.text
-                //negetive prompt에 nsfw를 유도할만한 부분을 하드코딩
-                textTwoImageRequestDTO.negativePrompt="nsfw, hentai"
             }
         }
 

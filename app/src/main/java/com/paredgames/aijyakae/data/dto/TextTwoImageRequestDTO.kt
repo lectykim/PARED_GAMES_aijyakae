@@ -12,22 +12,22 @@ class TextTwoImageRequestDTO {
     @SerializedName("model_id")
     val modelId:String="anything-v5"
 
-    @SerializedName("negetive_prompt")
-    lateinit var negativePrompt:String
+    @SerializedName("negative_prompt")
+    val negativePrompt:String="(((nsfw))),(((big breast)))"
     @SerializedName("width")
-    val width:Int=512
+    val width:Int=1024
     @SerializedName("height")
-    val height:Int=512
+    val height:Int=1024
     @SerializedName("samples")
     val samples:Int=1
     @SerializedName("num_inference_steps")
-    val inferenceSteps:Int=20
+    val inferenceSteps:Int=41
     @SerializedName("safety_checker")
-    val safetyChecker:String = "yes"
+    val safetyChecker:String = "no"
     @SerializedName("enhance_prompt")
     val enhancePrompt:String="yes"
     @SerializedName("enhance_style")
-    val enhanceStyle:String="anime"
+    val enhanceStyle:String="photo-iphone-photographic"
     @SerializedName("temp")
     val temp:String ="yes"
     @SerializedName("seed")
@@ -38,5 +38,7 @@ class TextTwoImageRequestDTO {
     val webhook:String?=null
     @SerializedName("track_id")
     val trackId:String?=null
+    @SerializedName("base64")
+    val base64:String="yes"
 
 }

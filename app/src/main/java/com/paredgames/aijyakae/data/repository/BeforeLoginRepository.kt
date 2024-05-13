@@ -32,6 +32,7 @@ class BeforeLoginRepository(
         if (prompt != null) {
             Log.d("DeepL Api Response", prompt.text)
             textTwoImageRequestDTO.prompt=prompt.text
+
         }
         val response: Response<TextTwoImageResponseDTO> =modelsLabApiService.textTwoImg(textTwoImageRequestDTO)
 
