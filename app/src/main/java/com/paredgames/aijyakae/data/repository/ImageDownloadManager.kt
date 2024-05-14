@@ -10,41 +10,42 @@ import android.os.Environment
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.OutputStream
 
 class ImageDownloadManager (private val context:Context){
 
-    private val outputFile= Environment.getExternalStoragePublicDirectory(
-        Environment.DIRECTORY_DOWNLOADS + "/Aijyakae")
-
-    private var downloadManager:DownloadManager
-    private var downloadQueueId:Long = 0
-    private lateinit var file:File
-    private lateinit var dir:File
-    private val dirName = "Aijyakae"
-
-    init {
-        downloadManager= context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-
-        if (!outputFile.getParentFile()?.exists()!!) {
-            outputFile.getParentFile()?.mkdirs();
-        }
-
-
-    }
-
     fun downloadImage(bitmap: Bitmap,title:String) {
+        val rootPath:String =Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES
+        ).toString()
 
-        // DownloadManager.Request을 설정하여 DownloadManager Queue에 등록하게 되면 큐에 들어간 순서대로 다운로드가 처리된다.
-        // DownloadManager.Request : Request 객체를 생성하며 인자로 다운로드할 파일의 URI를 전달한다
-        val filePath:String = "$outputFile/$title.jpg"
-        val fos:FileOutputStream
+        val dirName = "/"+"Aijyakae"
+        val fileName = "$title.jpg"
+        val savePath = File(rootPath+dirName)
+        savePath.mkdirs()
+
+        val file = File(savePath,fileName)
+
         try{
-            fos = FileOutputStream(filePath)
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos)
-            fos.close()
-        } catch (e:IOException){
+            val out = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,out)
+            out.flush()
+            out.close()
+
+            context.sendBroadcast(
+                Intent(
+                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                    Uri.parse("file://" + Environment.getExternalStorageDirectory())
+                )
+            )
+
+        }catch (e:Exception){
             e.printStackTrace()
         }
+
+
+
+
     }
 
 

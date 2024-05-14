@@ -16,7 +16,6 @@ data class MakeJyakaeContent(
     fun toDto():TextTwoImageRequestDTO{
         val textTwoImageRequestDTO=TextTwoImageRequestDTO()
         textTwoImageRequestDTO.prompt=prompt
-        textTwoImageRequestDTO.negativePrompt=negativePrompt
         return textTwoImageRequestDTO
     }
 }

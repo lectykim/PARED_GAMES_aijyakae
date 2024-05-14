@@ -62,7 +62,6 @@ class MakeJyakaeRepository (
         if(response.isSuccessful){
             val responseData = response.body();
             Log.d("API Response status",responseData!!.status)
-
             var base64Array=getImgForUrl(responseData.output[0])
             //var base64Array=getImgForUrl("https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/temp/0-f027df53-b749-415f-bd18-41f37070b72e.base64")
             //var base64Array=getImgForUrl("")
