@@ -4,9 +4,12 @@ import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class ImageDownloadManager (private val context:Context){
 
@@ -29,23 +32,19 @@ class ImageDownloadManager (private val context:Context){
 
     }
 
-    fun downloadImage(url:Uri,title:String) {
+    fun downloadImage(bitmap: Bitmap,title:String) {
 
         // DownloadManager.Request을 설정하여 DownloadManager Queue에 등록하게 되면 큐에 들어간 순서대로 다운로드가 처리된다.
         // DownloadManager.Request : Request 객체를 생성하며 인자로 다운로드할 파일의 URI를 전달한다
-        val downloadRequest: DownloadManager.Request = DownloadManager.Request(url)
-        val pathSegmentList: List<String> = url.pathSegments
-
-        downloadRequest.setTitle(title)
-        downloadRequest.setDescription("Jyakae Image")
-
-        downloadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-        
-
-        downloadRequest.setDestinationUri(Uri.fromFile(outputFile))
-
-
-        downloadQueueId = downloadManager.enqueue(downloadRequest)
+        val filePath:String = "$outputFile/$title.jpg"
+        val fos:FileOutputStream
+        try{
+            fos = FileOutputStream(filePath)
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos)
+            fos.close()
+        } catch (e:IOException){
+            e.printStackTrace()
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package com.paredgames.aijyakae.ui.viewmodel
 
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -68,8 +69,8 @@ class MakeJyakaeViewModel(
     }
 
 
-    fun downloadImage(uri:String,title:String){
-        makeJyakaeRepository.downloadImage(uri,title)
+    fun downloadImage(bitmap: Bitmap,title:String){
+        makeJyakaeRepository.downloadImage(bitmap,title)
     }
 
     fun setInitialState(){

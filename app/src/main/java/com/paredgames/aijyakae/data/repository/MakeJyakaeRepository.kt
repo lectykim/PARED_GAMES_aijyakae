@@ -21,6 +21,7 @@ import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import com.paredgames.aijyakae.data.dto.TranslateRequestDTO
 import com.paredgames.aijyakae.data.dto.TranslateResponseDTO
 import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking
 import okhttp3.Call
@@ -60,6 +61,7 @@ class MakeJyakaeRepository (
         if(response.isSuccessful){
             val responseData = response.body();
             Log.d("API Response",responseData.toString())
+            delay(5000)
             var base64Array=getImgForUrl(responseData!!.output[0])
             Log.d("Base64 Img",base64Array.toString())
             base64Array = Base64.decode(base64Array,Base64.DEFAULT)
@@ -115,8 +117,8 @@ class MakeJyakaeRepository (
         return sharedPreferences.getString(key,defaultValue)?:defaultValue
     }
 
-    fun downloadImage(uri:String,title:String){
-        imageDownloadManager.downloadImage(Uri.parse(uri),title)
+    fun downloadImage(bitmap: Bitmap,title:String){
+        imageDownloadManager.downloadImage(bitmap,title)
     }
 
     fun addAd(){

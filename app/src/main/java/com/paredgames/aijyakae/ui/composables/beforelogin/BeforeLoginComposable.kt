@@ -63,8 +63,9 @@ import com.paredgames.aijyakae.ui.composables.beforelogin.title.TitleText
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
 import com.skydoves.landscapist.glide.GlideImage
+import com.skydoves.landscapist.glide.GlideRequestType
 
-    @Composable
+@Composable
     fun StartScreenBeforeLogin(
         beforeLoginViewModel: BeforeLoginViewModel= viewModel(),
         navController: NavController
@@ -324,7 +325,8 @@ fun FinalResultImage(
             placeHolder = ImageBitmap.imageResource(R.drawable.placeholder),
             modifier = modifier.width(250.dp).height(250.dp)
         )*/
-        GlideImage(imageModel = { response.output[0] },
+        GlideImage(imageModel = { response.base64Img },
+            glideRequestType = GlideRequestType.BITMAP,
             modifier = modifier
                 .width(250.dp)
                 .height(250.dp),
@@ -340,7 +342,7 @@ fun FinalResultImage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            onClick = { beforeLoginViewModel.downloadImage(response.output[0],response.id) },
+            onClick = { beforeLoginViewModel.downloadImage(response.base64Img,response.id) },
             modifier = Modifier
                 .size(width = 480.dp, height = 80.dp),
             contentPadding = PaddingValues(0.dp),

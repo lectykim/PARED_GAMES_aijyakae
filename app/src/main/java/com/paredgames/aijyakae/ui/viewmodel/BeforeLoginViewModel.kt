@@ -1,5 +1,6 @@
 package com.paredgames.aijyakae.ui.viewmodel
 
+import android.graphics.Bitmap
 import android.os.Environment
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -82,8 +83,8 @@ class BeforeLoginViewModel(
         beforeLoginRepository.saveData(key,value)
     }
 
-    fun downloadImage(uri:String,title:String){
-        beforeLoginRepository.downloadImage(uri,title)
+    fun downloadImage(bitmap:Bitmap,title:String){
+        beforeLoginRepository.downloadImage(bitmap,title)
     }
 
 

@@ -2,7 +2,10 @@ package com.paredgames.aijyakae.data.repository
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.util.Base64
 import android.util.Log
 import com.paredgames.aijyakae.BuildConfig
 import com.paredgames.aijyakae.data.api.DeepLApiService
@@ -12,8 +15,12 @@ import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import com.paredgames.aijyakae.data.dto.TranslateRequestDTO
 import com.paredgames.aijyakae.data.dto.TranslateResponseDTO
 import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Response
+import java.net.URL
 
 class BeforeLoginRepository(
     private val modelsLabApiService: ModelsLabApiService,
@@ -39,6 +46,17 @@ class BeforeLoginRepository(
         if(response.isSuccessful){
             val responseData = response.body();
             Log.d("API Response",responseData.toString())
+            delay(5000)
+            var base64Array=getImgForUrl(responseData!!.output[0])
+            Log.d("Base64 Img",base64Array.toString())
+            base64Array = Base64.decode(base64Array, Base64.DEFAULT)
+            val bitmap: Bitmap? = base64Array?.let {
+                BitmapFactory.decodeByteArray(base64Array,0,
+                    it.size )
+            }
+            if (bitmap != null) {
+                responseData.base64Img=bitmap
+            }
             return responseData
         }else{
             val errorMessage = response.errorBody()?.string()
@@ -48,6 +66,16 @@ class BeforeLoginRepository(
 
     }
 
+    private fun getImgForUrl(url:String): ByteArray? {
+
+        val url =  URL(url);
+        val okHttpClient = OkHttpClient()
+        val request = Request.Builder().url(url).build()
+
+        val response=okHttpClient.newCall(request).execute()
+
+        return response.body()!!.bytes()
+    }
     private suspend fun translatePrompt(prompt:String):TranslateResponseDTO?{
         val translateRequestDTO = TranslateRequestDTO()
         translateRequestDTO.text= arrayOf(prompt)
@@ -74,7 +102,7 @@ class BeforeLoginRepository(
         return sharedPreferences.getString(key,defaultValue)?:defaultValue
     }
 
-    fun downloadImage(uri:String,title:String){
-        imageDownloadManager.downloadImage(Uri.parse(uri),title)
+    fun downloadImage(bitmap: Bitmap,title:String){
+        imageDownloadManager.downloadImage(bitmap,title)
     }
 }

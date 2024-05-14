@@ -214,7 +214,7 @@ fun FinalResultImage(
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Button(onClick = { makeJyakaeViewModel.downloadImage(response.output[0],response.id)},
+        Button(onClick = { makeJyakaeViewModel.downloadImage(response.base64Img,response.id)},
             modifier=Modifier
                 .size(width = 480.dp, height = 80.dp),
             contentPadding = PaddingValues(0.dp),
