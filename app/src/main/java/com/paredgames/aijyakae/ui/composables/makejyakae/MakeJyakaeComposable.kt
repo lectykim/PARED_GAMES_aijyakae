@@ -1,6 +1,8 @@
 package com.paredgames.aijyakae.ui.composables.makejyakae
 
 
+import android.util.Base64
+import android.util.Log
 import android.widget.EditText
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -52,6 +54,16 @@ import com.paredgames.aijyakae.ui.composables.makejyakae.textfield.CustomTextFie
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
 import com.skydoves.landscapist.glide.GlideImage
+import com.skydoves.landscapist.glide.GlideRequestType
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import java.io.IOException
+import java.net.URL
 
 
 @Composable
@@ -174,6 +186,8 @@ fun FinalResultImage(
     makeJyakaeViewModel: MakeJyakaeViewModel
 ) {
     val response by makeJyakaeViewModel.response.collectAsState()
+
+
     Column (
         modifier= modifier
             .fillMaxWidth()
@@ -184,7 +198,8 @@ fun FinalResultImage(
 
         TitleText(titleText = R.string.makejyakae_final_result_page)
         BannerAds()
-        GlideImage(imageModel = { response.output[0] },
+        GlideImage(imageModel = { response.base64Img },
+            glideRequestType = GlideRequestType.BITMAP,
             modifier= modifier
                 .width(250.dp)
                 .height(250.dp),
@@ -250,6 +265,8 @@ fun FinalResultImage(
         }
     }
 }
+
+
 
 @Composable
 fun BannerAds(){

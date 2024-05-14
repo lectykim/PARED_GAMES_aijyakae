@@ -1,5 +1,6 @@
 package com.paredgames.aijyakae.data.dto
 
+import android.graphics.Bitmap
 import com.google.gson.annotations.SerializedName
 
 class TextTwoImageResponseDTO {
@@ -22,5 +23,7 @@ class TextTwoImageResponseDTO {
 
     @SerializedName("nsfw_content_detected")
     lateinit var nsfwContentDetected:String
+
+    lateinit var base64Img:Bitmap
 
 }

@@ -49,8 +49,6 @@ class MakeJyakaeViewModel(
             val dto = withContext(Dispatchers.Default){
                 makeJyakaeRepository.getTextTwoImg(_makeJyakaeContent)
             }
-            //5초 지연
-            delay(5000)
             if(dto!=null){
                 _response.value=dto
                 _loading.value=false

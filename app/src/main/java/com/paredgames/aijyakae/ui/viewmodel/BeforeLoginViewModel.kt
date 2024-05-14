@@ -54,7 +54,6 @@ class BeforeLoginViewModel(
                 val dto =withContext(Dispatchers.Default){
                      beforeLoginRepository.getTextTwoImg(_beforeLoginContent)
                 }
-                delay(5000)
                 if(dto!=null){
                     _response.value=dto
                     _loading.value=false

@@ -13,7 +13,7 @@ class TextTwoImageRequestDTO {
     val modelId:String="anything-v5"
 
     @SerializedName("negative_prompt")
-    val negativePrompt:String="(((nsfw))),(((big breast)))"
+    var negativePrompt:String="(((nsfw))),(((big breast)))"
     @SerializedName("width")
     val width:Int=1024
     @SerializedName("height")
