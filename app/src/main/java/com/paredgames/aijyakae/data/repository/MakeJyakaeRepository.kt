@@ -61,15 +61,17 @@ class MakeJyakaeRepository (
 
         if(response.isSuccessful){
             val responseData = response.body();
-            Log.d("API Response",responseData.toString())
+            Log.d("API Response status",responseData!!.status)
 
-            var base64Array=getImgForUrl(responseData!!.output[0])
+            var base64Array=getImgForUrl(responseData.output[0])
+            //var base64Array=getImgForUrl("https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/temp/0-f027df53-b749-415f-bd18-41f37070b72e.base64")
+            //var base64Array=getImgForUrl("")
             Log.d("Base64 Img",base64Array.toString())
             //cdn이 응답하지 않을 경우를 대처
             //하지만 만약, 초당 5request를 넘어서 응답하지 않는 것이라면?
             //이 부분의 응답은 processing일 것이며,
             //리팩토링 필요
-            base64Array = changeBase64Array(base64Array);
+            base64Array = changeBase64Array(base64Array,responseData.output[0]);
 
             if(base64Array==null){
                 Log.e("Image Load Error","because cdn response is null")
@@ -90,13 +92,15 @@ class MakeJyakaeRepository (
             return null
         }
     }
-    private suspend fun changeBase64Array(base64Array:ByteArray?):ByteArray?{
+    private suspend fun changeBase64Array(base64Array:ByteArray?,url:String):ByteArray?{
         var res:ByteArray? = null
+        var newBase64Array: ByteArray?;
         //10번 반복
-        for(i:Int in 1..10){
+        for(i:Int in 1..100){
             delay(2000L);
             try{
-                res = Base64.decode(base64Array,Base64.DEFAULT);
+                newBase64Array=getImgForUrl(url)
+                res = Base64.decode(newBase64Array,Base64.DEFAULT);
             } catch (e: IllegalArgumentException){
                 e.printStackTrace()
                 continue

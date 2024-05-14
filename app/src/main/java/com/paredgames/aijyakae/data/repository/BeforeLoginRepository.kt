@@ -51,7 +51,7 @@ class BeforeLoginRepository(
             var base64Array=getImgForUrl(responseData!!.output[0])
             Log.d("Base64 Img",base64Array.toString())
 
-            base64Array = changeBase64Array(base64Array);
+            base64Array = changeBase64Array(base64Array,responseData.output[0]);
 
             if(base64Array==null)
                 Log.e("Image Load Error","because cdn response is null")
@@ -72,14 +72,16 @@ class BeforeLoginRepository(
 
     }
 
-    private suspend fun changeBase64Array(base64Array:ByteArray?):ByteArray?{
+    private suspend fun changeBase64Array(base64Array:ByteArray?,url:String):ByteArray?{
         var res:ByteArray? = null
+        var newBase64Array: ByteArray?;
         //10번 반복
-        for(i:Int in 1..10){
+        for(i:Int in 1..100){
             delay(2000L);
             try{
-                res = Base64.decode(base64Array,Base64.DEFAULT);
-            } catch (e:IllegalArgumentException){
+                newBase64Array=getImgForUrl(url)
+                res = Base64.decode(newBase64Array,Base64.DEFAULT);
+            } catch (e: IllegalArgumentException){
                 e.printStackTrace()
                 continue
             }
