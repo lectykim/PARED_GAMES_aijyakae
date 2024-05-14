@@ -30,6 +30,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Response
 import java.io.IOException
+import java.lang.IllegalArgumentException
 import java.net.URL
 
 class MakeJyakaeRepository (
@@ -61,10 +62,20 @@ class MakeJyakaeRepository (
         if(response.isSuccessful){
             val responseData = response.body();
             Log.d("API Response",responseData.toString())
-            delay(5000)
+
             var base64Array=getImgForUrl(responseData!!.output[0])
             Log.d("Base64 Img",base64Array.toString())
-            base64Array = Base64.decode(base64Array,Base64.DEFAULT)
+            //cdn이 응답하지 않을 경우를 대처
+            //하지만 만약, 초당 5request를 넘어서 응답하지 않는 것이라면?
+            //이 부분의 응답은 processing일 것이며,
+            //리팩토링 필요
+            base64Array = changeBase64Array(base64Array);
+
+            if(base64Array==null){
+                Log.e("Image Load Error","because cdn response is null")
+            }
+
+
             val bitmap: Bitmap? = base64Array?.let {
                 BitmapFactory.decodeByteArray(base64Array,0,
                     it.size )
@@ -79,7 +90,21 @@ class MakeJyakaeRepository (
             return null
         }
     }
-
+    private suspend fun changeBase64Array(base64Array:ByteArray?):ByteArray?{
+        var res:ByteArray? = null
+        //10번 반복
+        for(i:Int in 1..10){
+            delay(2000L);
+            try{
+                res = Base64.decode(base64Array,Base64.DEFAULT);
+            } catch (e: IllegalArgumentException){
+                e.printStackTrace()
+                continue
+            }
+            return res;
+        }
+        return null
+    }
     private fun getImgForUrl(url:String): ByteArray? {
 
         val url =  URL(url);
