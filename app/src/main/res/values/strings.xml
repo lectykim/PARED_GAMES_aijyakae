@@ -28,4 +28,7 @@
     <string name="text_pastel_1">파스텔1</string>
     <string name="text_pastel_2">파스텔2</string>
     <string name="text_cute">귀여운</string>
+    <string name="one_by_one">1:1</string>
+    <string name="nine_by_sixteen">9:16</string>
+    <string name="sixteen_by_nine">16:9</string>
 </resources>

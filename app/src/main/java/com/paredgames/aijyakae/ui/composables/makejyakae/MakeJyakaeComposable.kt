@@ -7,6 +7,7 @@ import android.widget.EditText
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -47,10 +48,15 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.paredgames.aijyakae.BuildConfig
 import com.paredgames.aijyakae.R
+import com.paredgames.aijyakae.data.util.DrawingStyle
 import com.paredgames.aijyakae.data.util.FontData
+import com.paredgames.aijyakae.data.util.Resolution
 import com.paredgames.aijyakae.data.util.ScreenInfo
 import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
 import com.paredgames.aijyakae.ui.composables.beforelogin.title.TitleText
+import com.paredgames.aijyakae.ui.composables.makejyakae.item.DrawingStyleItemBottomSheet
+import com.paredgames.aijyakae.ui.composables.makejyakae.item.ItemLogo
+import com.paredgames.aijyakae.ui.composables.makejyakae.item.ResolutionItemBottomSheet
 import com.paredgames.aijyakae.ui.composables.makejyakae.textfield.CustomTextField
 import com.paredgames.aijyakae.ui.nav.BottomNavBar
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
@@ -93,7 +99,26 @@ import java.net.URL
             mutableStateOf(makeJyakaeViewModel.getPreferenceData(SharedPreferenceDataKeys.LAST_MODIFIED_STR_KEY,""))
         }
 
+        var isDrawingStyleModalOpen by rememberSaveable {
+            mutableStateOf(false)
+        }
 
+        var resolutionStyleModalOpen by rememberSaveable {
+            mutableStateOf(false)
+        }
+
+        if(isDrawingStyleModalOpen){
+            DrawingStyleItemBottomSheet(
+                closeSheet = {isDrawingStyleModalOpen=false}
+            )
+        }
+
+        if(resolutionStyleModalOpen){
+            ResolutionItemBottomSheet (
+                closeSheet = {resolutionStyleModalOpen=false}
+            )
+
+        }
 
         if(isFinal){
             FinalResultImage(modifier = modifier, makeJyakaeViewModel = makeJyakaeViewModel, navController = navController)
@@ -122,6 +147,72 @@ import java.net.URL
                     )
 
                     Spacer(modifier = modifier.padding(10.dp))
+
+                    Row (
+                        modifier= modifier
+                            .fillMaxWidth()
+                            .align(Alignment.Start)
+                    ){
+                        Column {
+
+                            Text(text = "스타일")
+                            Spacer(modifier = modifier.padding(5.dp))
+                            when(makeJyakaeContent.drawingStyle){
+                                DrawingStyle.DRAWING_STYLE_ANIMATION-> ItemLogo(
+                                    onClick = { isDrawingStyleModalOpen=true },
+                                    image = DrawingStyle.DRAWING_STYLE_ANIMATION.image,
+                                    title =DrawingStyle.DRAWING_STYLE_ANIMATION.title
+                                )
+
+                                DrawingStyle.DRAWING_STYLE_TWO_FIVE_D -> ItemLogo(
+                                    onClick = { isDrawingStyleModalOpen=true },
+                                    image = DrawingStyle.DRAWING_STYLE_TWO_FIVE_D.image,
+                                    title =  DrawingStyle.DRAWING_STYLE_TWO_FIVE_D.title
+                                )
+                                DrawingStyle.DRAWING_STYLE_PASTEL_ONE -> ItemLogo(
+                                    onClick = { isDrawingStyleModalOpen=true },
+                                    image = DrawingStyle.DRAWING_STYLE_PASTEL_ONE.image,
+                                    title = DrawingStyle.DRAWING_STYLE_PASTEL_TWO.title
+                                )
+                                DrawingStyle.DRAWING_STYLE_PASTEL_TWO -> ItemLogo(
+                                    onClick = { isDrawingStyleModalOpen=true },
+                                    image = DrawingStyle.DRAWING_STYLE_PASTEL_TWO.image,
+                                    title =DrawingStyle.DRAWING_STYLE_PASTEL_TWO.title
+                                )
+                                DrawingStyle.DRAWING_STYLE_CUTE -> ItemLogo(
+                                    onClick = { isDrawingStyleModalOpen=true },
+                                    image = DrawingStyle.DRAWING_STYLE_CUTE.image,
+                                    title = DrawingStyle.DRAWING_STYLE_CUTE.title
+                                )
+                            }
+                        }
+                        Spacer(modifier = modifier.padding(end = 100.dp))
+                        Column {
+                            Text(text = "해상도")
+                            Spacer(modifier = modifier.padding(5.dp))
+                            when(makeJyakaeContent.resolution){
+                                Resolution.ONE_BY_ONE-> ItemLogo(
+                                    onClick = { resolutionStyleModalOpen=true },
+                                    image = Resolution.ONE_BY_ONE.image,
+                                    title =Resolution.ONE_BY_ONE.title
+                                )
+
+                                Resolution.NINE_BY_SIXTEEN -> ItemLogo(
+                                    onClick = { resolutionStyleModalOpen=true },
+                                    image = Resolution.NINE_BY_SIXTEEN.image,
+                                    title =Resolution.NINE_BY_SIXTEEN.title
+                                )
+                                Resolution.SIXTEEN_BY_NINE -> ItemLogo(
+                                    onClick = { resolutionStyleModalOpen=true },
+                                    image = Resolution.SIXTEEN_BY_NINE.image,
+                                    title =Resolution.SIXTEEN_BY_NINE.title
+                                )
+
+
+                            }
+                        }
+
+                    }
 
                 }else{
                     CircularProgressIndicator(

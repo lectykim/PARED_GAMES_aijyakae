@@ -1,6 +1,8 @@
 package com.paredgames.aijyakae.data.dto
 
+import com.paredgames.aijyakae.data.util.DrawingStyle
 import com.paredgames.aijyakae.data.util.ModelId
+import com.paredgames.aijyakae.data.util.Resolution
 import com.paredgames.aijyakae.data.util.SamplingMethod
 
 data class MakeJyakaeContent(
@@ -11,7 +13,9 @@ data class MakeJyakaeContent(
     var step:Int,
     var seed:Int,
     var width:Int,
-    var height:Int
+    var height:Int,
+    var drawingStyle: DrawingStyle,
+    var resolution: Resolution
 ){
     fun toDto():TextTwoImageRequestDTO{
         val textTwoImageRequestDTO=TextTwoImageRequestDTO()

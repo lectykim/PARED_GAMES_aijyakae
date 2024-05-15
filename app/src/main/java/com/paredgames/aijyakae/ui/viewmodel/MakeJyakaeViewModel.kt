@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.paredgames.aijyakae.data.dto.MakeJyakaeContent
 import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import com.paredgames.aijyakae.data.repository.MakeJyakaeRepository
+import com.paredgames.aijyakae.data.util.DrawingStyle
 import com.paredgames.aijyakae.data.util.ModelId
+import com.paredgames.aijyakae.data.util.Resolution
 import com.paredgames.aijyakae.data.util.SamplingMethod
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -30,7 +32,9 @@ class MakeJyakaeViewModel(
             25,
             -1,
             512,
-            512
+            512,
+            DrawingStyle.DRAWING_STYLE_ANIMATION,
+            Resolution.ONE_BY_ONE
         )
     )
     private val _loading = MutableStateFlow(false)
