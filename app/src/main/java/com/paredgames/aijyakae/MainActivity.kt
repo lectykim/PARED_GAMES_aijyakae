@@ -11,6 +11,7 @@ import com.google.android.gms.ads.AdRequest
 import com.paredgames.aijyakae.data.api.DeepLApiService
 import com.paredgames.aijyakae.data.api.ModelsLabApiService
 import com.paredgames.aijyakae.data.config.ApiConfig
+import com.paredgames.aijyakae.data.repository.ArtBoardRepository
 import com.paredgames.aijyakae.data.repository.BeforeLoginRepository
 import com.paredgames.aijyakae.data.repository.ImageDownloadManager
 import com.paredgames.aijyakae.data.repository.MakeJyakaeRepository
@@ -26,6 +27,8 @@ import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
 import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModelFactory
 import retrofit2.Retrofit
 import com.paredgames.aijyakae.data.util.ApiLinks
+import com.paredgames.aijyakae.ui.viewmodel.ArtBoardViewModel
+import com.paredgames.aijyakae.ui.viewmodel.ArtBoardViewModelFactory
 import retrofit2.create
 
 class MainActivity : ComponentActivity() {
@@ -35,6 +38,8 @@ class MainActivity : ComponentActivity() {
     private lateinit var beforeLoginViewModelFactory: BeforeLoginViewModelFactory
     private lateinit var makeJyakaeViewModel: MakeJyakaeViewModel;
     private lateinit var makeJyakaeViewModelFactory: MakeJyakaeViewModelFactory
+    private lateinit var artBoarDViewModel: ArtBoardViewModel
+    private lateinit var artBoardViewModelFactory: ArtBoardViewModelFactory
     private lateinit var modelsLabApiService: ModelsLabApiService
     private lateinit var deepLApiService: DeepLApiService
     private lateinit var modelsLabRetrofit: Retrofit
@@ -54,7 +59,8 @@ class MainActivity : ComponentActivity() {
         makeJyakaeViewModelFactory = MakeJyakaeViewModelFactory(MakeJyakaeRepository(modelsLabApiService,deepLApiService,this,
             ImageDownloadManager(this),this))
         makeJyakaeViewModel = ViewModelProvider(this,makeJyakaeViewModelFactory)[MakeJyakaeViewModel::class.java]
-
+        artBoardViewModelFactory = ArtBoardViewModelFactory(ArtBoardRepository())
+        artBoarDViewModel = ViewModelProvider(this,artBoardViewModelFactory)[ArtBoardViewModel::class.java]
 
         installSplashScreen()
         val isFirst= beforeLoginViewModel.getPreferenceData(SharedPreferenceDataKeys.IS_LOGIN_KEY,"false")
@@ -90,7 +96,7 @@ class MainActivity : ComponentActivity() {
                         startDestination = ScreenInfo.BeforeLogin,
                         beforeLoginViewModel = beforeLoginViewModel,
                         makeJyakaeViewModel = makeJyakaeViewModel,
-
+                        artBoardViewModel = artBoarDViewModel
                     )
                 }
                 else{
@@ -98,7 +104,9 @@ class MainActivity : ComponentActivity() {
                     AijyakaeNavHost(
                         startDestination = ScreenInfo.MakeJyakae,
                         beforeLoginViewModel = beforeLoginViewModel,
-                        makeJyakaeViewModel = makeJyakaeViewModel
+                        makeJyakaeViewModel = makeJyakaeViewModel,
+                        artBoardViewModel = artBoarDViewModel
+
                     )
                 }
 

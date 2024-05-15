@@ -21,4 +21,6 @@
     <string name="draw_size_face">두상</string>
     <string name="makejyakae_final_result_page">당신이 만든 자캐입니다!</string>
     <string name="re_make">다시 만들기</string>
+    <string name="text_board">게시판</string>
+    <string name="text_art">만들기</string>
 </resources>

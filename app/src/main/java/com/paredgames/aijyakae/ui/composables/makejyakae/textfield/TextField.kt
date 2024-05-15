@@ -33,7 +33,7 @@ fun CustomTextField(
             .background(
                 color = colorResource(id = R.color.white),
                 shape = TextFieldDefaults.shape)
-            .size(width = 480.dp, height = 300.dp)
+            .size(width = 480.dp, height = 150.dp)
             .border(width = 2.dp,color=Color.Black, shape = RectangleShape)
     )
 }

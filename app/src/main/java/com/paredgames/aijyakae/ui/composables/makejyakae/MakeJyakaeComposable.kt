@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -51,6 +52,7 @@ import com.paredgames.aijyakae.data.util.ScreenInfo
 import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
 import com.paredgames.aijyakae.ui.composables.beforelogin.title.TitleText
 import com.paredgames.aijyakae.ui.composables.makejyakae.textfield.CustomTextField
+import com.paredgames.aijyakae.ui.nav.BottomNavBar
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
 import com.skydoves.landscapist.glide.GlideImage
@@ -68,17 +70,20 @@ import java.net.URL
 
 @Composable
     fun StartScreenMakeJyakae(
-        makeJyakaeViewModel: MakeJyakaeViewModel
+        makeJyakaeViewModel: MakeJyakaeViewModel,
+        navController: NavController
     ) {
 
 
-        PromptTextArea(makeJyakaeViewModel = makeJyakaeViewModel)
+        PromptTextArea(makeJyakaeViewModel = makeJyakaeViewModel, navController = navController)
+
     }
 
     @Composable
     fun PromptTextArea(
         modifier:Modifier=Modifier,
-        makeJyakaeViewModel: MakeJyakaeViewModel
+        makeJyakaeViewModel: MakeJyakaeViewModel,
+        navController: NavController
     ){
         val isFinal by makeJyakaeViewModel.isFinal.collectAsState()
         val makeJyakaeContent by makeJyakaeViewModel.makeJyakaeContent.collectAsState()
@@ -91,12 +96,11 @@ import java.net.URL
 
 
         if(isFinal){
-            FinalResultImage(modifier = modifier, makeJyakaeViewModel = makeJyakaeViewModel)
+            FinalResultImage(modifier = modifier, makeJyakaeViewModel = makeJyakaeViewModel, navController = navController)
         }else{
             Column(
                 modifier = modifier
-                    .fillMaxWidth()
-                    .padding(32.dp),
+                    .fillMaxWidth(),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -117,16 +121,8 @@ import java.net.URL
                         text = promptString
                     )
 
-                    Spacer(modifier = modifier.padding(40.dp))
-                    Text(
-                        text = "자캐의 특징을 키워드 칸에 적어주세요!",
-                        fontFamily = FontData.maruboriFontFamily,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 20.sp,
-                        maxLines = 2,
-                        textAlign = TextAlign.Center,
-                        lineHeight = 20.sp
-                    )
+                    Spacer(modifier = modifier.padding(10.dp))
+
                 }else{
                     CircularProgressIndicator(
                         modifier=modifier
@@ -141,8 +137,7 @@ import java.net.URL
             Column(
                 modifier = modifier
                     .fillMaxWidth()
-                    .fillMaxHeight()
-                    .padding(16.dp),
+                    .fillMaxHeight(),
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -173,7 +168,7 @@ import java.net.URL
                         )
                     }
                 }
-
+                BottomNavBar(navController = navController)
             }
         }
 
@@ -183,7 +178,8 @@ import java.net.URL
 @Composable
 fun FinalResultImage(
     modifier: Modifier,
-    makeJyakaeViewModel: MakeJyakaeViewModel
+    makeJyakaeViewModel: MakeJyakaeViewModel,
+    navController: NavController
 ) {
     val response by makeJyakaeViewModel.response.collectAsState()
 
