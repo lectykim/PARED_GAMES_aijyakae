@@ -23,4 +23,9 @@
     <string name="re_make">다시 만들기</string>
     <string name="text_board">게시판</string>
     <string name="text_art">만들기</string>
+    <string name="text_2_5_d">반실사</string>
+    <string name="text_animation">애니메이션</string>
+    <string name="text_pastel_1">파스텔1</string>
+    <string name="text_pastel_2">파스텔2</string>
+    <string name="text_cute">귀여운</string>
 </resources>

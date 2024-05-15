@@ -7,7 +7,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.ui.composables.makejyakae.StartScreenMakeJyakae
+import com.paredgames.aijyakae.ui.composables.makejyakae.item.ItemLogo
 import com.paredgames.aijyakae.ui.composables.makejyakae.textfield.CustomTextField
 import com.paredgames.aijyakae.ui.nav.BottomNavBar
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
@@ -26,7 +28,6 @@ fun PreviewStartScreenMakeJyakae(){
     }
 }
 */
-
 @Preview
 @Composable
 fun PreviewTextField(){
@@ -43,5 +44,13 @@ fun PreviewTextField(){
 fun BottomNav(){
     AijyakaeTheme {
         BottomNavBar(navController = rememberNavController())
+    }
+}
+
+@Preview
+@Composable
+fun PreviewItemLogo(){
+    AijyakaeTheme {
+        ItemLogo(onClick = { /*TODO*/ }, image = R.drawable.item_logo, title = R.string.text_cute)
     }
 }

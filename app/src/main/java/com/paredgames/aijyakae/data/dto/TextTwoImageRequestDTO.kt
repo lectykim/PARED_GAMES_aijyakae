@@ -27,7 +27,7 @@ class TextTwoImageRequestDTO {
     @SerializedName("enhance_prompt")
     val enhancePrompt:String="yes"
     @SerializedName("enhance_style")
-    val enhanceStyle:String="photo-iphone-photographic"
+    val enhanceStyle:String="misc-fairy-tale"
     @SerializedName("temp")
     val temp:String ="yes"
     @SerializedName("seed")
