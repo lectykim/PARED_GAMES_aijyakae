@@ -17,6 +17,7 @@ import com.paredgames.aijyakae.MainActivity
 import com.paredgames.aijyakae.data.api.DeepLApiService
 import com.paredgames.aijyakae.data.api.ModelsLabApiService
 import com.paredgames.aijyakae.data.dto.FetchQueuedRequestDTO
+import com.paredgames.aijyakae.data.dto.FetchQueuedResponseDTO
 import com.paredgames.aijyakae.data.dto.MakeJyakaeContent
 import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import com.paredgames.aijyakae.data.dto.TranslateRequestDTO
@@ -59,17 +60,23 @@ class MakeJyakaeRepository (
         }
 
         var response: Response<TextTwoImageResponseDTO> =modelsLabApiService.textTwoImg(textTwoImageRequestDTO)
-
+        /*
+        test
+        val textTwoImageResponseDTO=TextTwoImageResponseDTO()
+        textTwoImageResponseDTO.status="processing"
+        textTwoImageResponseDTO.id="97996919"
+        val response:Response<TextTwoImageResponseDTO> = Response.success(textTwoImageResponseDTO)
+        */
         if(response.isSuccessful){
 
             var responseData = response.body();
             Log.d("API Response status",responseData!!.status)
             //processing 상태라면?
             if(responseData.status=="processing"){
-                response = fetchQueued(response)
-                responseData = response.body()
+                val fetchQueuedResponseDTO = fetchQueued(response)
+                responseData.output =fetchQueuedResponseDTO!!.body()!!.output
             }
-            var base64Array=getImgForUrl(responseData!!.output[0])
+            var base64Array=getImgForUrl(responseData.output[0])
 
 
             //이미지가 2~3초 후에 cdn에 올라오는 경우가 있어 그 경우를 대비하는 코드
@@ -90,7 +97,7 @@ class MakeJyakaeRepository (
         }
     }
 
-    private suspend fun fetchQueued(response:Response<TextTwoImageResponseDTO>): Response<TextTwoImageResponseDTO> {
+    private suspend fun fetchQueued(response:Response<TextTwoImageResponseDTO>): Response<FetchQueuedResponseDTO>? {
         val responseData = response.body()
         //밀리세컨드는 세컨드 곱하기 1000
         val estimated:Long=(responseData!!.eta*1000).toLong()
@@ -100,7 +107,7 @@ class MakeJyakaeRepository (
         val id = responseData.id
         for(i in 1..10){
             // Fetch Queued 함수 호출
-            val fetchQueuedResponse:Response<TextTwoImageResponseDTO> = modelsLabApiService.fetchQueued(id,fetchQueuedRequestDTO)
+            val fetchQueuedResponse:Response<FetchQueuedResponseDTO> = modelsLabApiService.fetchQueued(id,fetchQueuedRequestDTO)
             if(fetchQueuedResponse.isSuccessful){
                 val body = fetchQueuedResponse.body()
                 if(body!!.status=="success"){
@@ -112,7 +119,7 @@ class MakeJyakaeRepository (
                 }
             }
         }
-        return response
+        return null
 
 
     }

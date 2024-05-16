@@ -91,6 +91,9 @@ dependencies {
     runtimeOnly("androidx.datastore:datastore-preferences:1.1.0")
     implementation("com.google.android.gms:play-services-ads:23.0.0")
     implementation("androidx.compose.material:material:1.6.7")
+    implementation("org.mockito:mockito-core:3.4.6")
+    // Coroutine
+    implementation("io.github.ParkSangGwon:tedpermission-normal:3.3.0")
 
 
 }

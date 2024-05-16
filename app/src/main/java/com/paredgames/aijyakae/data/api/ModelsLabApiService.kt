@@ -1,6 +1,7 @@
 package com.paredgames.aijyakae.data.api
 
 import com.paredgames.aijyakae.data.dto.FetchQueuedRequestDTO
+import com.paredgames.aijyakae.data.dto.FetchQueuedResponseDTO
 import com.paredgames.aijyakae.data.dto.TextTwoImageRequestDTO
 import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import retrofit2.Response
@@ -21,5 +22,5 @@ interface ModelsLabApiService {
     suspend fun fetchQueued(
         @Path("id") id:String,
         @Body fetchQueuedRequestDTO: FetchQueuedRequestDTO
-    ):Response<TextTwoImageResponseDTO>
+    ):Response<FetchQueuedResponseDTO>
 }

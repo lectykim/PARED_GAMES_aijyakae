@@ -1,6 +1,8 @@
 package com.paredgames.aijyakae
 
+import android.Manifest
 import android.os.Bundle
+import android.widget.Toast
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,6 +10,8 @@ import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.AdRequest
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.paredgames.aijyakae.data.api.DeepLApiService
 import com.paredgames.aijyakae.data.api.ModelsLabApiService
 import com.paredgames.aijyakae.data.config.ApiConfig
@@ -63,6 +67,24 @@ class MainActivity : ComponentActivity() {
         artBoarDViewModel = ViewModelProvider(this,artBoardViewModelFactory)[ArtBoardViewModel::class.java]
 
         installSplashScreen()
+
+        val permissionListener = object : PermissionListener {
+            override fun onPermissionGranted() {
+                Toast.makeText(this@MainActivity, "권한 승인 됨", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onPermissionDenied(deniedPermissions: List<String>) {
+                Toast.makeText(this@MainActivity, "권한 거부 됨\n$deniedPermissions", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+        TedPermission.create()
+            .setPermissionListener(permissionListener)
+            .setDeniedMessage("거부하실 경우 앱의 이용에 어려움을 겪을 수 있습니다 [설정]->[권한]에서 앱 권한을 설정해주세요")
+            .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE)
+            .check()
+
         val isFirst= beforeLoginViewModel.getPreferenceData(SharedPreferenceDataKeys.IS_LOGIN_KEY,"false")
         val adRequest = AdRequest.Builder().build()
         /*
