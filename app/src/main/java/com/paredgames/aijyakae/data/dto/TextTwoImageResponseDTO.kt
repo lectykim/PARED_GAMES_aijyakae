@@ -26,4 +26,6 @@ class TextTwoImageResponseDTO {
 
     lateinit var base64Img:Bitmap
 
+    @SerializedName("eta")
+    var eta:Double=0.0
 }

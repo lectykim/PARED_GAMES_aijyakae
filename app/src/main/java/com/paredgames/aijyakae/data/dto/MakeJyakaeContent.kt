@@ -20,6 +20,9 @@ data class MakeJyakaeContent(
     fun toDto():TextTwoImageRequestDTO{
         val textTwoImageRequestDTO=TextTwoImageRequestDTO()
         textTwoImageRequestDTO.prompt=prompt
+        textTwoImageRequestDTO.width=resolution.width
+        textTwoImageRequestDTO.height=resolution.height
+        textTwoImageRequestDTO.modelId=drawingStyle.modelId
         return textTwoImageRequestDTO
     }
 }

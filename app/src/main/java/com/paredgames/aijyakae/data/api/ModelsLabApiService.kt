@@ -1,11 +1,13 @@
 package com.paredgames.aijyakae.data.api
 
+import com.paredgames.aijyakae.data.dto.FetchQueuedRequestDTO
 import com.paredgames.aijyakae.data.dto.TextTwoImageRequestDTO
 import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ModelsLabApiService {
 
@@ -15,4 +17,9 @@ interface ModelsLabApiService {
         @Body textTwoImageRequestDTO: TextTwoImageRequestDTO
     ):Response<TextTwoImageResponseDTO>
 
+    @POST("/api/v6/realtime/fetch/{id}")
+    suspend fun fetchQueued(
+        @Path("id") id:String,
+        @Body fetchQueuedRequestDTO: FetchQueuedRequestDTO
+    ):Response<TextTwoImageResponseDTO>
 }

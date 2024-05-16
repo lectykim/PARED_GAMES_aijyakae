@@ -16,6 +16,7 @@ import com.paredgames.aijyakae.BuildConfig
 import com.paredgames.aijyakae.MainActivity
 import com.paredgames.aijyakae.data.api.DeepLApiService
 import com.paredgames.aijyakae.data.api.ModelsLabApiService
+import com.paredgames.aijyakae.data.dto.FetchQueuedRequestDTO
 import com.paredgames.aijyakae.data.dto.MakeJyakaeContent
 import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import com.paredgames.aijyakae.data.dto.TranslateRequestDTO
@@ -57,26 +58,23 @@ class MakeJyakaeRepository (
             }
         }
 
-        val response: Response<TextTwoImageResponseDTO> =modelsLabApiService.textTwoImg(textTwoImageRequestDTO)
+        var response: Response<TextTwoImageResponseDTO> =modelsLabApiService.textTwoImg(textTwoImageRequestDTO)
 
         if(response.isSuccessful){
-            val responseData = response.body();
+
+            var responseData = response.body();
             Log.d("API Response status",responseData!!.status)
-            var base64Array=getImgForUrl(responseData.output[0])
-            //var base64Array=getImgForUrl("https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/temp/0-f027df53-b749-415f-bd18-41f37070b72e.base64")
-            //var base64Array=getImgForUrl("")
-            Log.d("Base64 Img",base64Array.toString())
-            //cdn이 응답하지 않을 경우를 대처
-            //하지만 만약, 초당 5request를 넘어서 응답하지 않는 것이라면?
-            //이 부분의 응답은 processing일 것이며,
+            //processing 상태라면?
+            if(responseData.status=="processing"){
+                response = fetchQueued(response)
+                responseData = response.body()
+            }
+            var base64Array=getImgForUrl(responseData!!.output[0])
+
+
+            //이미지가 2~3초 후에 cdn에 올라오는 경우가 있어 그 경우를 대비하는 코드
             //리팩토링 필요
             base64Array = changeBase64Array(base64Array,responseData.output[0]);
-
-            if(base64Array==null){
-                Log.e("Image Load Error","because cdn response is null")
-            }
-
-
             val bitmap: Bitmap? = base64Array?.let {
                 BitmapFactory.decodeByteArray(base64Array,0,
                     it.size )
@@ -90,6 +88,33 @@ class MakeJyakaeRepository (
             Log.e("API Error",errorMessage?:"Unknown error")
             return null
         }
+    }
+
+    private suspend fun fetchQueued(response:Response<TextTwoImageResponseDTO>): Response<TextTwoImageResponseDTO> {
+        val responseData = response.body()
+        //밀리세컨드는 세컨드 곱하기 1000
+        val estimated:Long=(responseData!!.eta*1000).toLong()
+        //그 만큼 지연
+        delay(estimated)
+        val fetchQueuedRequestDTO=FetchQueuedRequestDTO()
+        val id = responseData.id
+        for(i in 1..10){
+            // Fetch Queued 함수 호출
+            val fetchQueuedResponse:Response<TextTwoImageResponseDTO> = modelsLabApiService.fetchQueued(id,fetchQueuedRequestDTO)
+            if(fetchQueuedResponse.isSuccessful){
+                val body = fetchQueuedResponse.body()
+                if(body!!.status=="success"){
+                    return fetchQueuedResponse
+                }else{
+                    //3초 대기 후 한번 더 시도하기
+                    delay(3000)
+                    Log.d("Fetch Queue Retry Failed","Retry Failed")
+                }
+            }
+        }
+        return response
+
+
     }
     private suspend fun changeBase64Array(base64Array:ByteArray?,url:String):ByteArray?{
         var res:ByteArray? = null

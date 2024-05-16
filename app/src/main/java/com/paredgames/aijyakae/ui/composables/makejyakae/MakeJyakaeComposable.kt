@@ -289,9 +289,6 @@ fun FinalResultImage(
         BannerAds()
         GlideImage(imageModel = { response.base64Img },
             glideRequestType = GlideRequestType.BITMAP,
-            modifier= modifier
-                .width(250.dp)
-                .height(250.dp),
             previewPlaceholder = painterResource(id = R.drawable.placeholder)
         )
     }

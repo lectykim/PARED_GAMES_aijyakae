@@ -10,14 +10,14 @@ class TextTwoImageRequestDTO {
     lateinit var prompt:String
 
     @SerializedName("model_id")
-    val modelId:String="anything-v5"
+    var modelId:String="anything-v5"
 
     @SerializedName("negative_prompt")
     var negativePrompt:String="(((nsfw))),(((big breast)))"
     @SerializedName("width")
-    val width:Int=1024
+    var width:Int=1024
     @SerializedName("height")
-    val height:Int=1024
+    var height:Int=1024
     @SerializedName("samples")
     val samples:Int=1
     @SerializedName("num_inference_steps")
