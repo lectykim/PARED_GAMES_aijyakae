@@ -109,13 +109,15 @@ import java.net.URL
 
         if(isDrawingStyleModalOpen){
             DrawingStyleItemBottomSheet(
-                closeSheet = {isDrawingStyleModalOpen=false}
+                closeSheet = {isDrawingStyleModalOpen=false},
+                makeJyakaeViewModel = makeJyakaeViewModel
             )
         }
 
         if(resolutionStyleModalOpen){
             ResolutionItemBottomSheet (
-                closeSheet = {resolutionStyleModalOpen=false}
+                closeSheet = {resolutionStyleModalOpen=false},
+                makeJyakaeViewModel = makeJyakaeViewModel
             )
 
         }

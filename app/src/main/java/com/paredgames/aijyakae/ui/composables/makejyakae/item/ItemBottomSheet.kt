@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.util.DrawingStyle
 import com.paredgames.aijyakae.data.util.Resolution
+import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
 
 val drawingStyleList= listOf(
     DrawingStyle.DRAWING_STYLE_ANIMATION,
@@ -42,7 +43,8 @@ val resolutionStyleList= listOf(
 @Composable
 fun DrawingStyleItemBottomSheet(
     modifier: Modifier=Modifier,
-    closeSheet:()->Unit
+    closeSheet:()->Unit,
+    makeJyakaeViewModel: MakeJyakaeViewModel
 ){
     val sheetState = rememberModalBottomSheetState()
     
@@ -67,7 +69,10 @@ fun DrawingStyleItemBottomSheet(
             ) {
                 items(drawingStyleList){
                         item->
-                    ItemLogo(onClick = { closeSheet /*TODO*/ }, image = item.image, title = item.title)
+                    ItemLogo(onClick = {
+                        closeSheet()
+                        makeJyakaeViewModel.makeJyakaeContent.value.drawingStyle=item
+                                       }, image = item.image, title = item.title)
                 }
             }
         }
@@ -78,7 +83,8 @@ fun DrawingStyleItemBottomSheet(
 @Composable
 fun ResolutionItemBottomSheet(
     modifier: Modifier=Modifier,
-    closeSheet:()->Unit
+    closeSheet:()->Unit,
+    makeJyakaeViewModel: MakeJyakaeViewModel
 ) {
     val sheetState = rememberModalBottomSheetState()
 
@@ -103,7 +109,10 @@ fun ResolutionItemBottomSheet(
             ) {
                 items(resolutionStyleList){
                         item->
-                    ItemLogo(onClick = { closeSheet /*TODO*/ }, image = item.image, title = item.title)
+                    ItemLogo(onClick = {
+                        closeSheet()
+                        makeJyakaeViewModel.makeJyakaeContent.value.resolution=item
+                                       }, image = item.image, title = item.title)
                 }
             }
         }
