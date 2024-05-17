@@ -70,11 +70,11 @@ class MainActivity : ComponentActivity() {
 
         val permissionListener = object : PermissionListener {
             override fun onPermissionGranted() {
-                Toast.makeText(this@MainActivity, "권한 승인 됨", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@MainActivity, "권한 승인 됨", Toast.LENGTH_SHORT).show()
             }
 
             override fun onPermissionDenied(deniedPermissions: List<String>) {
-                Toast.makeText(this@MainActivity, "권한 거부 됨\n$deniedPermissions", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@MainActivity, "권한 거부 됨\n$deniedPermissions", Toast.LENGTH_SHORT).show()
             }
         }
 

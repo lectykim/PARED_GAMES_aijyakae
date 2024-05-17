@@ -237,8 +237,8 @@ import java.net.URL
                 if(!loading){
                     Button(
                         onClick = {
-
-                                    makeJyakaeViewModel.addAd()
+                                    // TODO: 광고 주석 풀기
+                                    //makeJyakaeViewModel.addAd()
                                     makeJyakaeContent.prompt=promptString
                                     makeJyakaeViewModel.getStableDiffusion()
                                   },
