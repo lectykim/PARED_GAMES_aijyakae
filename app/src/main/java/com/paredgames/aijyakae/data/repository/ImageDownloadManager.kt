@@ -46,6 +46,13 @@ class ImageDownloadManager (private val context:Context){
         }
         Log.d("file download","success")
 
+        // 미디어 스캔
+        val intent = Intent(
+            Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+            Uri.parse("file://${item}")
+        )
+        context.sendBroadcast(intent)
+
     }
 
 

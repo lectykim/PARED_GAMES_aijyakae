@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
 
         installSplashScreen()
 
-        val permissionListener = object : PermissionListener {
+        /*val permissionListener = object : PermissionListener {
             override fun onPermissionGranted() {
                 //Toast.makeText(this@MainActivity, "권한 승인 됨", Toast.LENGTH_SHORT).show()
             }
@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
             .setPermissionListener(permissionListener)
             .setDeniedMessage("거부하실 경우 앱의 이용에 어려움을 겪을 수 있습니다 [설정]->[권한]에서 앱 권한을 설정해주세요")
             .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE)
-            .check()
+            .check()*/
 
         val isFirst= beforeLoginViewModel.getPreferenceData(SharedPreferenceDataKeys.IS_LOGIN_KEY,"false")
         val adRequest = AdRequest.Builder().build()
