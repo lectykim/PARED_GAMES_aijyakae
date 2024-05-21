@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
         makeJyakaeViewModelFactory = MakeJyakaeViewModelFactory(MakeJyakaeRepository(modelsLabApiService,deepLApiService,this,
             ImageDownloadManager(this),this))
         makeJyakaeViewModel = ViewModelProvider(this,makeJyakaeViewModelFactory)[MakeJyakaeViewModel::class.java]
-        artBoardViewModelFactory = ArtBoardViewModelFactory(ArtBoardRepository(aijyakaeServerApiService))
+        artBoardViewModelFactory = ArtBoardViewModelFactory(ArtBoardRepository(aijyakaeServerApiService,this))
         artBoardViewModel = ViewModelProvider(this,artBoardViewModelFactory)[ArtBoardViewModel::class.java]
 
 
