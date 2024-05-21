@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.AdRequest
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
+import com.paredgames.aijyakae.data.api.AijyakaeServerApiService
 import com.paredgames.aijyakae.data.api.DeepLApiService
 import com.paredgames.aijyakae.data.api.ModelsLabApiService
 import com.paredgames.aijyakae.data.config.ApiConfig
@@ -42,20 +43,24 @@ class MainActivity : ComponentActivity() {
     private lateinit var beforeLoginViewModelFactory: BeforeLoginViewModelFactory
     private lateinit var makeJyakaeViewModel: MakeJyakaeViewModel;
     private lateinit var makeJyakaeViewModelFactory: MakeJyakaeViewModelFactory
-    private lateinit var artBoarDViewModel: ArtBoardViewModel
+    private lateinit var artBoardViewModel: ArtBoardViewModel
     private lateinit var artBoardViewModelFactory: ArtBoardViewModelFactory
     private lateinit var modelsLabApiService: ModelsLabApiService
     private lateinit var deepLApiService: DeepLApiService
+    private lateinit var aijyakaeServerApiService: AijyakaeServerApiService
     private lateinit var modelsLabRetrofit: Retrofit
     private lateinit var deepLRetrofit: Retrofit
+    private lateinit var aijyakaeServerRetrofit: Retrofit
 
     private final var TAG = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         modelsLabRetrofit=ApiConfig.getInstance(ApiLinks.MODELS_LAB)
         deepLRetrofit = ApiConfig.getInstance(ApiLinks.DEEPL)
+        aijyakaeServerRetrofit = ApiConfig.getInstance(ApiLinks.AIJYAKAE_SERVER)
         modelsLabApiService=modelsLabRetrofit.create(ModelsLabApiService::class.java)
         deepLApiService = deepLRetrofit.create(DeepLApiService::class.java)
+        aijyakaeServerApiService = aijyakaeServerRetrofit.create(AijyakaeServerApiService::class.java)
         beforeLoginViewModelFactory  = BeforeLoginViewModelFactory(BeforeLoginRepository(modelsLabApiService,deepLApiService,this,
             ImageDownloadManager(this)
         ))
@@ -63,8 +68,9 @@ class MainActivity : ComponentActivity() {
         makeJyakaeViewModelFactory = MakeJyakaeViewModelFactory(MakeJyakaeRepository(modelsLabApiService,deepLApiService,this,
             ImageDownloadManager(this),this))
         makeJyakaeViewModel = ViewModelProvider(this,makeJyakaeViewModelFactory)[MakeJyakaeViewModel::class.java]
-        artBoardViewModelFactory = ArtBoardViewModelFactory(ArtBoardRepository())
-        artBoarDViewModel = ViewModelProvider(this,artBoardViewModelFactory)[ArtBoardViewModel::class.java]
+        artBoardViewModelFactory = ArtBoardViewModelFactory(ArtBoardRepository(aijyakaeServerApiService))
+        artBoardViewModel = ViewModelProvider(this,artBoardViewModelFactory)[ArtBoardViewModel::class.java]
+
 
         installSplashScreen()
 
@@ -118,7 +124,7 @@ class MainActivity : ComponentActivity() {
                         startDestination = ScreenInfo.BeforeLogin,
                         beforeLoginViewModel = beforeLoginViewModel,
                         makeJyakaeViewModel = makeJyakaeViewModel,
-                        artBoardViewModel = artBoarDViewModel
+                        artBoardViewModel = artBoardViewModel
                     )
                 }
                 else{
@@ -127,7 +133,7 @@ class MainActivity : ComponentActivity() {
                         startDestination = ScreenInfo.MakeJyakae,
                         beforeLoginViewModel = beforeLoginViewModel,
                         makeJyakaeViewModel = makeJyakaeViewModel,
-                        artBoardViewModel = artBoarDViewModel
+                        artBoardViewModel = artBoardViewModel
 
                     )
                 }
