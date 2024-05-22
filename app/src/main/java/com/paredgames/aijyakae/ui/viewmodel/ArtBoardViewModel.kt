@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.paredgames.aijyakae.data.dto.ArtBoardContent
+import com.paredgames.aijyakae.data.fakedata.boardFakeData
 import com.paredgames.aijyakae.data.repository.ArtBoardRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +26,11 @@ class ArtBoardViewModel(
 
     var artBoardList = _artBoardList
 
+    init{
+        //getBoardList(0)
+        //TODO: SSL 인증 완료 이후에는 원래 메소드로 변경
+        getFakeBoardData(0)
+    }
     fun getBoardList(page:Int) {
         viewModelScope.launch {
             val list = withContext(Dispatchers.Default){
@@ -35,6 +41,14 @@ class ArtBoardViewModel(
                 artBoardList=_artBoardList
             }
         }
+    }
+
+    fun getFakeBoardData(page:Int){
+        if(boardFakeData.size<=(page+1)*10)
+            return
+        val fakeBoardList = boardFakeData.subList(page*10,(page+1)*10)
+        _artBoardList += fakeBoardList
+        artBoardList=_artBoardList
     }
 
 }
