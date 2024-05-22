@@ -1,5 +1,6 @@
 package com.paredgames.aijyakae.ui.composables.makejyakae.item
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,9 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.paredgames.aijyakae.data.util.FontData
@@ -24,14 +27,20 @@ import com.paredgames.aijyakae.data.util.FontData
 fun ItemLogo(
     onClick:()->Unit,
     image:Int,
-    title:Int
+    title:Int,
+    width: Dp =60.dp,
+    height: Dp =60.dp,
+    borderStroke: BorderStroke= BorderStroke(0.dp, Color.Black)
 ){
-    Column {
+    Column (
+        modifier=Modifier
+            .border(borderStroke)
+    ){
         Image(painter = painterResource(id = image),
             contentDescription = stringResource(id = title),
             modifier= Modifier
-                .width(60.dp)
-                .height(60.dp)
+                .width(width)
+                .height(height)
                 .clip(RoundedCornerShape(9.dp))
                 .clickable(onClick = onClick),
         )

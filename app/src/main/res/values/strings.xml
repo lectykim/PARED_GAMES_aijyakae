@@ -31,4 +31,9 @@
     <string name="one_by_one">1:1</string>
     <string name="nine_by_sixteen">9:16</string>
     <string name="sixteen_by_nine">16:9</string>
+    <string name="introduce_makejyakae">이제, 나만의 자캐를 만들어 보세요!</string>
+    <string name="style">스타일</string>
+    <string name="resolution">해상도</string>
+    <string name="generate_image">이미지 생성하기</string>
+    <string name="download">다운로드</string>
 </resources>

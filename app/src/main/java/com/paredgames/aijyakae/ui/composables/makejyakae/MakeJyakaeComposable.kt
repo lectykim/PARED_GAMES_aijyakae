@@ -2,9 +2,11 @@ package com.paredgames.aijyakae.ui.composables.makejyakae
 
 
 import android.Manifest
+import android.os.Build
 import android.util.Base64
 import android.util.Log
 import android.widget.EditText
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -88,6 +90,7 @@ import java.net.URL
 
     }
 
+
     @Composable
     fun PromptTextArea(
         modifier:Modifier=Modifier,
@@ -136,7 +139,7 @@ import java.net.URL
             ) {
 
                 Text(
-                    text = "이제 나만의 자캐를 만들어 보세요!",
+                    text = stringResource(id = R.string.introduce_makejyakae),
                     fontFamily = FontData.maruboriFontFamily,
                     fontWeight = FontWeight.Normal,
                     fontSize = 30.sp,
@@ -160,7 +163,7 @@ import java.net.URL
                     ){
                         Column {
 
-                            Text(text = "스타일")
+                            Text(text = stringResource(id = R.string.style))
                             Spacer(modifier = modifier.padding(5.dp))
                             when(makeJyakaeContent.drawingStyle){
                                 DrawingStyle.DRAWING_STYLE_ANIMATION-> ItemLogo(
@@ -193,7 +196,7 @@ import java.net.URL
                         }
                         Spacer(modifier = modifier.padding(end = 100.dp))
                         Column {
-                            Text(text = "해상도")
+                            Text(text = stringResource(id = R.string.resolution))
                             Spacer(modifier = modifier.padding(5.dp))
                             when(makeJyakaeContent.resolution){
                                 Resolution.ONE_BY_ONE-> ItemLogo(
@@ -256,7 +259,7 @@ import java.net.URL
                         )
                     ) {
                         Text(
-                            text = "이미지 생성하기",
+                            text = stringResource(id = R.string.generate_image),
                             fontFamily = FontData.maruboriFontFamily,
                             fontWeight = FontWeight.Normal,
                             fontSize = 40.sp,
@@ -271,6 +274,7 @@ import java.net.URL
 
     }
 
+
 @Composable
 fun FinalResultImage(
     modifier: Modifier,
@@ -282,8 +286,7 @@ fun FinalResultImage(
 
     Column (
         modifier= modifier
-            .fillMaxWidth()
-            .padding(32.dp),
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
@@ -291,69 +294,63 @@ fun FinalResultImage(
         /*TitleText(titleText = R.string.makejyakae_final_result_page)
         BannerAds()*/
         GlideImage(imageModel = { response.base64Img },
+            modifier=modifier.height(500.dp),
             glideRequestType = GlideRequestType.BITMAP,
             previewPlaceholder = painterResource(id = R.drawable.placeholder)
         )
-    }
-    Column (
-        modifier= modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Bottom,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        Button(onClick = {
-            makeJyakaeViewModel.downloadImage(response.base64Img,response.id)},
-            modifier=Modifier
-                .size(width = 480.dp, height = 80.dp),
-            contentPadding = PaddingValues(0.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(id = R.color.warm_button_orange),
-                contentColor = Color.White,
-                disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                disabledContentColor = Color.White
-            )
+        Spacer(modifier = modifier.padding(10.dp))
+        Row (
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ){
-            Icon(
-                painter = painterResource(id = R.drawable.icon_download),
-                contentDescription = "다운로드",
-                modifier=modifier
-                    .size(width = 50.dp, height = 50.dp)
+            Button(onClick = {
+                makeJyakaeViewModel.downloadImage(response.base64Img,response.id)},
+                modifier=Modifier
+                    .size(width = 80.dp, height = 80.dp),
+                contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(id = R.color.warm_button_orange),
+                    contentColor = Color.White,
+                    disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
+                    disabledContentColor = Color.White
+                )
+            ){
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_download),
+                    contentDescription = "다운로드",
+                    modifier=modifier
+                        .size(width = 30.dp, height = 30.dp)
+                )
+            }
+            Spacer(modifier = Modifier
+                .padding(PaddingValues(start = 50.dp,end=50.dp))
             )
-            Text(
-                text = "저장하기",
-                fontFamily = FontData.maruboriFontFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 30.sp,
-                letterSpacing = 2.sp
-            )
+            Button(
+                onClick = { makeJyakaeViewModel.setInitialState()
+                    makeJyakaeViewModel.setPreferenceData(SharedPreferenceDataKeys.LAST_MODIFIED_STR_KEY,makeJyakaeViewModel.makeJyakaeContent.value.prompt)},
+                modifier = Modifier
+                    .size(width = 160.dp, height = 80.dp),
+                contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(id = R.color.warm_button_orange),
+                    contentColor = Color.White,
+                    disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
+                    disabledContentColor = Color.White
+                )
+            ) {
+                Text(
+                    text = stringResource(id = R.string.re_make),
+                    fontFamily = FontData.maruboriFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 20.sp,
+                    letterSpacing = 2.sp
+                )
+            }
         }
-        Spacer(modifier = Modifier
-            .padding(20.dp)
-        )
-        Button(
-            onClick = { makeJyakaeViewModel.setInitialState()
-                      makeJyakaeViewModel.setPreferenceData(SharedPreferenceDataKeys.LAST_MODIFIED_STR_KEY,makeJyakaeViewModel.makeJyakaeContent.value.prompt)},
-            modifier = Modifier
-                .size(width = 480.dp, height = 80.dp),
-            contentPadding = PaddingValues(0.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(id = R.color.warm_button_orange),
-                contentColor = Color.White,
-                disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                disabledContentColor = Color.White
-            )
-        ) {
-            Text(
-                text = stringResource(id = R.string.re_make),
-                fontFamily = FontData.maruboriFontFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 30.sp,
-                letterSpacing = 2.sp
-            )
-        }
+
     }
+
+
 }
 
 

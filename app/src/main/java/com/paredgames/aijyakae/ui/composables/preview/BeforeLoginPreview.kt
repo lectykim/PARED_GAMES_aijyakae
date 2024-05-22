@@ -1,3 +1,14 @@
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.paredgames.aijyakae.R
+import com.paredgames.aijyakae.ui.composables.makejyakae.item.ItemLogo
+import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
+
+/*
 package com.paredgames.aijyakae.ui.composables.preview
 
 import androidx.compose.foundation.Image
@@ -53,7 +64,9 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun ButtonPreview(){
     AijyakaeTheme {
-        NextButton(onClick = { /*TODO*/ }, buttonText = R.string.select_second_page)
+        NextButton(onClick = { */
+/*TODO*//*
+ }, buttonText = R.string.select_second_page)
     }
 }
 
@@ -61,10 +74,13 @@ fun ButtonPreview(){
 @Composable
 fun NextImageButtonPreview(){
     AijyakaeTheme {
-        NextImageButton(onClick = { /*TODO*/ }, buttonText = R.string.first_enter_page_button_start, buttonImage = R.drawable.animation_image)
+        NextImageButton(onClick = { */
+/*TODO*//*
+ }, buttonText = R.string.first_enter_page_button_start, buttonImage = R.drawable.animation_image)
     }
 }
 
+*/
 /*
 @Preview
 @Composable
@@ -119,9 +135,11 @@ fun SecondPage(
         }, buttonText = R.string.sex_none,
             buttonImage = R.drawable.none_image)
     }
-}*/
+}*//*
 
 
+
+*/
 /*
 @Preview
 @Composable
@@ -210,7 +228,8 @@ fun FourthPage(
 
     }
 }
-*/
+*//*
+
 
 @Preview
 @Composable
@@ -272,14 +291,16 @@ fun FinalResultImage(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         TitleText(titleText = R.string.final_result_page)
-        /*GlideImage(
+        */
+/*GlideImage(
             imageModel =  "" ,
             contentScale = ContentScale.Fit,
             circularReveal = CircularReveal(duration = 250),
             placeHolder = ImageBitmap.imageResource(R.drawable.placeholder),
             modifier = modifier.width(250.dp).height(250.dp)
-        )*/
-        Image(painter = painterResource(id = R.drawable.reality_image),
+        )*//*
+
+        Image(painter = painterResource(id = R.drawable.one_by_one),
             contentDescription = "결과"
         ,modifier=modifier.width(250.dp).height(250.dp))
     }
@@ -292,7 +313,9 @@ fun FinalResultImage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            onClick = { /*TODO: 구글로그인이랑 광고구현*/ },
+            onClick = { */
+/*TODO: 구글로그인이랑 광고구현*//*
+ },
             modifier = Modifier
                 .size(width = 480.dp, height = 80.dp),
             contentPadding = PaddingValues(0.dp),
@@ -321,7 +344,9 @@ fun FinalResultImage(
             .padding(20.dp)
         )
         Button(
-            onClick = { /*TODO: 구글로그인이랑 광고구현*/ },
+            onClick = { */
+/*TODO: 구글로그인이랑 광고구현*//*
+ },
             modifier = Modifier
                 .size(width = 480.dp, height = 80.dp),
             contentPadding = PaddingValues(0.dp),
@@ -342,4 +367,20 @@ fun FinalResultImage(
         }
     }
 
+}
+
+*/
+
+@Preview
+@Composable
+fun NewButtonImage(){
+    AijyakaeTheme {
+        ItemLogo(onClick = { /*TODO*/ },
+            image = R.drawable.animation_image,
+            title = R.string.text_2_5_d,
+            width = 100.dp,
+            height = 100.dp,
+            borderStroke = BorderStroke(1.dp, Color.Black)
+        )
+    }
 }

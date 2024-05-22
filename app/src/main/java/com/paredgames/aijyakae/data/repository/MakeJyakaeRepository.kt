@@ -108,7 +108,7 @@ class MakeJyakaeRepository (
         delay(estimated)
         val fetchQueuedRequestDTO=FetchQueuedRequestDTO()
         val id = responseData.id
-        for(i in 1..10){
+        for(i in 1..100){
             // Fetch Queued 함수 호출
             val fetchQueuedResponse:Response<FetchQueuedCheckResponseDTO> = modelsLabApiService.fetchQueuedCheckStatus(id,fetchQueuedRequestDTO)
             if(fetchQueuedResponse.isSuccessful){
@@ -186,7 +186,6 @@ class MakeJyakaeRepository (
         return sharedPreferences.getString(key,defaultValue)?:defaultValue
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun downloadImage(bitmap: Bitmap, title:String){
         imageDownloadManager.downloadImage(bitmap,title)
     }

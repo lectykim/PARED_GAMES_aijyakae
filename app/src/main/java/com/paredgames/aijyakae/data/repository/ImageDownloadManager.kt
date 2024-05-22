@@ -19,7 +19,8 @@ import java.nio.file.Files
 class ImageDownloadManager (private val context:Context){
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
+
     fun downloadImage(bitmap: Bitmap, title:String) {
 
 
@@ -29,7 +30,7 @@ class ImageDownloadManager (private val context:Context){
 
         if(!dataFolder.exists()){
             Log.d("mkdir successed","succesfully created directory "+dataFolder.mkdirs())
-            Files.createDirectories(dataFolder.toPath())
+            //Files.createDirectories(dataFolder.toPath())
         }else{
             Log.d("file exists","true")
         }

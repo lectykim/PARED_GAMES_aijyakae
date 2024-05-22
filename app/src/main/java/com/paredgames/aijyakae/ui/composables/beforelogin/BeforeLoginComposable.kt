@@ -141,12 +141,12 @@ import com.skydoves.landscapist.glide.GlideRequestType
                     buttonImage = R.drawable.girl_image)
 
             }
-            Spacer(modifier = Modifier.width(10.dp))
+            /*Spacer(modifier = Modifier.width(10.dp))
            NextImageButton(onClick = {
                updateState(2)
                beforeLoginViewModel.beforeLoginContent.value.sex=BeforeLoginSex.Asexual
            }, buttonText = R.string.sex_none,
-               buttonImage = R.drawable.none_image)
+               buttonImage = R.drawable.none_image)*/
         }
     }
 
@@ -193,12 +193,11 @@ import com.skydoves.landscapist.glide.GlideRequestType
                         BeforeLoginDrawStyle.Anime},
                     buttonText = R.string.dimension_animation,
                     buttonImage = R.drawable.animation_image)
-                Spacer(modifier = Modifier.width(10.dp))
-                NextImageButton(onClick = { updateState(3)
+                /*NextImageButton(onClick = { updateState(3)
                     beforeLoginViewModel.beforeLoginContent.value.drawStyle =
                         BeforeLoginDrawStyle.Real},
                     buttonText = R.string.dimension_real,
-                    buttonImage = R.drawable.reality_image)
+                    buttonImage = R.drawable.reality_image)*/
             }
         }
 
@@ -327,68 +326,59 @@ fun FinalResultImage(
             modifier = modifier.width(250.dp).height(250.dp)
         )*/
         GlideImage(imageModel = { response.base64Img },
+            modifier=modifier.height(300.dp),
             glideRequestType = GlideRequestType.BITMAP,
             previewPlaceholder = painterResource(id = R.drawable.placeholder)
         )
-    }
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Bottom,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Button(
-            onClick = {
-                beforeLoginViewModel.downloadImage(response.base64Img,response.id) },
-            modifier = Modifier
-                .size(width = 480.dp, height = 80.dp),
-            contentPadding = PaddingValues(0.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(id = R.color.warm_button_orange),
-                contentColor = Color.White,
-                disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                disabledContentColor = Color.White
+        Row (
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
+            Button(onClick = {
+                beforeLoginViewModel.downloadImage(response.base64Img,response.id)},
+                modifier=Modifier
+                    .size(width = 80.dp, height = 80.dp),
+                contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(id = R.color.warm_button_orange),
+                    contentColor = Color.White,
+                    disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
+                    disabledContentColor = Color.White
+                )
+            ){
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_download),
+                    contentDescription = "다운로드",
+                    modifier=modifier
+                        .size(width = 30.dp, height = 30.dp)
+                )
+            }
+            Spacer(modifier = Modifier
+                .padding(PaddingValues(start = 50.dp,end=50.dp))
             )
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.icon_download),
-                contentDescription = "다운로드",
-                modifier=modifier
-                    .size(width = 50.dp, height = 50.dp)
-            )
-            Text(
-                text = "저장하기",
-                fontFamily = FontData.maruboriFontFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 30.sp,
-                letterSpacing = 2.sp
-            )
+            Button(
+                onClick = { navController.navigate(ScreenInfo.MakeJyakae.name) },
+                modifier = Modifier
+                    .size(width = 160.dp, height = 80.dp),
+                contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(id = R.color.warm_button_orange),
+                    contentColor = Color.White,
+                    disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
+                    disabledContentColor = Color.White
+                )
+            ) {
+                Text(
+                    text = stringResource(id = R.string.make_other_art),
+                    fontFamily = FontData.maruboriFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 20.sp,
+                    letterSpacing = 2.sp
+                )
+            }
         }
-        Spacer(modifier = Modifier
-            .padding(20.dp)
-        )
-        Button(
-            onClick = { navController.navigate(ScreenInfo.MakeJyakae.name) },
-            modifier = Modifier
-                .size(width = 480.dp, height = 80.dp),
-            contentPadding = PaddingValues(0.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(id = R.color.warm_button_orange),
-                contentColor = Color.White,
-                disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                disabledContentColor = Color.White
-            )
-        ) {
-            Text(
-                text = stringResource(id = R.string.make_other_art),
-                fontFamily = FontData.maruboriFontFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 30.sp,
-                letterSpacing = 2.sp
-            )
-        }
+
     }
+
 
 }
