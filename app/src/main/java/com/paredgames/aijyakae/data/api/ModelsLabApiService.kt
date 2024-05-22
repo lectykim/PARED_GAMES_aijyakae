@@ -1,5 +1,6 @@
 package com.paredgames.aijyakae.data.api
 
+import com.paredgames.aijyakae.data.dto.FetchQueuedCheckResponseDTO
 import com.paredgames.aijyakae.data.dto.FetchQueuedRequestDTO
 import com.paredgames.aijyakae.data.dto.FetchQueuedResponseDTO
 import com.paredgames.aijyakae.data.dto.TextTwoImageRequestDTO
@@ -23,4 +24,10 @@ interface ModelsLabApiService {
         @Path("id") id:String,
         @Body fetchQueuedRequestDTO: FetchQueuedRequestDTO
     ):Response<FetchQueuedResponseDTO>
+
+    @POST("/api/v6/realtime/fetch/{id}")
+    suspend fun fetchQueuedCheckStatus(
+        @Path("id") id:String,
+        @Body fetchQueuedRequestDTO: FetchQueuedRequestDTO
+    ):Response<FetchQueuedCheckResponseDTO>
 }

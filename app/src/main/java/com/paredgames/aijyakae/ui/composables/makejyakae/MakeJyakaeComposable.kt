@@ -1,6 +1,7 @@
 package com.paredgames.aijyakae.ui.composables.makejyakae
 
 
+import android.Manifest
 import android.util.Base64
 import android.util.Log
 import android.widget.EditText
@@ -46,6 +47,8 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.rewarded.RewardedAd
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.paredgames.aijyakae.BuildConfig
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.util.DrawingStyle
@@ -285,8 +288,8 @@ fun FinalResultImage(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
 
-        TitleText(titleText = R.string.makejyakae_final_result_page)
-        BannerAds()
+        /*TitleText(titleText = R.string.makejyakae_final_result_page)
+        BannerAds()*/
         GlideImage(imageModel = { response.base64Img },
             glideRequestType = GlideRequestType.BITMAP,
             previewPlaceholder = painterResource(id = R.drawable.placeholder)
@@ -300,7 +303,8 @@ fun FinalResultImage(
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Button(onClick = { makeJyakaeViewModel.downloadImage(response.base64Img,response.id)},
+        Button(onClick = {
+            makeJyakaeViewModel.downloadImage(response.base64Img,response.id)},
             modifier=Modifier
                 .size(width = 480.dp, height = 80.dp),
             contentPadding = PaddingValues(0.dp),
@@ -364,4 +368,24 @@ fun BannerAds(){
             }
         }
     )
+}
+
+fun getPermission(){
+    val permissionListener = object : PermissionListener {
+        override fun onPermissionGranted() {
+            //Toast.makeText(this@MainActivity, "권한 승인 됨", Toast.LENGTH_SHORT).show()
+        }
+
+        override fun onPermissionDenied(deniedPermissions: List<String>) {
+            //Toast.makeText(this@MainActivity, "권한 거부 됨\n$deniedPermissions", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    TedPermission.create()
+        .setPermissionListener(permissionListener)
+        .setDeniedMessage("거부하실 경우 앱의 이용에 어려움을 겪을 수 있습니다 [설정]->[권한]에서 앱 권한을 설정해주세요")
+        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        .check()
+
 }

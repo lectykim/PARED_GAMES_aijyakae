@@ -32,6 +32,7 @@ import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
 import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModelFactory
 import retrofit2.Retrofit
 import com.paredgames.aijyakae.data.util.ApiLinks
+import com.paredgames.aijyakae.ui.composables.makejyakae.getPermission
 import com.paredgames.aijyakae.ui.viewmodel.ArtBoardViewModel
 import com.paredgames.aijyakae.ui.viewmodel.ArtBoardViewModelFactory
 import retrofit2.create
@@ -74,23 +75,7 @@ class MainActivity : ComponentActivity() {
 
         installSplashScreen()
 
-        /*val permissionListener = object : PermissionListener {
-            override fun onPermissionGranted() {
-                //Toast.makeText(this@MainActivity, "권한 승인 됨", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onPermissionDenied(deniedPermissions: List<String>) {
-                //Toast.makeText(this@MainActivity, "권한 거부 됨\n$deniedPermissions", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-
-        TedPermission.create()
-            .setPermissionListener(permissionListener)
-            .setDeniedMessage("거부하실 경우 앱의 이용에 어려움을 겪을 수 있습니다 [설정]->[권한]에서 앱 권한을 설정해주세요")
-            .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE)
-            .check()*/
-
+        getPermission()
         val isFirst= beforeLoginViewModel.getPreferenceData(SharedPreferenceDataKeys.IS_LOGIN_KEY,"false")
         val adRequest = AdRequest.Builder().build()
         /*

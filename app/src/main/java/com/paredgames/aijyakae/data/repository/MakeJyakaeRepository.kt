@@ -5,8 +5,10 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.util.Base64
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.OnUserEarnedRewardListener
@@ -16,6 +18,7 @@ import com.paredgames.aijyakae.BuildConfig
 import com.paredgames.aijyakae.MainActivity
 import com.paredgames.aijyakae.data.api.DeepLApiService
 import com.paredgames.aijyakae.data.api.ModelsLabApiService
+import com.paredgames.aijyakae.data.dto.FetchQueuedCheckResponseDTO
 import com.paredgames.aijyakae.data.dto.FetchQueuedRequestDTO
 import com.paredgames.aijyakae.data.dto.FetchQueuedResponseDTO
 import com.paredgames.aijyakae.data.dto.MakeJyakaeContent
@@ -74,7 +77,7 @@ class MakeJyakaeRepository (
             //processing 상태라면?
             if(responseData.status=="processing"){
                 val fetchQueuedResponseDTO = fetchQueued(response)
-                responseData.output =fetchQueuedResponseDTO!!.body()!!.output
+                responseData.output = fetchQueuedResponseDTO!!.body()!!.output
             }
             var base64Array=getImgForUrl(responseData.output[0])
 
@@ -107,11 +110,17 @@ class MakeJyakaeRepository (
         val id = responseData.id
         for(i in 1..10){
             // Fetch Queued 함수 호출
-            val fetchQueuedResponse:Response<FetchQueuedResponseDTO> = modelsLabApiService.fetchQueued(id,fetchQueuedRequestDTO)
+            val fetchQueuedResponse:Response<FetchQueuedCheckResponseDTO> = modelsLabApiService.fetchQueuedCheckStatus(id,fetchQueuedRequestDTO)
             if(fetchQueuedResponse.isSuccessful){
                 val body = fetchQueuedResponse.body()
                 if(body!!.status=="success"){
-                    return fetchQueuedResponse
+                    val realFetchQueuedResponse = modelsLabApiService.fetchQueued(id,fetchQueuedRequestDTO)
+                    if(realFetchQueuedResponse.isSuccessful){
+                        val innerBody = realFetchQueuedResponse.body()
+                        if(innerBody!!.status=="success"){
+                            return realFetchQueuedResponse
+                        }
+                    }
                 }else{
                     //3초 대기 후 한번 더 시도하기
                     delay(3000)
@@ -177,7 +186,8 @@ class MakeJyakaeRepository (
         return sharedPreferences.getString(key,defaultValue)?:defaultValue
     }
 
-    fun downloadImage(bitmap: Bitmap,title:String){
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun downloadImage(bitmap: Bitmap, title:String){
         imageDownloadManager.downloadImage(bitmap,title)
     }
 

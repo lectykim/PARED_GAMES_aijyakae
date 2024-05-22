@@ -60,6 +60,7 @@ import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
 import com.paredgames.aijyakae.ui.composables.beforelogin.button.NextButton
 import com.paredgames.aijyakae.ui.composables.beforelogin.button.NextImageButton
 import com.paredgames.aijyakae.ui.composables.beforelogin.title.TitleText
+import com.paredgames.aijyakae.ui.composables.makejyakae.getPermission
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
 import com.paredgames.aijyakae.ui.viewmodel.BeforeLoginViewModel
 import com.skydoves.landscapist.glide.GlideImage
@@ -339,7 +340,8 @@ fun FinalResultImage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            onClick = { beforeLoginViewModel.downloadImage(response.base64Img,response.id) },
+            onClick = {
+                beforeLoginViewModel.downloadImage(response.base64Img,response.id) },
             modifier = Modifier
                 .size(width = 480.dp, height = 80.dp),
             contentPadding = PaddingValues(0.dp),

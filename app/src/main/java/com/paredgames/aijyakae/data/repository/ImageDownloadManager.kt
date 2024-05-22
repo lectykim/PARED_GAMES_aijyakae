@@ -21,6 +21,9 @@ class ImageDownloadManager (private val context:Context){
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun downloadImage(bitmap: Bitmap, title:String) {
+
+
+
         val dataFolder = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"Aijyakae" )
         Log.d("parent",dataFolder.absolutePath)
 
