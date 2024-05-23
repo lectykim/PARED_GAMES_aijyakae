@@ -28,8 +28,8 @@ fun ItemLogo(
     onClick:()->Unit,
     image:Int,
     title:Int,
-    width: Dp =60.dp,
-    height: Dp =60.dp,
+    width: Dp =90.dp,
+    height: Dp =90.dp,
     borderStroke: BorderStroke= BorderStroke(0.dp, Color.Black)
 ){
     Column (
@@ -44,7 +44,7 @@ fun ItemLogo(
                 .clip(RoundedCornerShape(9.dp))
                 .clickable(onClick = onClick),
         )
-        Text(text = stringResource(id = title),fontSize = 7.sp,
+        Text(text = stringResource(id = title),fontSize = 15.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally),
             fontFamily = FontData.maruboriFontFamily,
             fontWeight = FontWeight.Normal,)

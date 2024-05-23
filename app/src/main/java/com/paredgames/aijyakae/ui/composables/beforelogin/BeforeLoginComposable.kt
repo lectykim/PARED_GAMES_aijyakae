@@ -102,7 +102,7 @@ import com.skydoves.landscapist.glide.GlideRequestType
             modifier = modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .padding(32.dp),
+                .padding(16.dp),
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -120,14 +120,14 @@ import com.skydoves.landscapist.glide.GlideRequestType
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(32.dp),
+                .padding(16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TitleText(titleText = R.string.select_first_page)
             Row(
                 modifier = modifier
-                    .padding(40.dp, 200.dp, 40.dp, 0.dp)
+                    .padding(0.dp, 200.dp, 0.dp, 0.dp)
             ) {
                 NextImageButton(onClick = {
                     updateState(2)
@@ -159,14 +159,14 @@ import com.skydoves.landscapist.glide.GlideRequestType
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(32.dp),
+                .padding(16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TitleText(titleText = R.string.select_second_page)
             Row(
                 modifier = modifier
-                    .padding(40.dp, 200.dp, 40.dp, 0.dp)
+                    .padding(0.dp, 200.dp, 0.dp, 0.dp)
 
             ) {
                 NextImageButton(onClick = {
@@ -181,23 +181,12 @@ import com.skydoves.landscapist.glide.GlideRequestType
                         BeforeLoginDrawStyle.TwoDimension },
                     buttonText = R.string.dimension_twod,
                     buttonImage = R.drawable.twod_image)
-            }
-
-            Row(
-                modifier = modifier
-                    .padding(40.dp, 20.dp, 40.dp, 0.dp)
-
-            ) {
+                Spacer(modifier = Modifier.width(10.dp))
                 NextImageButton(onClick = {updateState(3)
                     beforeLoginViewModel.beforeLoginContent.value.drawStyle =
                         BeforeLoginDrawStyle.Anime},
                     buttonText = R.string.dimension_animation,
                     buttonImage = R.drawable.animation_image)
-                /*NextImageButton(onClick = { updateState(3)
-                    beforeLoginViewModel.beforeLoginContent.value.drawStyle =
-                        BeforeLoginDrawStyle.Real},
-                    buttonText = R.string.dimension_real,
-                    buttonImage = R.drawable.reality_image)*/
             }
         }
 
@@ -212,14 +201,14 @@ import com.skydoves.landscapist.glide.GlideRequestType
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(32.dp),
+                .padding(16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TitleText(titleText = R.string.select_third_page)
             Row(
                 modifier = modifier
-                    .padding(40.dp, 200.dp, 40.dp, 0.dp)
+                    .padding(0.dp, 200.dp, 0.dp, 0.dp)
             ) {
                 NextImageButton(onClick = { updateState(4)
                     beforeLoginViewModel.beforeLoginContent.value.drawSize = BeforeLoginDrawSize.LD},
@@ -230,15 +219,7 @@ import com.skydoves.landscapist.glide.GlideRequestType
                     beforeLoginViewModel.beforeLoginContent.value.drawSize = BeforeLoginDrawSize.SD},
                     buttonText = R.string.draw_size_half,
                     buttonImage = R.drawable.half_body_image)
-
-
-            }
-
-            Row(
-                modifier = modifier
-                    .padding(40.dp, 20.dp, 40.dp, 0.dp)
-            ) {
-
+                Spacer(modifier = Modifier.width(10.dp))
                 NextImageButton(onClick = { updateState(4)
                     beforeLoginViewModel.beforeLoginContent.value.drawSize =
                         BeforeLoginDrawSize.FACE },
@@ -266,7 +247,7 @@ import com.skydoves.landscapist.glide.GlideRequestType
             modifier = modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .padding(32.dp),
+                .padding(16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -313,7 +294,7 @@ fun FinalResultImage(
     Column (
         modifier= modifier
             .fillMaxWidth()
-            .padding(32.dp),
+            .padding(16.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
@@ -326,10 +307,11 @@ fun FinalResultImage(
             modifier = modifier.width(250.dp).height(250.dp)
         )*/
         GlideImage(imageModel = { response.base64Img },
-            modifier=modifier.height(300.dp),
+            modifier=modifier.height(300.dp).width(300.dp),
             glideRequestType = GlideRequestType.BITMAP,
             previewPlaceholder = painterResource(id = R.drawable.placeholder)
         )
+        Spacer(modifier = modifier.padding(20.dp))
         Row (
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween

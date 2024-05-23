@@ -36,4 +36,6 @@
     <string name="resolution">해상도</string>
     <string name="generate_image">이미지 생성하기</string>
     <string name="download">다운로드</string>
+    <string name="writer">작성자</string>
+    <string name="prompt">명령어</string>
 </resources>

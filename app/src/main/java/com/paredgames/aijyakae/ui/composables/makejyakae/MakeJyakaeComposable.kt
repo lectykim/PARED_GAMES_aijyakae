@@ -40,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -283,6 +284,24 @@ fun FinalResultImage(
 ) {
     val response by makeJyakaeViewModel.response.collectAsState()
 
+    val content  by makeJyakaeViewModel.makeJyakaeContent.collectAsState()
+    var width:Dp=0.dp
+    var height:Dp=0.dp
+
+    when(content.resolution){
+        Resolution.ONE_BY_ONE->{
+            width=400.dp
+            height=400.dp
+        }
+        Resolution.NINE_BY_SIXTEEN-> {
+            width = 225.dp
+            height = 400.dp
+        }
+        Resolution.SIXTEEN_BY_NINE->{
+            width=400.dp
+            height=225.dp
+        }
+    }
 
     Column (
         modifier= modifier
@@ -294,11 +313,13 @@ fun FinalResultImage(
         /*TitleText(titleText = R.string.makejyakae_final_result_page)
         BannerAds()*/
         GlideImage(imageModel = { response.base64Img },
-            modifier=modifier.height(500.dp),
+            modifier= modifier
+                .height(height)
+                .width(width),
             glideRequestType = GlideRequestType.BITMAP,
             previewPlaceholder = painterResource(id = R.drawable.placeholder)
         )
-        Spacer(modifier = modifier.padding(10.dp))
+        Spacer(modifier = modifier.padding(20.dp))
         Row (
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
@@ -381,7 +402,6 @@ fun getPermission(){
 
     TedPermission.create()
         .setPermissionListener(permissionListener)
-        .setDeniedMessage("거부하실 경우 앱의 이용에 어려움을 겪을 수 있습니다 [설정]->[권한]에서 앱 권한을 설정해주세요")
         .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
         .check()
 

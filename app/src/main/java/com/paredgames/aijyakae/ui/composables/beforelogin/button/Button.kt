@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.util.FontData
+import com.paredgames.aijyakae.ui.composables.makejyakae.item.ItemLogo
 
 @Composable
 fun NextButton(
@@ -60,26 +61,5 @@ fun NextImageButton(
     @StringRes buttonText:Int,
     @DrawableRes buttonImage:Int
 ) {
-    Button(
-        onClick = onClick,
-        modifier=modifier.size(width = 130.dp, height = 80.dp),
-        content = {
-            Image(
-                painter = painterResource(id = buttonImage),
-                contentDescription = stringResource(id = buttonText),
-                modifier = modifier
-                    .size(width = 60.dp, height = 60.dp)
-                    .clip(CircleShape)
-                    .border(2.dp, Color.Gray, CircleShape))
-            Spacer(modifier = modifier.width(5.dp))
-            Text(text = stringResource(id = buttonText))
-        },
-        contentPadding = PaddingValues(0.dp),
-        colors =  ButtonDefaults.buttonColors(
-            containerColor = colorResource(id = R.color.warm_button_orange),
-            contentColor = Color.White,
-            disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-            disabledContentColor = Color.White
-        )
-    )
+    ItemLogo(onClick = { onClick() }, image = buttonImage, title = buttonText, width = 90.dp, height = 90.dp)
 }

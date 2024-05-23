@@ -2,6 +2,9 @@ package com.paredgames.aijyakae.ui.composables.artboard
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
@@ -22,8 +25,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.LayoutInfo
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.dto.ArtBoardContent
 import com.paredgames.aijyakae.ui.composables.makejyakae.BannerAds
 import com.paredgames.aijyakae.ui.nav.BottomNavBar
@@ -69,11 +76,20 @@ fun MainPage(
 
 @Composable
 fun BoardContent(artBoardContent: ArtBoardContent){
-    artBoardContent.prompt = artBoardContent.prompt.substring(0 until 100)
-    Column {
-        GlideImage(imageModel = { artBoardContent.s3Url })
-        Text(text = artBoardContent.prompt)
-        Text(text = artBoardContent.userName)
+    val prompt = artBoardContent.prompt.substring(0 until 20)
+    artBoardContent.changeItemSize()
+    Column (
+        modifier = Modifier.padding(10.dp)
+    ){
+        GlideImage(imageModel = { artBoardContent.s3Url },
+            modifier = Modifier
+                .padding(10.dp)
+                .width(artBoardContent.width.dp)
+                .height(artBoardContent.height.dp)
+        )
+        Text(text = stringResource(id = R.string.writer) + " : " + artBoardContent.userName)
+        Text(text = stringResource(id = R.string.prompt) + " : $prompt")
+
     }
 
 

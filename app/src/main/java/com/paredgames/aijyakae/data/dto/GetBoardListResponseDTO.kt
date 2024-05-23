@@ -26,8 +26,14 @@ class GetBoardListResponseDTO {
     @SerializedName("createDateTime")
     lateinit var createDateTime:LocalDateTime
 
+    @SerializedName("width")
+    var width:Int=0
+
+    @SerializedName("height")
+    var height:Int=0
+
     fun toEntity():ArtBoardContent{
-        return ArtBoardContent(prompt,s3Url,userName)
+        return ArtBoardContent(prompt,s3Url,userName,width,height)
     }
 
 }
