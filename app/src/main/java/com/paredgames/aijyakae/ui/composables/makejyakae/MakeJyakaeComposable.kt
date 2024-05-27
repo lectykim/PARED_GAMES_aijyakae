@@ -6,6 +6,7 @@ import android.os.Build
 import android.util.Base64
 import android.util.Log
 import android.widget.EditText
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -287,7 +289,7 @@ fun FinalResultImage(
     val content  by makeJyakaeViewModel.makeJyakaeContent.collectAsState()
     var width:Dp=0.dp
     var height:Dp=0.dp
-
+    val context = LocalContext.current
     when(content.resolution){
         Resolution.ONE_BY_ONE->{
             width=400.dp
@@ -325,6 +327,7 @@ fun FinalResultImage(
             horizontalArrangement = Arrangement.SpaceBetween
         ){
             Button(onClick = {
+                Toast.makeText(context, context.getString(R.string.completed_download), Toast.LENGTH_SHORT).show()
                 makeJyakaeViewModel.downloadImage(response.base64Img,response.id)},
                 modifier=Modifier
                     .size(width = 80.dp, height = 80.dp),

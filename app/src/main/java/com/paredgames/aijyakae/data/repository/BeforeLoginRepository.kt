@@ -11,6 +11,9 @@ import com.paredgames.aijyakae.BuildConfig
 import com.paredgames.aijyakae.data.api.DeepLApiService
 import com.paredgames.aijyakae.data.api.ModelsLabApiService
 import com.paredgames.aijyakae.data.dto.BeforeLoginContent
+import com.paredgames.aijyakae.data.dto.FetchQueuedCheckResponseDTO
+import com.paredgames.aijyakae.data.dto.FetchQueuedRequestDTO
+import com.paredgames.aijyakae.data.dto.FetchQueuedResponseDTO
 import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import com.paredgames.aijyakae.data.dto.TranslateRequestDTO
 import com.paredgames.aijyakae.data.dto.TranslateResponseDTO
@@ -45,9 +48,12 @@ class BeforeLoginRepository(
         val response: Response<TextTwoImageResponseDTO> =modelsLabApiService.textTwoImg(textTwoImageRequestDTO)
 
         if(response.isSuccessful){
-            val responseData = response.body();
-            Log.d("API Response",responseData.toString())
-
+            var responseData = response.body();
+            Log.d("API Response",responseData!!.status)
+            if(responseData.status=="processing"){
+                val fetchQueuedResponseDTO = fetchQueued(response)
+                responseData.output = fetchQueuedResponseDTO!!.body()!!.output
+            }
             var base64Array=getImgForUrl(responseData!!.output[0])
             Log.d("Base64 Img",base64Array.toString())
 
@@ -69,6 +75,39 @@ class BeforeLoginRepository(
             Log.e("API Error",errorMessage?:"Unknown error")
             return null
         }
+
+    }
+
+    private suspend fun fetchQueued(response:Response<TextTwoImageResponseDTO>): Response<FetchQueuedResponseDTO>? {
+        val responseData = response.body()
+        //밀리세컨드는 세컨드 곱하기 1000
+        val estimated:Long=(responseData!!.eta*1000).toLong()
+        //그 만큼 지연
+        delay(estimated)
+        val fetchQueuedRequestDTO= FetchQueuedRequestDTO()
+        val id = responseData.id
+        for(i in 1..100){
+            // Fetch Queued 함수 호출
+            val fetchQueuedResponse:Response<FetchQueuedCheckResponseDTO> = modelsLabApiService.fetchQueuedCheckStatus(id,fetchQueuedRequestDTO)
+            if(fetchQueuedResponse.isSuccessful){
+                val body = fetchQueuedResponse.body()
+                if(body!!.status=="success"){
+                    val realFetchQueuedResponse = modelsLabApiService.fetchQueued(id,fetchQueuedRequestDTO)
+                    if(realFetchQueuedResponse.isSuccessful){
+                        val innerBody = realFetchQueuedResponse.body()
+                        if(innerBody!!.status=="success"){
+                            return realFetchQueuedResponse
+                        }
+                    }
+                }else{
+                    //3초 대기 후 한번 더 시도하기
+                    delay(3000)
+                    Log.d("Fetch Queue Retry Failed","Retry Failed")
+                }
+            }
+        }
+        return null
+
 
     }
 

@@ -31,7 +31,6 @@ class ArtBoardViewModel(
 
     init{
         getBoardList(0)
-        //TODO: SSL 인증 완료 이후에는 원래 메소드로 변경
         //getFakeBoardData(0)
     }
     fun getBoardList(page:Int) {

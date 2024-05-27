@@ -2,6 +2,7 @@ package com.paredgames.aijyakae.ui.composables.beforelogin
 
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -290,7 +291,7 @@ fun FinalResultImage(
 ) {
 
     val response by beforeLoginViewModel.response.collectAsState()
-
+    val context = LocalContext.current
     Column (
         modifier= modifier
             .fillMaxWidth()
@@ -307,7 +308,9 @@ fun FinalResultImage(
             modifier = modifier.width(250.dp).height(250.dp)
         )*/
         GlideImage(imageModel = { response.base64Img },
-            modifier=modifier.height(300.dp).width(300.dp),
+            modifier= modifier
+                .height(300.dp)
+                .width(300.dp),
             glideRequestType = GlideRequestType.BITMAP,
             previewPlaceholder = painterResource(id = R.drawable.placeholder)
         )
@@ -317,6 +320,7 @@ fun FinalResultImage(
             horizontalArrangement = Arrangement.SpaceBetween
         ){
             Button(onClick = {
+                Toast.makeText(context, context.getString(R.string.completed_download),Toast.LENGTH_SHORT).show()
                 beforeLoginViewModel.downloadImage(response.base64Img,response.id)},
                 modifier=Modifier
                     .size(width = 80.dp, height = 80.dp),
