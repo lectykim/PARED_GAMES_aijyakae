@@ -1,5 +1,6 @@
 package com.paredgames.aijyakae.ui.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -23,13 +24,15 @@ class ArtBoardViewModel(
 ):ViewModel() {
 
     private var _artBoardList:List<ArtBoardContent> = emptyList()
+    private var _currentArtBoardItem:MutableStateFlow<ArtBoardContent> =MutableStateFlow(ArtBoardContent("","","",0,0,""))
 
     var artBoardList = _artBoardList
+    var currentArtBoardItem = _currentArtBoardItem.asStateFlow()
 
     init{
-        //getBoardList(0)
+        getBoardList(0)
         //TODO: SSL 인증 완료 이후에는 원래 메소드로 변경
-        getFakeBoardData(0)
+        //getFakeBoardData(0)
     }
     fun getBoardList(page:Int) {
         viewModelScope.launch {
@@ -49,6 +52,19 @@ class ArtBoardViewModel(
         val fakeBoardList = boardFakeData.subList(page*10,(page+1)*10)
         _artBoardList += fakeBoardList
         artBoardList=_artBoardList
+    }
+
+    fun getBoardItem(id:String){
+        viewModelScope.launch {
+            val dto = withContext(Dispatchers.Default){
+                artBoardRepository.getBoardItem(id)
+            }
+            if(dto!=null){
+                _currentArtBoardItem.value = dto
+            }else{
+                Log.e("not returned","")
+            }
+        }
     }
 
 }

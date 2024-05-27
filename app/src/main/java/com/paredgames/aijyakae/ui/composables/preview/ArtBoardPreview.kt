@@ -23,7 +23,7 @@ import com.paredgames.aijyakae.ui.viewmodel.ArtBoardViewModel
 
 
 
-    @Preview
+    /*@Preview
     @Composable
     fun MainPage(
 
@@ -52,3 +52,4 @@ import com.paredgames.aijyakae.ui.viewmodel.ArtBoardViewModel
         }
     }
 
+*/

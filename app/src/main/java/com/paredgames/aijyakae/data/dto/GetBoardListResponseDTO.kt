@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 class GetBoardListResponseDTO {
 
     @SerializedName("id")
-    var id:Long=0
+    var id:String=""
 
     @SerializedName("fileId")
     lateinit var fileId:String
@@ -33,7 +33,7 @@ class GetBoardListResponseDTO {
     var height:Int=0
 
     fun toEntity():ArtBoardContent{
-        return ArtBoardContent(prompt,s3Url,userName,width,height)
+        return ArtBoardContent(prompt,s3Url,userName,width,height,id)
     }
 
 }

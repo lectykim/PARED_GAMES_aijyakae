@@ -1,5 +1,6 @@
 package com.paredgames.aijyakae.ui.composables.artboard
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -30,8 +31,10 @@ import androidx.compose.ui.layout.LayoutInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.navArgument
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.dto.ArtBoardContent
+import com.paredgames.aijyakae.data.util.ScreenInfo
 import com.paredgames.aijyakae.ui.composables.makejyakae.BannerAds
 import com.paredgames.aijyakae.ui.nav.BottomNavBar
 import com.paredgames.aijyakae.ui.viewmodel.ArtBoardViewModel
@@ -46,6 +49,8 @@ fun StartScreenArtBoard(
     MainPage(artBoardViewModel,navController)
 }
 
+
+
 @Composable
 fun MainPage(
     artBoardViewModel: ArtBoardViewModel,
@@ -56,30 +61,34 @@ fun MainPage(
     }
     val gridState:LazyGridState = rememberLazyGridState()
 
-    gridState.OnLoadMore (action = { artBoardViewModel.getFakeBoardData(page) },page=page, updatePage = {page=it})
+    gridState.OnLoadMore (action = { artBoardViewModel.getBoardList(page) },page=page, updatePage = {page=it})
 
     Column {
         BannerAds()
+        BottomNavBar(navController = navController)
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             state = gridState
         ) {
             items(artBoardViewModel.artBoardList){
                 item->
-                    BoardContent(artBoardContent = item)
+                    BoardContent(artBoardContent = item,navController)
 
             }
         }
-        BottomNavBar(navController = navController)
+
     }
 }
 
 @Composable
-fun BoardContent(artBoardContent: ArtBoardContent){
+fun BoardContent(artBoardContent: ArtBoardContent,navController: NavController){
     val prompt = artBoardContent.prompt.substring(0 until 20)
     artBoardContent.changeItemSize()
     Column (
         modifier = Modifier.padding(10.dp)
+            .clickable {
+                navController.navigate(ScreenInfo.ArtBoardDetail.name+"/${artBoardContent.id}" )
+            }
     ){
         GlideImage(imageModel = { artBoardContent.s3Url },
             modifier = Modifier

@@ -30,4 +30,16 @@ class ArtBoardRepository(
         }
         return null
     }
+
+    suspend fun getBoardItem(id:String):ArtBoardContent?{
+        val response = aijyakaeServerApiService.getBoardItem(id)
+
+        if(response.isSuccessful){
+            val body = response.body()
+            if(body!=null){
+                return body.toEntity()
+            }
+        }
+        return null
+    }
 }
