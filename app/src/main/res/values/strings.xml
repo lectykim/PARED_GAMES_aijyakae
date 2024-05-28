@@ -40,4 +40,8 @@
     <string name="prompt">prompt</string>
     <string name="completed_download">completed download</string>
     <string name="copy_prompt">copy prompt</string>
+    <string name="no_add_introduce">Stop watching boring ads, only $2.50</string>
+    <string name="no_add_small_introduce">VAT included. Cancellation is possible on Google Play.</string>
+    <string name="add_payment">Make payment</string>
+    <string name="onclick_back_button">Press one more time to exit.</string>
 </resources>

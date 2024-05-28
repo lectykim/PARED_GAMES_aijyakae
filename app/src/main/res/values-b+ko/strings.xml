@@ -40,4 +40,8 @@
     <string name="prompt">명령어</string>
     <string name="completed_download">다운로드가 완료되었습니다</string>
     <string name="copy_prompt">명령어 복사하기</string>
+    <string name="no_add_introduce">지긋지긋한 광고 그만 보기, 단돈 2990원</string>
+    <string name="no_add_small_introduce">VAT 포함, 취소는 google play에서 가능합니다.</string>
+    <string name="add_payment">결제하기</string>
+    <string name="onclick_back_button">한 번 더 누르면 종료됩니다.</string>
 </resources>

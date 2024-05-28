@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -65,6 +66,7 @@ import com.paredgames.aijyakae.ui.composables.beforelogin.title.TitleText
 import com.paredgames.aijyakae.ui.composables.makejyakae.item.DrawingStyleItemBottomSheet
 import com.paredgames.aijyakae.ui.composables.makejyakae.item.ItemLogo
 import com.paredgames.aijyakae.ui.composables.makejyakae.item.ResolutionItemBottomSheet
+import com.paredgames.aijyakae.ui.composables.makejyakae.popupbox.PopupBox
 import com.paredgames.aijyakae.ui.composables.makejyakae.textfield.CustomTextField
 import com.paredgames.aijyakae.ui.nav.BottomNavBar
 import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
@@ -116,6 +118,11 @@ import java.net.URL
             mutableStateOf(false)
         }
 
+        var showPopup by rememberSaveable {
+            mutableStateOf(makeJyakaeViewModel.getPreferenceData(SharedPreferenceDataKeys.IS_ADD_SHOW,"true"))
+        }
+
+
         if(isDrawingStyleModalOpen){
             DrawingStyleItemBottomSheet(
                 closeSheet = {isDrawingStyleModalOpen=false},
@@ -130,6 +137,8 @@ import java.net.URL
             )
 
         }
+
+
 
         if(isFinal){
             FinalResultImage(modifier = modifier, makeJyakaeViewModel = makeJyakaeViewModel, navController = navController)
@@ -271,12 +280,37 @@ import java.net.URL
                     }
                 }
                 BottomNavBar(navController = navController)
+
             }
+            PopupBox(
+                popupWidth = 400,
+                popupHeight = 600,
+                showPopup = showPopup,
+                onClickCancelButton = {showPopup="false"},
+                content = { PaymentCompose() },
+                makeJyakaeViewModel
+            )
         }
 
 
     }
 
+@Composable
+fun PaymentCompose(){
+    Column (
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Image(painter = painterResource(id = R.drawable.twod_image), contentDescription = "no_add")
+        Spacer(modifier = Modifier.padding(20.dp))
+        Text(text = stringResource(id = R.string.no_add_introduce), fontSize = 20.sp)
+        Spacer(modifier = Modifier.padding(20.dp))
+        Button(onClick = { /*TODO: 결제모듈 구현*/ }) {
+            Text(text = stringResource(id = R.string.add_payment))
+        }
+        Text(text = stringResource(id = R.string.no_add_small_introduce), fontSize = 6.sp)
+    }
+}
 
 @Composable
 fun FinalResultImage(

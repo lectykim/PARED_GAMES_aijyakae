@@ -11,4 +11,5 @@
     <color name="warm_background_orange">#fff2e6</color>
     <color name="warm_button_orange">#ffa526</color>
     <color name="warm_button_orange_disable">#f7f1e9</color>
+    <color name="add_background_color">#dbdad3</color>
 </resources>

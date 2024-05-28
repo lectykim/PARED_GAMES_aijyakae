@@ -39,6 +39,7 @@ import androidx.navigation.compose.rememberNavController
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.util.FontData
 import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
+import com.paredgames.aijyakae.ui.composables.makejyakae.PaymentCompose
 import com.paredgames.aijyakae.ui.composables.makejyakae.item.ItemLogo
 import com.paredgames.aijyakae.ui.composables.makejyakae.item.drawingStyleList
 import com.paredgames.aijyakae.ui.composables.makejyakae.textfield.CustomTextField
@@ -187,7 +188,9 @@ fun FinalResultImage(
             previewPlaceholder = painterResource(id = R.drawable.placeholder)
         )
         */
-        Image(painter = painterResource(id = R.drawable.sixteen_by_nine), contentDescription = "", modifier = Modifier.width(300.dp).height(300.dp))
+        Image(painter = painterResource(id = R.drawable.sixteen_by_nine), contentDescription = "", modifier = Modifier
+            .width(300.dp)
+            .height(300.dp))
         Spacer(modifier = Modifier.padding(20.dp))
         Row (
             verticalAlignment = Alignment.CenterVertically,
@@ -240,4 +243,12 @@ fun FinalResultImage(
     }
 
 
+}
+
+@Preview
+@Composable
+fun paymentPreview(){
+    AijyakaeTheme {
+        PaymentCompose()
+    }
 }

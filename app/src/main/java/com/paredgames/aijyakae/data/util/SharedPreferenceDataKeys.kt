@@ -4,4 +4,5 @@ object SharedPreferenceDataKeys {
     const val  SHARED_KEY_BEFORE_LOGIN:String="BeforeLogin"
     const val IS_LOGIN_KEY:String="isLogin"
     const val LAST_MODIFIED_STR_KEY:String="LastModifiedStr"
+    const val IS_ADD_SHOW:String="isAddShow"
 }

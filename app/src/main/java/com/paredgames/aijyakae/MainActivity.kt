@@ -6,6 +6,7 @@ import android.widget.Toast
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.ui.res.stringResource
 
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
@@ -129,5 +130,23 @@ class MainActivity : ComponentActivity() {
 
 
     }
+
+    val FINISH_INRERVAL_TIME:Long = 2000;
+    var backPressedTime:Long=0;
+    override fun onBackPressed() {
+
+        val tempTime = System.currentTimeMillis()
+        val intervalTime = tempTime-backPressedTime
+
+        if(intervalTime in 0..FINISH_INRERVAL_TIME){
+            makeJyakaeViewModel.setPreferenceData(SharedPreferenceDataKeys.IS_ADD_SHOW,"true")
+            finish()
+        }
+        else{
+            backPressedTime=tempTime
+            Toast.makeText(applicationContext, R.string.onclick_back_button,Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
 }
