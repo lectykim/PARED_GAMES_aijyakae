@@ -39,4 +39,5 @@
     <string name="writer">작성자</string>
     <string name="prompt">명령어</string>
     <string name="completed_download">다운로드가 완료되었습니다</string>
+    <string name="copy_prompt">명령어 복사하기</string>
 </resources>

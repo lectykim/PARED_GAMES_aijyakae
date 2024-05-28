@@ -39,4 +39,5 @@
     <string name="writer">writer</string>
     <string name="prompt">prompt</string>
     <string name="completed_download">completed download</string>
+    <string name="copy_prompt">copy prompt</string>
 </resources>

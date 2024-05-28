@@ -9,7 +9,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.paredgames.aijyakae.data.dto.ArtBoardContent
-import com.paredgames.aijyakae.data.fakedata.boardFakeData
 import com.paredgames.aijyakae.data.repository.ArtBoardRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,13 +44,13 @@ class ArtBoardViewModel(
         }
     }
 
-    fun getFakeBoardData(page:Int){
+    /*fun getFakeBoardData(page:Int){
         if(boardFakeData.size<=(page+1)*10)
             return
         val fakeBoardList = boardFakeData.subList(page*10,(page+1)*10)
         _artBoardList += fakeBoardList
         artBoardList=_artBoardList
-    }
+    }*/
 
     fun getBoardItem(id:String){
         viewModelScope.launch {
@@ -64,6 +63,14 @@ class ArtBoardViewModel(
                 Log.e("not returned","")
             }
         }
+    }
+
+    fun getPreferenceData(key:String,defaultValue:String):String{
+        return artBoardRepository.getData(key,defaultValue)
+    }
+
+    fun setPreferenceData(key:String,value:String){
+        artBoardRepository.saveData(key,value)
     }
 
 }

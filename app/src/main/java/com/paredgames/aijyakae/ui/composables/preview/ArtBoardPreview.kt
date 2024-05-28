@@ -14,7 +14,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.paredgames.aijyakae.data.fakedata.boardFakeData
 import com.paredgames.aijyakae.ui.composables.artboard.BoardContent
 import com.paredgames.aijyakae.ui.composables.artboard.OnLoadMore
 import com.paredgames.aijyakae.ui.composables.makejyakae.BannerAds

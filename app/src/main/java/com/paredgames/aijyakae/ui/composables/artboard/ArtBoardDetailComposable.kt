@@ -1,6 +1,7 @@
 package com.paredgames.aijyakae.ui.composables.artboard
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -14,6 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.dto.ArtBoardContent
+import com.paredgames.aijyakae.data.util.ScreenInfo
+import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
+import com.paredgames.aijyakae.ui.composables.beforelogin.button.NextButton
 import com.paredgames.aijyakae.ui.viewmodel.ArtBoardViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -47,6 +51,10 @@ fun DetailPage(
         )
         Text(text = artBoardContent.prompt)
         Text(text = stringResource(id = R.string.writer) + " : " + artBoardContent.userName)
-
+        Spacer(Modifier.padding(20.dp))
+        NextButton(onClick = {
+            artBoardViewModel.setPreferenceData(SharedPreferenceDataKeys.LAST_MODIFIED_STR_KEY,artBoardContent.prompt)
+            navController.navigate(ScreenInfo.MakeJyakae.name)
+        }, buttonText = R.string.copy_prompt )
     }
 }
