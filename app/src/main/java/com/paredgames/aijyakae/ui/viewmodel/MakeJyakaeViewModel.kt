@@ -96,4 +96,8 @@ class MakeJyakaeViewModel(
     fun addAd(){
         makeJyakaeRepository.addAd()
     }
+
+    fun billingPayment(){
+        makeJyakaeRepository.addBilling()
+    }
 }

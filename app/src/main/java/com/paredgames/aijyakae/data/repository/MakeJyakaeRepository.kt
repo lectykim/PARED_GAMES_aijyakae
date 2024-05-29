@@ -9,6 +9,7 @@ import android.os.Build
 import android.util.Base64
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.android.billingclient.api.BillingClient
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.OnUserEarnedRewardListener
@@ -19,6 +20,7 @@ import com.paredgames.aijyakae.MainActivity
 import com.paredgames.aijyakae.data.api.AijyakaeServerApiService
 import com.paredgames.aijyakae.data.api.DeepLApiService
 import com.paredgames.aijyakae.data.api.ModelsLabApiService
+import com.paredgames.aijyakae.data.billing.BillingManager
 import com.paredgames.aijyakae.data.dto.FetchQueuedCheckResponseDTO
 import com.paredgames.aijyakae.data.dto.FetchQueuedRequestDTO
 import com.paredgames.aijyakae.data.dto.FetchQueuedResponseDTO
@@ -47,6 +49,7 @@ class MakeJyakaeRepository (
     private val aijyakaeServerApiService: AijyakaeServerApiService,
     private val context:Context,
     private val imageDownloadManager: ImageDownloadManager,
+    private val billingManager: BillingManager,
     private val mainActivity: MainActivity
 ) {
     private var sharedPreferences: SharedPreferences
@@ -243,6 +246,10 @@ class MakeJyakaeRepository (
 
             }
         })
+    }
+
+    fun addBilling(){
+        billingManager.startBilling()
     }
 
 }

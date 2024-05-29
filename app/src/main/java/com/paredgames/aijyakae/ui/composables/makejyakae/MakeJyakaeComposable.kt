@@ -287,7 +287,7 @@ import java.net.URL
                 popupHeight = 600,
                 showPopup = showPopup,
                 onClickCancelButton = {showPopup="false"},
-                content = { PaymentCompose() },
+                content = { PaymentCompose(makeJyakaeViewModel) },
                 makeJyakaeViewModel
             )
         }
@@ -296,7 +296,9 @@ import java.net.URL
     }
 
 @Composable
-fun PaymentCompose(){
+fun PaymentCompose(
+    makeJyakaeViewModel: MakeJyakaeViewModel
+){
     Column (
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -305,7 +307,7 @@ fun PaymentCompose(){
         Spacer(modifier = Modifier.padding(20.dp))
         Text(text = stringResource(id = R.string.no_add_introduce), fontSize = 20.sp)
         Spacer(modifier = Modifier.padding(20.dp))
-        Button(onClick = { /*TODO: 결제모듈 구현*/ }) {
+        Button(onClick = { makeJyakaeViewModel.billingPayment() }) {
             Text(text = stringResource(id = R.string.add_payment))
         }
         Text(text = stringResource(id = R.string.no_add_small_introduce), fontSize = 6.sp)

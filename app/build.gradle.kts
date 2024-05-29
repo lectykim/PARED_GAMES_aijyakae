@@ -21,7 +21,7 @@ android {
         applicationId = "com.paredgames.aijyakae"
         minSdk = 25
         targetSdk = 34
-        versionCode = 2
+        versionCode = 3
         versionName = "1.1"
 
         buildConfigField("String","STABLE_DIFFUSION_API_KEY", "\"$stableDiffusionApiKey\"")
@@ -94,6 +94,7 @@ dependencies {
     implementation("org.mockito:mockito-core:3.4.6")
     // Coroutine
     implementation("io.github.ParkSangGwon:tedpermission-normal:3.3.0")
+    implementation("com.android.billingclient:billing-ktx:7.0.0")
 
 
 }

@@ -83,7 +83,11 @@ fun MainPage(
 
 @Composable
 fun BoardContent(artBoardContent: ArtBoardContent,navController: NavController){
-    val prompt = artBoardContent.prompt.substring(0 until 20)
+    var prompt = ""
+    if(artBoardContent.prompt.length>20)
+         prompt = artBoardContent.prompt.substring(0 until 20)
+    else
+        prompt=  artBoardContent.prompt
     artBoardContent.changeItemSize()
     Column (
         modifier = Modifier.padding(10.dp)

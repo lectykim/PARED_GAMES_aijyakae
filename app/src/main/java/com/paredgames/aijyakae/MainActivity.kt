@@ -1,21 +1,24 @@
 package com.paredgames.aijyakae
 
-import android.Manifest
 import android.os.Bundle
-import android.widget.Toast
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.ui.res.stringResource
 
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.PurchasesUpdatedListener
+import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.queryProductDetails
 import com.google.android.gms.ads.AdRequest
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.normal.TedPermission
 import com.paredgames.aijyakae.data.api.AijyakaeServerApiService
 import com.paredgames.aijyakae.data.api.DeepLApiService
 import com.paredgames.aijyakae.data.api.ModelsLabApiService
+import com.paredgames.aijyakae.data.billing.BillingManager
 import com.paredgames.aijyakae.data.config.ApiConfig
 import com.paredgames.aijyakae.data.repository.ArtBoardRepository
 import com.paredgames.aijyakae.data.repository.BeforeLoginRepository
@@ -36,7 +39,8 @@ import com.paredgames.aijyakae.data.util.ApiLinks
 import com.paredgames.aijyakae.ui.composables.makejyakae.getPermission
 import com.paredgames.aijyakae.ui.viewmodel.ArtBoardViewModel
 import com.paredgames.aijyakae.ui.viewmodel.ArtBoardViewModelFactory
-import retrofit2.create
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
 
@@ -54,9 +58,21 @@ class MainActivity : ComponentActivity() {
     private lateinit var deepLRetrofit: Retrofit
     private lateinit var aijyakaeServerRetrofit: Retrofit
 
+
+
+    /*billingClient.queryProductDetailsAsync(queryProductDetailsParams) {
+        billingResult,
+        productDetailsList ->
+        // check billingResult
+        // process returned productDetailsList
+    }*/
+
+
+
     private final var TAG = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var billingManager = BillingManager(applicationContext,this)
         modelsLabRetrofit=ApiConfig.getInstance(ApiLinks.MODELS_LAB)
         deepLRetrofit = ApiConfig.getInstance(ApiLinks.DEEPL)
         aijyakaeServerRetrofit = ApiConfig.getInstance(ApiLinks.AIJYAKAE_SERVER)
@@ -68,10 +84,11 @@ class MainActivity : ComponentActivity() {
         ))
         beforeLoginViewModel = ViewModelProvider(this,beforeLoginViewModelFactory)[BeforeLoginViewModel::class.java]
         makeJyakaeViewModelFactory = MakeJyakaeViewModelFactory(MakeJyakaeRepository(modelsLabApiService,deepLApiService,aijyakaeServerApiService,this,
-            ImageDownloadManager(this),this))
+            ImageDownloadManager(this),billingManager,this))
         makeJyakaeViewModel = ViewModelProvider(this,makeJyakaeViewModelFactory)[MakeJyakaeViewModel::class.java]
         artBoardViewModelFactory = ArtBoardViewModelFactory(ArtBoardRepository(aijyakaeServerApiService,this))
         artBoardViewModel = ViewModelProvider(this,artBoardViewModelFactory)[ArtBoardViewModel::class.java]
+
 
 
         installSplashScreen()
