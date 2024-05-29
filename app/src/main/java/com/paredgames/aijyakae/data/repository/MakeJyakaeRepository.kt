@@ -16,6 +16,7 @@ import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.paredgames.aijyakae.BuildConfig
 import com.paredgames.aijyakae.MainActivity
+import com.paredgames.aijyakae.data.api.AijyakaeServerApiService
 import com.paredgames.aijyakae.data.api.DeepLApiService
 import com.paredgames.aijyakae.data.api.ModelsLabApiService
 import com.paredgames.aijyakae.data.dto.FetchQueuedCheckResponseDTO
@@ -25,6 +26,7 @@ import com.paredgames.aijyakae.data.dto.MakeJyakaeContent
 import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import com.paredgames.aijyakae.data.dto.TranslateRequestDTO
 import com.paredgames.aijyakae.data.dto.TranslateResponseDTO
+import com.paredgames.aijyakae.data.dto.UploadImageRequestDTO
 import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,10 +39,12 @@ import retrofit2.Response
 import java.io.IOException
 import java.lang.IllegalArgumentException
 import java.net.URL
+import java.util.UUID
 
 class MakeJyakaeRepository (
     private val modelsLabApiService: ModelsLabApiService,
     private val deepLApiService: DeepLApiService,
+    private val aijyakaeServerApiService: AijyakaeServerApiService,
     private val context:Context,
     private val imageDownloadManager: ImageDownloadManager,
     private val mainActivity: MainActivity
@@ -97,6 +101,25 @@ class MakeJyakaeRepository (
             val errorMessage = response.errorBody()?.string()
             Log.e("API Error",errorMessage?:"Unknown error")
             return null
+        }
+    }
+
+    suspend fun uploadImg(response:MutableStateFlow<TextTwoImageResponseDTO>,makeJyakaeContent: MutableStateFlow<MakeJyakaeContent>){
+        val uploadImageResponseDTO = UploadImageRequestDTO()
+        uploadImageResponseDTO.id = response.value.id
+        uploadImageResponseDTO.prompt=makeJyakaeContent.value.prompt
+        uploadImageResponseDTO.negativePrompt=makeJyakaeContent.value.negativePrompt
+        uploadImageResponseDTO.userName=UUID.randomUUID().toString()
+        uploadImageResponseDTO.base64Img=getImgForUrlStringVer(response.value.output[0])
+        uploadImageResponseDTO.width=makeJyakaeContent.value.resolution.width.toLong()
+        uploadImageResponseDTO.height=makeJyakaeContent.value.resolution.height.toLong()
+
+        val response = aijyakaeServerApiService.uploadImg(uploadImageResponseDTO)
+
+        if(response.isSuccessful){
+            Log.d("upload img","success")
+        }else{
+            Log.e("upload img","fail")
         }
     }
 
@@ -159,6 +182,17 @@ class MakeJyakaeRepository (
 
         return response.body()!!.bytes()
     }
+
+    private fun getImgForUrlStringVer(url: String): String {
+        val okHttpClient = OkHttpClient()
+        val request = Request.Builder().url(url).build()
+
+        val response = okHttpClient.newCall(request).execute()
+        val responseBody = response.body()
+
+        return responseBody?.string() ?: "Response body is null"
+    }
+
 
     private suspend fun translatePrompt(prompt:String): TranslateResponseDTO?{
         val translateRequestDTO = TranslateRequestDTO()

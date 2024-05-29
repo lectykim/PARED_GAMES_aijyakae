@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.paredgames.aijyakae.data.api.AijyakaeServerApiService
 import com.paredgames.aijyakae.data.dto.MakeJyakaeContent
 import com.paredgames.aijyakae.data.dto.TextTwoImageResponseDTO
 import com.paredgames.aijyakae.data.repository.MakeJyakaeRepository
@@ -62,6 +63,14 @@ class MakeJyakaeViewModel(
                 _isFinal.value=true
             }else{
                 Log.e("not returned","")
+            }
+        }
+    }
+
+    fun uploadImg(){
+        viewModelScope.launch {
+            val dto = withContext(Dispatchers.Default){
+                makeJyakaeRepository.uploadImg(_response,_makeJyakaeContent)
             }
         }
     }

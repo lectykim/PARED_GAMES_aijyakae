@@ -32,6 +32,18 @@ class ArtBoardViewModel(
         getBoardList(0)
         //getFakeBoardData(0)
     }
+
+    fun initFirstList(){
+        viewModelScope.launch {
+            val list = withContext(Dispatchers.Default){
+                artBoardRepository.getBoardList(0)
+            }
+            if(list!=null){
+                _artBoardList = list
+                artBoardList=_artBoardList
+            }
+        }
+    }
     fun getBoardList(page:Int) {
         viewModelScope.launch {
             val list = withContext(Dispatchers.Default){

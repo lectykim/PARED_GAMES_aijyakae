@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
@@ -67,7 +68,7 @@ fun MainPage(
         BannerAds()
         BottomNavBar(navController = navController)
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
+            columns = GridCells.Fixed(1),
             state = gridState
         ) {
             items(artBoardViewModel.artBoardList){
@@ -96,7 +97,7 @@ fun BoardContent(artBoardContent: ArtBoardContent,navController: NavController){
                 .width(artBoardContent.width.dp)
                 .height(artBoardContent.height.dp)
         )
-        Text(text = stringResource(id = R.string.writer) + " : " + artBoardContent.userName)
+        //Text(text = stringResource(id = R.string.writer) + " : " + artBoardContent.userName)
         Text(text = stringResource(id = R.string.prompt) + " : $prompt")
 
     }

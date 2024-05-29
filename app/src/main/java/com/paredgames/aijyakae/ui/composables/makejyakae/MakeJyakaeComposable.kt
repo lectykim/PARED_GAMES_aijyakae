@@ -385,7 +385,9 @@ fun FinalResultImage(
             )
             Button(
                 onClick = { makeJyakaeViewModel.setInitialState()
-                    makeJyakaeViewModel.setPreferenceData(SharedPreferenceDataKeys.LAST_MODIFIED_STR_KEY,makeJyakaeViewModel.makeJyakaeContent.value.prompt)},
+                    makeJyakaeViewModel.setPreferenceData(SharedPreferenceDataKeys.LAST_MODIFIED_STR_KEY,makeJyakaeViewModel.makeJyakaeContent.value.prompt)
+                          makeJyakaeViewModel.uploadImg()
+                    makeJyakaeViewModel.setPreferenceData(SharedPreferenceDataKeys.IS_ADD_SHOW,"true")},
                 modifier = Modifier
                     .size(width = 160.dp, height = 80.dp),
                 contentPadding = PaddingValues(0.dp),

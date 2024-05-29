@@ -49,12 +49,13 @@ fun DetailPage(
                 .width(artBoardContent.width.dp)
                 .height(artBoardContent.height.dp)
         )
-        Text(text = artBoardContent.prompt)
-        Text(text = stringResource(id = R.string.writer) + " : " + artBoardContent.userName)
-        Spacer(Modifier.padding(20.dp))
+        Spacer(Modifier.padding(10.dp))
         NextButton(onClick = {
             artBoardViewModel.setPreferenceData(SharedPreferenceDataKeys.LAST_MODIFIED_STR_KEY,artBoardContent.prompt)
             navController.navigate(ScreenInfo.MakeJyakae.name)
         }, buttonText = R.string.copy_prompt )
+        Spacer(Modifier.padding(10.dp))
+        Text(text = artBoardContent.prompt)
+        Text(text = stringResource(id = R.string.writer) + " : " + artBoardContent.userName)
     }
 }

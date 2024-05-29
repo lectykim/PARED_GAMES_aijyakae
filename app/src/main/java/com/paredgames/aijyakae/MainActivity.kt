@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
             ImageDownloadManager(this)
         ))
         beforeLoginViewModel = ViewModelProvider(this,beforeLoginViewModelFactory)[BeforeLoginViewModel::class.java]
-        makeJyakaeViewModelFactory = MakeJyakaeViewModelFactory(MakeJyakaeRepository(modelsLabApiService,deepLApiService,this,
+        makeJyakaeViewModelFactory = MakeJyakaeViewModelFactory(MakeJyakaeRepository(modelsLabApiService,deepLApiService,aijyakaeServerApiService,this,
             ImageDownloadManager(this),this))
         makeJyakaeViewModel = ViewModelProvider(this,makeJyakaeViewModelFactory)[MakeJyakaeViewModel::class.java]
         artBoardViewModelFactory = ArtBoardViewModelFactory(ArtBoardRepository(aijyakaeServerApiService,this))
@@ -130,23 +130,4 @@ class MainActivity : ComponentActivity() {
 
 
     }
-
-    val FINISH_INRERVAL_TIME:Long = 2000;
-    var backPressedTime:Long=0;
-    override fun onBackPressed() {
-
-        val tempTime = System.currentTimeMillis()
-        val intervalTime = tempTime-backPressedTime
-
-        if(intervalTime in 0..FINISH_INRERVAL_TIME){
-            makeJyakaeViewModel.setPreferenceData(SharedPreferenceDataKeys.IS_ADD_SHOW,"true")
-            finish()
-        }
-        else{
-            backPressedTime=tempTime
-            Toast.makeText(applicationContext, R.string.onclick_back_button,Toast.LENGTH_SHORT).show()
-        }
-    }
-
-
 }

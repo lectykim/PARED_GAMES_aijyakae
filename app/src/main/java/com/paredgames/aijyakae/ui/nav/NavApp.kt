@@ -44,6 +44,7 @@ import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
                 StartScreenMakeJyakae(makeJyakaeViewModel,navController)
             }
             composable(ScreenInfo.ArtBoard.name){
+                artBoardViewModel.initFirstList()
                 StartScreenArtBoard(artBoardViewModel,navController)
             }
             composable(route=ScreenInfo.ArtBoardDetail.name+"/{itemId}",

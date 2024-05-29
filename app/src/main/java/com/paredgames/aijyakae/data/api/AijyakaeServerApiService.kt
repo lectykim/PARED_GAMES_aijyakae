@@ -1,7 +1,9 @@
 package com.paredgames.aijyakae.data.api
 
 import com.paredgames.aijyakae.data.dto.GetBoardListResponseDTO
+import com.paredgames.aijyakae.data.dto.UploadImageRequestDTO
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -19,4 +21,8 @@ interface AijyakaeServerApiService {
         @Path("id") id:String
     ):Response<GetBoardListResponseDTO>
 
+    @POST("/api/v1/upload-img")
+    suspend fun uploadImg(
+        @Body uploadImageRequestDTO: UploadImageRequestDTO
+    ):Response<GetBoardListResponseDTO>
 }
