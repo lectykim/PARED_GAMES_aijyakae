@@ -21,8 +21,8 @@ android {
         applicationId = "com.paredgames.aijyakae"
         minSdk = 25
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.1"
+        versionCode = 5
+        versionName = "1.2"
 
         buildConfigField("String","STABLE_DIFFUSION_API_KEY", "\"$stableDiffusionApiKey\"")
         buildConfigField("String","AD_UNIT_ID_MOVIE", "\"$adUnitIdMovie\"")

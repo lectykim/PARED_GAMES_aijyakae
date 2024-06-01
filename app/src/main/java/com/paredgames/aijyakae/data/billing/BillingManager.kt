@@ -27,7 +27,7 @@ class BillingManager(
 
     private val immutableList = mutableListOf(
         QueryProductDetailsParams.Product.newBuilder()
-            .setProductId("pared_gaems_remove_ad")
+            .setProductId("pared_games_remove_ad")
             .setProductType(BillingClient.ProductType.SUBS)
             .build()
     )
