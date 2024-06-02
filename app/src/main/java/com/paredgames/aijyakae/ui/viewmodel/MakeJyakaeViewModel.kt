@@ -100,4 +100,8 @@ class MakeJyakaeViewModel(
     fun billingPayment(){
         makeJyakaeRepository.addBilling()
     }
+
+    fun verifyBilling(){
+        makeJyakaeRepository.verifyBilling()
+    }
 }

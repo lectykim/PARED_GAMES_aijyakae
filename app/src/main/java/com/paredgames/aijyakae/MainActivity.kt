@@ -94,8 +94,9 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
         getPermission()
-
         //makeJyakaeViewModel.billingPayment()
+        makeJyakaeViewModel.verifyBilling()
+
 
         val isFirst= beforeLoginViewModel.getPreferenceData(SharedPreferenceDataKeys.IS_LOGIN_KEY,"false")
         val adRequest = AdRequest.Builder().build()

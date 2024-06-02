@@ -252,4 +252,8 @@ class MakeJyakaeRepository (
         billingManager.startBilling()
     }
 
+    fun verifyBilling(){
+        billingManager.verifyBilling()
+    }
+
 }

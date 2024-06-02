@@ -2,6 +2,7 @@ package com.paredgames.aijyakae.ui.composables.makejyakae
 
 
 import android.Manifest
+import android.content.Context
 import android.os.Build
 import android.util.Base64
 import android.util.Log
@@ -122,6 +123,9 @@ import java.net.URL
             mutableStateOf(makeJyakaeViewModel.getPreferenceData(SharedPreferenceDataKeys.IS_ADD_SHOW,"true"))
         }
 
+        if(makeJyakaeViewModel.getPreferenceData("isPurchased","false") == "true"){
+            showPopup = "false"
+        }
 
         if(isDrawingStyleModalOpen){
             DrawingStyleItemBottomSheet(
@@ -256,7 +260,9 @@ import java.net.URL
                     Button(
                         onClick = {
 
-                                    makeJyakaeViewModel.addAd()
+                            if(makeJyakaeViewModel.getPreferenceData("isPurchased","false") != "true"){
+                                makeJyakaeViewModel.addAd()
+                            }
                                     makeJyakaeContent.prompt=promptString
                                     makeJyakaeViewModel.getStableDiffusion()
                                   },
@@ -420,13 +426,23 @@ fun FinalResultImage(
 @Composable
 fun BannerAds(){
 
-    AndroidView(modifier = Modifier.fillMaxWidth(), factory = {context->AdView(context).apply {
-        setAdSize(AdSize.BANNER)
-        adUnitId=BuildConfig.AD_UNIT_ID_BANNER
-        loadAd(AdRequest.Builder().build())
-            }
+    val context = LocalContext.current
+    val sharedPreferences = context.getSharedPreferences(SharedPreferenceDataKeys.SHARED_KEY_BEFORE_LOGIN,
+        Context.MODE_PRIVATE)
+
+    val purchased = sharedPreferences.getString("isPurchased","false")
+
+    if(purchased=="false"){
+        AndroidView(modifier = Modifier.fillMaxWidth(), factory = {context->AdView(context).apply {
+            setAdSize(AdSize.BANNER)
+            adUnitId=BuildConfig.AD_UNIT_ID_BANNER
+            loadAd(AdRequest.Builder().build())
         }
-    )
+        }
+        )
+    }
+
+
 }
 
 fun getPermission(){
