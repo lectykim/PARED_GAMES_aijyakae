@@ -6,5 +6,5 @@ import com.paredgames.aijyakae.BuildConfig
 
 class FetchQueuedRequestDTO {
     @SerializedName("key")
-    val key:String = BuildConfig.STABLE_DIFFUSION_API_KEY
+    val key:String = ""
 }

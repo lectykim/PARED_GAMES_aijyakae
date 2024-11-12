@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,6 +33,7 @@ import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.util.BeforeLoginDrawStyle
 import com.paredgames.aijyakae.data.util.FontData
 import com.paredgames.aijyakae.data.util.ScreenInfo
+import com.paredgames.aijyakae.ui.composables.beforelogin.button.NextButton
 import com.paredgames.aijyakae.ui.composables.beforelogin.button.NextImageButton
 import com.paredgames.aijyakae.ui.composables.beforelogin.title.TitleText
 import com.paredgames.aijyakae.ui.composables.makejyakae.item.ItemLogo
@@ -327,7 +329,26 @@ fun NewButtonImage(){
     }
 }*/
 
-@Preview
+
+@Preview(widthDp = 380, heightDp = 800, showBackground = true, backgroundColor = 0xFFFFF2e6)
+@Composable
+fun FirstPage(
+
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        TitleText(titleText = R.string.first_enter_page)
+        NextButton(onClick = { }, buttonText =R.string.first_enter_page_button_start )
+    }
+}
+
+@Preview(widthDp = 380, heightDp = 800, showBackground = true, backgroundColor = 0xFFFFF2e6)
 @Composable
 fun FinalResultImage(
 ) {
@@ -409,7 +430,7 @@ fun FinalResultImage(
 
 
 }
-@Preview
+@Preview(widthDp = 380, heightDp = 800, showBackground = true, backgroundColor = 0xFFFFF2e6)
 @Composable
 fun ThirdPage(
 

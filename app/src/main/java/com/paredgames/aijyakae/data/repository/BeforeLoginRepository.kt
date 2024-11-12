@@ -142,7 +142,7 @@ class BeforeLoginRepository(
     private suspend fun translatePrompt(prompt:String):TranslateResponseDTO?{
         val translateRequestDTO = TranslateRequestDTO()
         translateRequestDTO.text= arrayOf(prompt)
-        val response:Response<TranslateResponseDTO> = deepLApiService.translate("DeepL-Auth-Key "+BuildConfig.DEEPL_AUTH_KEY,"application/json",translateRequestDTO)
+        val response:Response<TranslateResponseDTO> = deepLApiService.translate("DeepL-Auth-Key "+"BuildConfig.DEEPL_AUTH_KEY","application/json",translateRequestDTO)
 
         if(response.isSuccessful){
             val responseData = response.body();

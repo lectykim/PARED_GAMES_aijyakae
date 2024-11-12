@@ -5,7 +5,7 @@ import com.paredgames.aijyakae.BuildConfig
 
 class TextTwoImageRequestDTO {
     @SerializedName("key")
-    val key:String = BuildConfig.STABLE_DIFFUSION_API_KEY
+    val key:String = "BuildConfig.STABLE_DIFFUSION_API_KEY"
     @SerializedName("prompt")
     lateinit var prompt:String
 

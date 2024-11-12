@@ -200,7 +200,7 @@ class MakeJyakaeRepository (
     private suspend fun translatePrompt(prompt:String): TranslateResponseDTO?{
         val translateRequestDTO = TranslateRequestDTO()
         translateRequestDTO.text= arrayOf(prompt)
-        val response:Response<TranslateResponseDTO> = deepLApiService.translate("DeepL-Auth-Key "+BuildConfig.DEEPL_AUTH_KEY,"application/json",translateRequestDTO)
+        val response:Response<TranslateResponseDTO> = deepLApiService.translate("DeepL-Auth-Key "+"BuildConfig.DEEPL_AUTH_KEY","application/json",translateRequestDTO)
 
         if(response.isSuccessful){
             val responseData = response.body();
@@ -230,7 +230,7 @@ class MakeJyakaeRepository (
     fun addAd(){
         val adRequest=AdRequest.Builder().build()
 
-        RewardedAd.load(context,BuildConfig.AD_UNIT_ID_MOVIE,adRequest,object:RewardedAdLoadCallback(){
+        RewardedAd.load(context,"BuildConfig.AD_UNIT_ID_MOVIE",adRequest,object:RewardedAdLoadCallback(){
             override fun onAdLoaded(ad: RewardedAd) {
                 Log.d("MainActivity", "Ad was loaded.")
 

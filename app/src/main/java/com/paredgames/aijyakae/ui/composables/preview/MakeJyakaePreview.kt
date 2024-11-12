@@ -6,20 +6,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -31,142 +28,186 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
+
 import androidx.navigation.compose.rememberNavController
 import com.paredgames.aijyakae.R
+import com.paredgames.aijyakae.data.dto.MakeJyakaeContent
+import com.paredgames.aijyakae.data.util.DrawingStyle
 import com.paredgames.aijyakae.data.util.FontData
-import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
+import com.paredgames.aijyakae.data.util.ModelId
+import com.paredgames.aijyakae.data.util.Resolution
+import com.paredgames.aijyakae.data.util.SamplingMethod
 import com.paredgames.aijyakae.ui.composables.makejyakae.PaymentCompose
+import com.paredgames.aijyakae.ui.composables.makejyakae.item.DrawingStyleItemBottomSheet
 import com.paredgames.aijyakae.ui.composables.makejyakae.item.ItemLogo
-import com.paredgames.aijyakae.ui.composables.makejyakae.item.drawingStyleList
+import com.paredgames.aijyakae.ui.composables.makejyakae.item.ResolutionItemBottomSheet
+import com.paredgames.aijyakae.ui.composables.makejyakae.popupbox.PopupBox
 import com.paredgames.aijyakae.ui.composables.makejyakae.textfield.CustomTextField
 import com.paredgames.aijyakae.ui.nav.BottomNavBar
-import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
-import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
-import com.skydoves.landscapist.glide.GlideImage
-import com.skydoves.landscapist.glide.GlideRequestType
 
-/*
-@Preview(
-    widthDp = 600,
-    heightDp = 900,
-    showBackground = true,
-    backgroundColor = 0xFFFFF2E6
-)
+import com.paredgames.aijyakae.ui.viewmodel.FakeMakeJyakaeViewModel
+
+
+@Preview(widthDp = 380, heightDp = 800, showBackground = true, backgroundColor = 0xFFFFF2e6)
 @Composable
-fun PreviewStartScreenMakeJyakae(){
-    AijyakaeTheme {
-        StartScreenMakeJyakae()
-    }
-}
-*/
-/*
-@Preview
-@Composable
-fun PreviewTextField(){
-    var text by rememberSaveable {
+fun PromptTextArea(
+){
+    val makeJyakaeContent by rememberSaveable { mutableStateOf(
+        MakeJyakaeContent(
+            "",
+            "",
+            SamplingMethod.DPMPP_2M_KARRAS,
+            ModelId.ANYTHING_V3,
+            25,
+            -1,
+            512,
+            512,
+            DrawingStyle.DRAWING_STYLE_ANIMATION,
+            Resolution.ONE_BY_ONE
+        )
+    ) }
+    var promptString by rememberSaveable {
         mutableStateOf("")
     }
-    AijyakaeTheme {
-        CustomTextField(onValueChange = {text=it}, text = text)
+    var isDrawingStyleModalOpen by rememberSaveable {
+        mutableStateOf(false)
     }
-}
+    var resolutionStyleModalOpen by rememberSaveable {
+        mutableStateOf(false)
+    }
 
-@Preview
-@Composable
-fun BottomNav(){
-    AijyakaeTheme {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         BottomNavBar(navController = rememberNavController())
-    }
-}
-
-@Preview
-@Composable
-fun PreviewItemLogo(){
-    AijyakaeTheme {
-        ItemLogo(onClick = { */
-/*TODO*//*
- }, image = R.drawable.cute_item, title = R.string.text_cute)
-    }
-}
-
-@Preview
-@Composable
-fun PreviewItemButtonSheet(){
-    AijyakaeTheme {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(4),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        Text(
+            text = stringResource(id = R.string.introduce_makejyakae),
+            fontFamily = FontData.maruboriFontFamily,
+            fontWeight = FontWeight.Normal,
+            fontSize = 30.sp,
+            maxLines = 2,
+            textAlign = TextAlign.Center,
+            lineHeight = 30.sp
+        )
+        CustomTextField(
+            onValueChange = { promptString = it },
+            text = promptString
+        )
+        Spacer(modifier = Modifier.padding(10.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.Start)
         ) {
-            items(drawingStyleList){
-                    item->
-                ItemLogo(onClick = { */
-/*TODO*//*
- }, image = item.image, title = item.title)
+            Column {
+
+                Text(text = stringResource(id = R.string.style))
+                Spacer(modifier = Modifier.padding(5.dp))
+                when (makeJyakaeContent.drawingStyle) {
+                    DrawingStyle.DRAWING_STYLE_ANIMATION -> ItemLogo(
+                        onClick = { isDrawingStyleModalOpen = true },
+                        image = DrawingStyle.DRAWING_STYLE_ANIMATION.image,
+                        title = DrawingStyle.DRAWING_STYLE_ANIMATION.title
+                    )
+
+                    DrawingStyle.DRAWING_STYLE_TWO_FIVE_D -> ItemLogo(
+                        onClick = { isDrawingStyleModalOpen = true },
+                        image = DrawingStyle.DRAWING_STYLE_TWO_FIVE_D.image,
+                        title = DrawingStyle.DRAWING_STYLE_TWO_FIVE_D.title
+                    )
+
+                    DrawingStyle.DRAWING_STYLE_PASTEL_ONE -> ItemLogo(
+                        onClick = { isDrawingStyleModalOpen = true },
+                        image = DrawingStyle.DRAWING_STYLE_PASTEL_ONE.image,
+                        title = DrawingStyle.DRAWING_STYLE_PASTEL_TWO.title
+                    )
+
+                    DrawingStyle.DRAWING_STYLE_PASTEL_TWO -> ItemLogo(
+                        onClick = { isDrawingStyleModalOpen = true },
+                        image = DrawingStyle.DRAWING_STYLE_PASTEL_TWO.image,
+                        title = DrawingStyle.DRAWING_STYLE_PASTEL_TWO.title
+                    )
+
+                    DrawingStyle.DRAWING_STYLE_CUTE -> ItemLogo(
+                        onClick = { isDrawingStyleModalOpen = true },
+                        image = DrawingStyle.DRAWING_STYLE_CUTE.image,
+                        title = DrawingStyle.DRAWING_STYLE_CUTE.title
+                    )
+                }
+
+
+            }
+            Spacer(modifier = Modifier.padding(end = 100.dp))
+            Column {
+                Text(text = stringResource(id = R.string.resolution))
+                Spacer(modifier = Modifier.padding(5.dp))
+                when(makeJyakaeContent.resolution){
+                    Resolution.ONE_BY_ONE-> ItemLogo(
+                        onClick = { resolutionStyleModalOpen=true },
+                        image = Resolution.ONE_BY_ONE.image,
+                        title = Resolution.ONE_BY_ONE.title
+                    )
+                    Resolution.NINE_BY_SIXTEEN -> ItemLogo(
+                        onClick = { resolutionStyleModalOpen=true },
+                        image = Resolution.NINE_BY_SIXTEEN.image,
+                        title = Resolution.NINE_BY_SIXTEEN.title
+                    )
+                    Resolution.SIXTEEN_BY_NINE -> ItemLogo(
+                        onClick = { resolutionStyleModalOpen=true },
+                        image = Resolution.SIXTEEN_BY_NINE.image,
+                        title = Resolution.SIXTEEN_BY_NINE.title
+                    )
+                }
             }
         }
+
+
     }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Button(
+            onClick = {
+
+
+                makeJyakaeContent.prompt=promptString
+            },
+            modifier = Modifier
+                .size(width = 480.dp, height = 80.dp),
+            contentPadding = PaddingValues(0.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(id = R.color.warm_button_orange),
+                contentColor = Color.White,
+                disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
+                disabledContentColor = Color.White
+            )
+        ){
+            Text(
+                text = stringResource(id = R.string.generate_image),
+                fontFamily = FontData.maruboriFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 40.sp,
+                letterSpacing = 2.sp
+            )
+        }
+
+    }
+
 }
 
-@Preview
-@Composable
-fun PreviewRowItem(){
-    AijyakaeTheme {
-        Row (
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ){
-            Button(onClick = {},
-                modifier= Modifier
-                    .size(width = 80.dp, height = 80.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(id = R.color.warm_button_orange),
-                    contentColor = Color.White,
-                    disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                    disabledContentColor = Color.White
-                )
-            ){
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_download),
-                    contentDescription = "다운로드",
-                    modifier=Modifier
-                        .size(width = 50.dp, height = 50.dp)
-                )
-            }
-            Spacer(modifier = Modifier
-                .padding(PaddingValues(start = 50.dp,end=50.dp))
-            )
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .size(width = 160.dp, height = 80.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(id = R.color.warm_button_orange),
-                    contentColor = Color.White,
-                    disabledContainerColor = colorResource(id = R.color.warm_button_orange_disable),
-                    disabledContentColor = Color.White
-                )
-            ) {
-                Text(
-                    text = stringResource(id = R.string.re_make),
-                    fontFamily = FontData.maruboriFontFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 20.sp,
-                    letterSpacing = 2.sp
-                )
-            }
-        }
-    }
-}*/
-@Preview
+@Preview(widthDp = 380, heightDp = 800, showBackground = true, backgroundColor = 0xFFFFF2e6)
 @Composable
 fun FinalResultImage(
 ) {
@@ -244,12 +285,4 @@ fun FinalResultImage(
     }
 
 
-}
-
-@Preview
-@Composable
-fun paymentPreview(){
-    AijyakaeTheme {
-        PaymentCompose(viewModel())
-    }
 }

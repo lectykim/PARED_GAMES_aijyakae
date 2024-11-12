@@ -24,9 +24,9 @@ import kotlinx.coroutines.withContext
 
 class MakeJyakaeViewModel(
     private val makeJyakaeRepository: MakeJyakaeRepository
-):ViewModel() {
+):ViewModel(),IJyakaeViewModel {
 
-    private val _makeJyakaeContent = MutableStateFlow(
+    override val _makeJyakaeContent = MutableStateFlow(
         MakeJyakaeContent(
             "",
             "",
@@ -40,17 +40,18 @@ class MakeJyakaeViewModel(
             Resolution.ONE_BY_ONE
         )
     )
-    private val _loading = MutableStateFlow(false)
-    private val _response = MutableStateFlow(TextTwoImageResponseDTO())
-    private val _isFinal = MutableStateFlow(false)
+    val _loading = MutableStateFlow(false)
+    override val _loadingStateFlow:StateFlow<Boolean> = MutableStateFlow(false)
+    override val _response = MutableStateFlow(TextTwoImageResponseDTO())
+    override val _isFinal = MutableStateFlow(false)
 
-    val makeJyakaeContent:StateFlow<MakeJyakaeContent> = _makeJyakaeContent
-    val loading:StateFlow<Boolean> = _loading.asStateFlow()
-    val response:StateFlow<TextTwoImageResponseDTO> = _response.asStateFlow()
-    val isFinal:StateFlow<Boolean> = _isFinal.asStateFlow()
+    override val makeJyakaeContent:StateFlow<MakeJyakaeContent> = _makeJyakaeContent
+    override val loading:StateFlow<Boolean> = _loading.asStateFlow()
+    override val response:StateFlow<TextTwoImageResponseDTO> = _response.asStateFlow()
+    override val isFinal:StateFlow<Boolean> = _isFinal.asStateFlow()
 
 
-    fun getStableDiffusion(){
+    override fun getStableDiffusion(){
         _loading.value=true
 
         viewModelScope.launch {
@@ -67,7 +68,7 @@ class MakeJyakaeViewModel(
         }
     }
 
-    fun uploadImg(){
+    override fun uploadImg(){
         viewModelScope.launch {
             val dto = withContext(Dispatchers.Default){
                 makeJyakaeRepository.uploadImg(_response,_makeJyakaeContent)
@@ -75,33 +76,33 @@ class MakeJyakaeViewModel(
         }
     }
 
-    fun getPreferenceData(key:String,defaultValue:String):String{
+    override fun getPreferenceData(key:String,defaultValue:String):String{
         return makeJyakaeRepository.getData(key,defaultValue)
     }
 
-    fun setPreferenceData(key:String,value:String){
+    override fun setPreferenceData(key:String,value:String){
         makeJyakaeRepository.saveData(key,value)
     }
 
 
 
-    fun downloadImage(bitmap: Bitmap, title:String){
+    override  fun downloadImage(bitmap: Bitmap, title:String){
         makeJyakaeRepository.downloadImage(bitmap,title)
     }
 
-    fun setInitialState(){
+    override   fun setInitialState(){
         _isFinal.value=false
     }
 
-    fun addAd(){
+    override fun addAd(){
         makeJyakaeRepository.addAd()
     }
 
-    fun billingPayment(){
+    override  fun billingPayment(){
         makeJyakaeRepository.addBilling()
     }
 
-    fun verifyBilling(){
+    override   fun verifyBilling(){
         makeJyakaeRepository.verifyBilling()
     }
 }

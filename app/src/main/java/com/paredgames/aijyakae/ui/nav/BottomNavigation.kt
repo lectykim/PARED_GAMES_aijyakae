@@ -1,5 +1,6 @@
 package com.paredgames.aijyakae.ui.nav
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.BottomNavigation
@@ -23,8 +24,9 @@ import com.paredgames.aijyakae.data.util.ScreenInfo
 @Composable
 fun BottomNavBar(navController: NavController){
     BottomNavigation (
-        backgroundColor = Color.White,
-        contentColor = colorResource(id = R.color.purple_200)
+        backgroundColor = colorResource(R.color.pastel_pink),
+        contentColor = colorResource(id = R.color.purple_200),
+        modifier = Modifier.fillMaxWidth().height(50.dp)
     ){
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route

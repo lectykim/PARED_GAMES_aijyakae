@@ -3,12 +3,7 @@ package com.paredgames.aijyakae.ui.composables.makejyakae
 
 import android.Manifest
 import android.content.Context
-import android.os.Build
-import android.util.Base64
-import android.util.Log
-import android.widget.EditText
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,7 +22,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -43,46 +37,31 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.rewarded.RewardedAd
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
-import com.paredgames.aijyakae.BuildConfig
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.util.DrawingStyle
 import com.paredgames.aijyakae.data.util.FontData
 import com.paredgames.aijyakae.data.util.Resolution
-import com.paredgames.aijyakae.data.util.ScreenInfo
 import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
-import com.paredgames.aijyakae.ui.composables.beforelogin.title.TitleText
 import com.paredgames.aijyakae.ui.composables.makejyakae.item.DrawingStyleItemBottomSheet
 import com.paredgames.aijyakae.ui.composables.makejyakae.item.ItemLogo
 import com.paredgames.aijyakae.ui.composables.makejyakae.item.ResolutionItemBottomSheet
 import com.paredgames.aijyakae.ui.composables.makejyakae.popupbox.PopupBox
 import com.paredgames.aijyakae.ui.composables.makejyakae.textfield.CustomTextField
 import com.paredgames.aijyakae.ui.nav.BottomNavBar
-import com.paredgames.aijyakae.ui.theme.AijyakaeTheme
+import com.paredgames.aijyakae.ui.viewmodel.IJyakaeViewModel
 import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
 import com.skydoves.landscapist.glide.GlideImage
 import com.skydoves.landscapist.glide.GlideRequestType
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import java.io.IOException
-import java.net.URL
 
 
 @Composable
@@ -303,8 +282,9 @@ import java.net.URL
 
 @Composable
 fun PaymentCompose(
-    makeJyakaeViewModel: MakeJyakaeViewModel
+    makeJyakaeViewModel: IJyakaeViewModel
 ){
+
     Column (
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -323,7 +303,7 @@ fun PaymentCompose(
 @Composable
 fun FinalResultImage(
     modifier: Modifier,
-    makeJyakaeViewModel: MakeJyakaeViewModel,
+    makeJyakaeViewModel:IJyakaeViewModel,
     navController: NavController
 ) {
     val response by makeJyakaeViewModel.response.collectAsState()
@@ -435,7 +415,7 @@ fun BannerAds(){
     if(purchased=="false"){
         AndroidView(modifier = Modifier.fillMaxWidth(), factory = {context->AdView(context).apply {
             setAdSize(AdSize.BANNER)
-            adUnitId=BuildConfig.AD_UNIT_ID_BANNER
+            adUnitId="BuildConfig.AD_UNIT_ID_BANNER"
             loadAd(AdRequest.Builder().build())
         }
         }

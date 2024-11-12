@@ -1,16 +1,12 @@
 package com.paredgames.aijyakae.ui.composables.makejyakae.item
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.util.DrawingStyle
 import com.paredgames.aijyakae.data.util.Resolution
+import com.paredgames.aijyakae.ui.viewmodel.IJyakaeViewModel
 import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
 
 val drawingStyleList= listOf(
@@ -44,8 +41,9 @@ val resolutionStyleList= listOf(
 fun DrawingStyleItemBottomSheet(
     modifier: Modifier=Modifier,
     closeSheet:()->Unit,
-    makeJyakaeViewModel: MakeJyakaeViewModel
+    makeJyakaeViewModel: IJyakaeViewModel
 ){
+
     val sheetState = rememberModalBottomSheetState()
     
     ModalBottomSheet(
@@ -84,10 +82,9 @@ fun DrawingStyleItemBottomSheet(
 fun ResolutionItemBottomSheet(
     modifier: Modifier=Modifier,
     closeSheet:()->Unit,
-    makeJyakaeViewModel: MakeJyakaeViewModel
+    makeJyakaeViewModel: IJyakaeViewModel
 ) {
     val sheetState = rememberModalBottomSheetState()
-
     ModalBottomSheet(
         onDismissRequest = closeSheet,
         sheetState = sheetState,

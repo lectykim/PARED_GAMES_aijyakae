@@ -21,6 +21,7 @@ import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.zIndex
 import com.paredgames.aijyakae.R
 import com.paredgames.aijyakae.data.util.SharedPreferenceDataKeys
+import com.paredgames.aijyakae.ui.viewmodel.IJyakaeViewModel
 import com.paredgames.aijyakae.ui.viewmodel.MakeJyakaeViewModel
 
 @Composable
@@ -30,7 +31,7 @@ fun PopupBox(
     showPopup:String,
     onClickCancelButton:()->Unit,
     content:@Composable() ()->Unit,
-    makeJyakaeViewModel: MakeJyakaeViewModel
+    makeJyakaeViewModel: IJyakaeViewModel
 ){
     if(showPopup=="true"){
         //full screen background

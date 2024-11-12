@@ -9,10 +9,10 @@ plugins {
 val properties = File(rootDir,"local.properties").inputStream().use {
     Properties().apply { load(it) }
 }
-val stableDiffusionApiKey = properties.getValue("STABLE_DIFFUSION_API_KEY") as String
+/*val stableDiffusionApiKey = properties.getValue("STABLE_DIFFUSION_API_KEY") as String
 val adUnitIdMovie = properties.getValue("AD_UNIT_ID_MOVIE") as String
 val adUnitIdBanner = properties.getValue("AD_UNIT_ID_BANNER") as String
-val deepLAuthKey = properties.getValue("DEEPL_AUTH_KEY") as String
+val deepLAuthKey = properties.getValue("DEEPL_AUTH_KEY") as String*/
 android {
     namespace = "com.paredgames.aijyakae"
     compileSdk = 34
@@ -24,10 +24,10 @@ android {
         versionCode = 8
         versionName = "1.2"
 
-        buildConfigField("String","STABLE_DIFFUSION_API_KEY", "\"$stableDiffusionApiKey\"")
+        /*buildConfigField("String","STABLE_DIFFUSION_API_KEY", "\"$stableDiffusionApiKey\"")
         buildConfigField("String","AD_UNIT_ID_MOVIE", "\"$adUnitIdMovie\"")
         buildConfigField("String","AD_UNIT_ID_BANNER","\"$adUnitIdBanner\"")
-        buildConfigField("String","DEEPL_AUTH_KEY","\"$deepLAuthKey\"")
+        buildConfigField("String","DEEPL_AUTH_KEY","\"$deepLAuthKey\"")*/
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
