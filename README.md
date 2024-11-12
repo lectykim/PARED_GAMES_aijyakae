@@ -9,7 +9,7 @@ Aijyakae는 Stable Diffusion사의 이미지 생성형 AI API를 활용하여 �
 * Retrofit2를 활용하여 백엔드 API와 Stable Diffusion API를 호출
 * AI Model의 경우에는 API Response와 Image Response간의 시간차가 발생, 이 부분을 retry 전략을 활용하여 해결
 * SharedPreference와 Billing API를 이용하여 단기결제,정기결제 기능 구현
-* Local Properties를 활용하여 
+* Local Properties를 활용하여 API Key를 성공적으로 암호화
 
 ## 관점
 
